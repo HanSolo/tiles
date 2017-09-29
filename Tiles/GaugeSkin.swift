@@ -1,5 +1,5 @@
 //
-//  Skin.swift
+//  GaugeSkin.swift
 //  Tiles
 //
 //  Created by Gerrit Grunwald on 28.09.17.
@@ -8,8 +8,7 @@
 
 import UIKit
 
-class GaugeSkin: CALayer {
-    weak var       control        : Tile?
+class GaugeSkin: Skin {    
     var            size           : CGFloat = Helper.DEFAULT_SIZE
     var            center         : CGFloat = Helper.DEFAULT_SIZE * 0.5
     var            angleStep      : CGFloat = .pi / 100.0
@@ -41,7 +40,7 @@ class GaugeSkin: CALayer {
     
     
     // ******************** Methods ********************
-    func update(cmd: String) {
+    override func update(cmd: String) {
         if (cmd == Helper.INIT) {
             control!.addSubview(valueLabel)
             control!.addSubview(minValueLabel)
@@ -68,7 +67,7 @@ class GaugeSkin: CALayer {
             thresholdState = cmd
         }
     }
-    func update<T>(prop: String, value: T) {
+    override func update<T>(prop: String, value: T) {
         if (prop == "value") {
             valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: 1.5)
             

@@ -9,30 +9,39 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let ctrl = Tile(frame: CGRect.zero)
-    var timer = Timer()
+    let tile      = Tile(frame: CGRect.zero)
+    let gaugeTile = Tile(frame: CGRect.zero, skinType: Tile.SkinType.GAUGE)
+    
+    var timer     = Timer()
    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        view.addSubview(ctrl)
+        
+        view.addSubview(tile)
+        view.addSubview(gaugeTile)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        ctrl.minValue  = 0
-        ctrl.maxValue  = 100
-        ctrl.threshold = 75
-        ctrl.title     = "Test"
+        tile.title = "TileSkin"
+        tile.text  = "Text"
+        
+        gaugeTile.minValue  = 0
+        gaugeTile.maxValue  = 100
+        gaugeTile.threshold = 75
+        gaugeTile.title     = "GaugeSkin"
         
         runTimer()
     }
     
     override func viewDidLayoutSubviews() {
         let margin: CGFloat = 5.0
-        let width : CGFloat = 300
-        let height: CGFloat = 300
-        let safeArea        = view.safeAreaInsets        
-        ctrl.frame = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
+        let width : CGFloat = 200
+        let height: CGFloat = 200
+        let safeArea        = view.safeAreaInsets
+        
+        tile.frame      = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
+        gaugeTile.frame = CGRect(x: margin, y: margin + safeArea.top + height + margin, width: width, height: height)
     }
     
     func runTimer() {
@@ -40,7 +49,7 @@ class ViewController: UIViewController {
     }
     
     @objc func updateTimer() {
-        ctrl.value = CGFloat(drand48() * 100.0)
+        gaugeTile.value = CGFloat(drand48() * 100.0)
     }
 }
 

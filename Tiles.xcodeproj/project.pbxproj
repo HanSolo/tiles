@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F0174B01F7E41C600FF3ADE /* TileSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0174AF1F7E41C600FF3ADE /* TileSkin.swift */; };
+		4F0174B21F7E450100FF3ADE /* Skin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0174B11F7E450100FF3ADE /* Skin.swift */; };
 		4F16E3671F7CF123005DAAE1 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F16E3661F7CF123005DAAE1 /* Tile.swift */; };
 		4F16E3731F7D32DD005DAAE1 /* GaugeSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F16E3721F7D32DD005DAAE1 /* GaugeSkin.swift */; };
 		4F2E53DB1F79021C009FD3B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2E53DA1F79021C009FD3B7 /* AppDelegate.swift */; };
@@ -16,11 +18,13 @@
 		4F2E53E51F79021C009FD3B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2E53E31F79021C009FD3B7 /* LaunchScreen.storyboard */; };
 		4F821CD81F793E5E00713915 /* Lato-Reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD61F793E5D00713915 /* Lato-Reg.ttf */; };
 		4F821CD91F793E5E00713915 /* Lato-Bol.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD71F793E5D00713915 /* Lato-Bol.ttf */; };
-		4F821CDB1F79569000713915 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F821CDA1F79569000713915 /* Tools.swift */; };
+		4F821CDB1F79569000713915 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F821CDA1F79569000713915 /* Helper.swift */; };
 		4FFCA4F11F7E150F00491D7D /* AnimLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F0174AF1F7E41C600FF3ADE /* TileSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileSkin.swift; sourceTree = "<group>"; };
+		4F0174B11F7E450100FF3ADE /* Skin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skin.swift; sourceTree = "<group>"; };
 		4F16E3661F7CF123005DAAE1 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		4F16E3721F7D32DD005DAAE1 /* GaugeSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeSkin.swift; sourceTree = "<group>"; };
 		4F2E53D71F79021C009FD3B7 /* Tiles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tiles.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,7 +36,7 @@
 		4F2E53E61F79021C009FD3B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F821CD61F793E5D00713915 /* Lato-Reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Reg.ttf"; path = "Tiles/Resources/Lato-Reg.ttf"; sourceTree = "<group>"; };
 		4F821CD71F793E5D00713915 /* Lato-Bol.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bol.ttf"; path = "Tiles/Resources/Lato-Bol.ttf"; sourceTree = "<group>"; };
-		4F821CDA1F79569000713915 /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		4F821CDA1F79569000713915 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,10 +78,12 @@
 				4F2E53E11F79021C009FD3B7 /* Assets.xcassets */,
 				4F2E53E31F79021C009FD3B7 /* LaunchScreen.storyboard */,
 				4F2E53E61F79021C009FD3B7 /* Info.plist */,
-				4F821CDA1F79569000713915 /* Tools.swift */,
+				4F821CDA1F79569000713915 /* Helper.swift */,
 				4F16E3661F7CF123005DAAE1 /* Tile.swift */,
 				4F16E3721F7D32DD005DAAE1 /* GaugeSkin.swift */,
 				4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */,
+				4F0174AF1F7E41C600FF3ADE /* TileSkin.swift */,
+				4F0174B11F7E450100FF3ADE /* Skin.swift */,
 			);
 			path = Tiles;
 			sourceTree = "<group>";
@@ -158,10 +164,12 @@
 			files = (
 				4F16E3731F7D32DD005DAAE1 /* GaugeSkin.swift in Sources */,
 				4F2E53DD1F79021C009FD3B7 /* ViewController.swift in Sources */,
+				4F0174B01F7E41C600FF3ADE /* TileSkin.swift in Sources */,
 				4F16E3671F7CF123005DAAE1 /* Tile.swift in Sources */,
+				4F0174B21F7E450100FF3ADE /* Skin.swift in Sources */,
 				4F2E53DB1F79021C009FD3B7 /* AppDelegate.swift in Sources */,
 				4FFCA4F11F7E150F00491D7D /* AnimLabel.swift in Sources */,
-				4F821CDB1F79569000713915 /* Tools.swift in Sources */,
+				4F821CDB1F79569000713915 /* Helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

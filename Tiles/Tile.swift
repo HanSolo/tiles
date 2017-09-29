@@ -9,7 +9,12 @@
 import UIKit
 
 class Tile: UIControl {
-    let skin         = GaugeSkin()
+    public enum SkinType {
+        case TILE
+        case GAUGE
+    }
+    
+    var skin         :Skin = TileSkin()
     let titleLabel   = UILabel()
     let textLabel    = UILabel()
     
@@ -59,10 +64,32 @@ class Tile: UIControl {
     
     
     // ******************** Constructor ***********************
-    override init(frame: CGRect) {
+    init(frame: CGRect, skinType: SkinType) {
         super.init(frame: frame)
+        switch(skinType) {
+            case SkinType.GAUGE: skin = GaugeSkin(); break
+            default            : skin = TileSkin(); break
+        }
         
         skin.control = self
+        
+        skin.contentsScale = UIScreen.main.scale
+        layer.addSublayer(skin)
+        
+        titleLabel.textAlignment = NSTextAlignment.left
+        addSubview(titleLabel)
+        
+        textLabel.textAlignment = NSTextAlignment.left
+        addSubview(textLabel)
+        
+        skin.update(cmd: "init")
+    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        skin = TileSkin()
+        
+        skin.control = self
+        
         skin.contentsScale = UIScreen.main.scale
         layer.addSublayer(skin)
         
