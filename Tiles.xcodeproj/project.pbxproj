@@ -20,6 +20,9 @@
 		4F821CD91F793E5E00713915 /* Lato-Bol.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD71F793E5D00713915 /* Lato-Bol.ttf */; };
 		4F821CDB1F79569000713915 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F821CDA1F79569000713915 /* Helper.swift */; };
 		4FFCA4F11F7E150F00491D7D /* AnimLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */; };
+		4FFEC6091F7E4D6F009F92C8 /* MapSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEC6081F7E4D6F009F92C8 /* MapSkin.swift */; };
+		4FFEC60C1F7E4F5C009F92C8 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEC60B1F7E4F5C009F92C8 /* Location.swift */; };
+		4FFEC60F1F7E64ED009F92C8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEC60E1F7E64ED009F92C8 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		4F821CD71F793E5D00713915 /* Lato-Bol.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bol.ttf"; path = "Tiles/Resources/Lato-Bol.ttf"; sourceTree = "<group>"; };
 		4F821CDA1F79569000713915 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimLabel.swift; sourceTree = "<group>"; };
+		4FFEC6081F7E4D6F009F92C8 /* MapSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSkin.swift; sourceTree = "<group>"; };
+		4FFEC60B1F7E4F5C009F92C8 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		4FFEC60E1F7E64ED009F92C8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FFEC60F1F7E64ED009F92C8 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +65,7 @@
 				4F821CD61F793E5D00713915 /* Lato-Reg.ttf */,
 				4F2E53D91F79021C009FD3B7 /* Tiles */,
 				4F2E53D81F79021C009FD3B7 /* Products */,
+				4FFEC60D1F7E64ED009F92C8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,20 +80,38 @@
 		4F2E53D91F79021C009FD3B7 /* Tiles */ = {
 			isa = PBXGroup;
 			children = (
+				4FFEC60A1F7E4F3E009F92C8 /* Tools */,
 				4F2E53DA1F79021C009FD3B7 /* AppDelegate.swift */,
 				4F2E53DC1F79021C009FD3B7 /* ViewController.swift */,
 				4F2E53DE1F79021C009FD3B7 /* Main.storyboard */,
 				4F2E53E11F79021C009FD3B7 /* Assets.xcassets */,
 				4F2E53E31F79021C009FD3B7 /* LaunchScreen.storyboard */,
 				4F2E53E61F79021C009FD3B7 /* Info.plist */,
-				4F821CDA1F79569000713915 /* Helper.swift */,
 				4F16E3661F7CF123005DAAE1 /* Tile.swift */,
 				4F16E3721F7D32DD005DAAE1 /* GaugeSkin.swift */,
 				4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */,
 				4F0174AF1F7E41C600FF3ADE /* TileSkin.swift */,
 				4F0174B11F7E450100FF3ADE /* Skin.swift */,
+				4FFEC6081F7E4D6F009F92C8 /* MapSkin.swift */,
 			);
 			path = Tiles;
+			sourceTree = "<group>";
+		};
+		4FFEC60A1F7E4F3E009F92C8 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				4F821CDA1F79569000713915 /* Helper.swift */,
+				4FFEC60B1F7E4F5C009F92C8 /* Location.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		4FFEC60D1F7E64ED009F92C8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FFEC60E1F7E64ED009F92C8 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -121,6 +147,11 @@
 					4F2E53D61F79021C009FD3B7 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -164,9 +195,11 @@
 			files = (
 				4F16E3731F7D32DD005DAAE1 /* GaugeSkin.swift in Sources */,
 				4F2E53DD1F79021C009FD3B7 /* ViewController.swift in Sources */,
+				4FFEC60C1F7E4F5C009F92C8 /* Location.swift in Sources */,
 				4F0174B01F7E41C600FF3ADE /* TileSkin.swift in Sources */,
 				4F16E3671F7CF123005DAAE1 /* Tile.swift in Sources */,
 				4F0174B21F7E450100FF3ADE /* Skin.swift in Sources */,
+				4FFEC6091F7E4D6F009F92C8 /* MapSkin.swift in Sources */,
 				4F2E53DB1F79021C009FD3B7 /* AppDelegate.swift in Sources */,
 				4FFCA4F11F7E150F00491D7D /* AnimLabel.swift in Sources */,
 				4F821CDB1F79569000713915 /* Helper.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class GaugeSkin: Skin {    
     var            size           : CGFloat = Helper.DEFAULT_SIZE
     var            center         : CGFloat = Helper.DEFAULT_SIZE * 0.5
@@ -42,6 +43,7 @@ class GaugeSkin: Skin {
     // ******************** Methods ********************
     override func update(cmd: String) {
         if (cmd == Helper.INIT) {
+            control!.textVisible = false
             control!.addSubview(valueLabel)
             control!.addSubview(minValueLabel)
             control!.addSubview(maxValueLabel)
@@ -85,8 +87,8 @@ class GaugeSkin: Skin {
         super.layoutSublayers()
         
         pointerView.frame = bounds
-        pointer.frame = bounds
-        pointer.contents = drawPointer(in: bounds)?.cgImage
+        pointer.frame     = bounds
+        pointer.contents  = drawPointer(in: bounds)?.cgImage
     }
     
     override class func needsDisplay(forKey key: String) -> Bool {
@@ -130,16 +132,20 @@ class GaugeSkin: Skin {
             ctrl.titleLabel.textColor = ctrl.fgdColor
             ctrl.titleLabel.font      = smallFont
             ctrl.titleLabel.center    = CGPoint(x: size * 0.05, y: size * 0.05)
-            ctrl.titleLabel.frame     = CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.06)
+            ctrl.titleLabel.frame     = CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08)
             ctrl.titleLabel.setNeedsDisplay()
             
             // Tile Text
-            ctrl.textLabel.text      = ctrl.text
-            ctrl.textLabel.textColor = ctrl.fgdColor
-            ctrl.textLabel.font      = smallFont
-            ctrl.textLabel.center    = CGPoint(x: size * 0.05, y: size * 0.05)
-            ctrl.textLabel.frame     = CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.06)
+            if (ctrl.textVisible) {
+                ctrl.textLabel.text      = ctrl.text
+                ctrl.textLabel.textColor = ctrl.fgdColor
+                ctrl.textLabel.font      = smallFont
+                ctrl.textLabel.center    = CGPoint(x: size * 0.05, y: size * 0.05)
+                ctrl.textLabel.frame     = CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08)
             ctrl.textLabel.setNeedsDisplay()
+            } else {
+                ctrl.textLabel.textColor = UIColor.clear
+            }
             
             // Track
             let radius  = size * 0.3

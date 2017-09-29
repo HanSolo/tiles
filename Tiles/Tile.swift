@@ -8,17 +8,18 @@
 
 import UIKit
 
+
 class Tile: UIControl {
     public enum SkinType {
         case TILE
         case GAUGE
+        case MAP
     }
     
     var skin         :Skin = TileSkin()
     let titleLabel   = UILabel()
     let textLabel    = UILabel()
     
-    // Observable properties
     var size         : CGFloat = Helper.DEFAULT_SIZE
     
     var bkgColor     : UIColor = Helper.BKG_COLOR
@@ -26,8 +27,12 @@ class Tile: UIControl {
     
     var title        : String = "Title"
     var text         : String = "Text"
+    var textVisible  : Bool   = true {
+        didSet {
+            skin.update(cmd: Helper.REDRAW)
+        }
+    }
     var unit         : String = "Unit"
-    
     var minValue     : CGFloat = 0.0   {
         didSet {
             if (minValue > maxValue) { maxValue = minValue }
@@ -60,7 +65,11 @@ class Tile: UIControl {
             //skin.setValue(value, forKey: "currentValue")
         }
     }
-    var oldValue     : CGFloat = 0.0
+    var oldValue     : CGFloat  = 0.0
+    var location     : Location = Location() {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
+    
     
     
     // ******************** Constructor ***********************
@@ -68,6 +77,7 @@ class Tile: UIControl {
         super.init(frame: frame)
         switch(skinType) {
             case SkinType.GAUGE: skin = GaugeSkin(); break
+            case SkinType.MAP  : skin = MapSkin(); break
             default            : skin = TileSkin(); break
         }
         

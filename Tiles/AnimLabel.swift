@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 public enum AnimLabelCountingMethod: Int {
     case linear    = 0
     case easeIn    = 1

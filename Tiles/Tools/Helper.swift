@@ -5,8 +5,8 @@
 //  Created by Gerrit Grunwald on 25.09.17.
 //  Copyright © 2017 Gerrit Grunwald. All rights reserved.
 //
-
 import UIKit
+
 
 class Helper: NSObject {
     
@@ -43,5 +43,19 @@ class Helper: NSObject {
         if (value < min) { return min }
         if (value > max) { return max }
         return value
+    }
+    
+    static func clamp(min: Int, max: Int, value: Int) -> Int {
+        if (value < min) { return min }
+        if (value > max) { return max }
+        return value
+    }
+    
+    static func toRadians(deg: Double) -> Double {
+        return (deg * .pi / 180.0)
+    }
+    
+    static func toDegrees(rad: Double) -> Double {
+        return (rad * 180.0 / .pi)
     }
 }

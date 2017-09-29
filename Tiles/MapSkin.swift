@@ -1,5 +1,5 @@
 //
-//  TileSkin.swift
+//  MapSkin.swift
 //  Tiles
 //
 //  Created by Gerrit Grunwald on 29.09.17.
@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import MapKit
 
 
-class TileSkin: Skin {
-    var size   : CGFloat = Helper.DEFAULT_SIZE
-    var center : CGFloat = Helper.DEFAULT_SIZE * 0.5
+class MapSkin: Skin, MKMapViewDelegate {
+    var size   : CGFloat   = Helper.DEFAULT_SIZE
+    var center : CGFloat   = Helper.DEFAULT_SIZE * 0.5
+    var map    : MKMapView = MKMapView()
     
     
     // ******************** Constructors ********************
@@ -29,7 +31,17 @@ class TileSkin: Skin {
     // ******************** Methods ********************
     override func update(cmd: String) {
         if (cmd == Helper.INIT) {
+            size                = control!.size
+            center              = size * 0.5
             
+            map.frame           = CGRect(x: size * 0.05, y: size * 0.15, width: size * 0.9, height: size - size * 0.27)
+            map.mapType         = MKMapType.standard
+            map.isZoomEnabled   = true
+            map.isScrollEnabled = true
+            map.backgroundColor = UIColor.red
+            map.delegate        = self
+            
+            control!.addSubview(map)
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         }
@@ -71,6 +83,13 @@ class TileSkin: Skin {
             } else {
                 ctrl.textLabel.textColor = UIColor.clear
             }
+            
+            // Map
+            map.frame    = CGRect(x: size * 0.05, y: size * 0.15, width: size * 0.9, height: size - size * (ctrl.textVisible ? 0.27 : 0.205))
+            let location = CLLocationCoordinate2D(latitude: ctrl.location.latitude, longitude: ctrl.location.longitude)
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, 1000, 1000)            
+            map.setRegion(coordinateRegion, animated: true)
+            map.setCenter(location, animated: true)
         }
         UIGraphicsPopContext()
     }
