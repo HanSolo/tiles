@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Tools: NSObject {
+class Helper: NSObject {
     
     static let DEFAULT_SIZE  = CGFloat(200.0)
     
