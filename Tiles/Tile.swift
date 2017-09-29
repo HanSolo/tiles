@@ -14,10 +14,10 @@ class Tile: UIControl {
     let textLabel    = UILabel()
     
     // Observable properties
-    var size         : CGFloat = Tools.DEFAULT_SIZE
+    var size         : CGFloat = Helper.DEFAULT_SIZE
     
-    var bkgColor     : UIColor = Tools.BKG_COLOR
-    var fgdColor     : UIColor = Tools.FGD_COLOR
+    var bkgColor     : UIColor = Helper.BKG_COLOR
+    var fgdColor     : UIColor = Helper.FGD_COLOR
     
     var title        : String = "Title"
     var text         : String = "Text"
@@ -26,28 +26,28 @@ class Tile: UIControl {
     var minValue     : CGFloat = 0.0   {
         didSet {
             if (minValue > maxValue) { maxValue = minValue }
-            skin.update(cmd: Tools.RECALC)
+            skin.update(cmd: Helper.RECALC)
         }
         
     }
     var maxValue     : CGFloat = 100.0 {
         didSet {
             if (maxValue < minValue) { minValue = maxValue }
-            skin.update(cmd: Tools.RECALC)
+            skin.update(cmd: Helper.RECALC)
         }
     }
     var range        : CGFloat { return maxValue - minValue }
-    var threshold    : CGFloat = 100.0 { didSet { skin.update(cmd: Tools.REDRAW) } }
+    var threshold    : CGFloat = 100.0 { didSet { skin.update(cmd: Helper.REDRAW) } }
     var animated     : Bool = true
     var value        : CGFloat = 0.0 {
         didSet {
             self.oldValue = oldValue
             if (oldValue < threshold && value > threshold) {
-                skin.update(cmd: Tools.EXCEEDED)
+                skin.update(cmd: Helper.EXCEEDED)
             } else if (oldValue > threshold && value < threshold) {
-                skin.update(cmd: Tools.UNDERRUN)
+                skin.update(cmd: Helper.UNDERRUN)
             } else {
-                skin.update(cmd: Tools.UNCHANGED)
+                skin.update(cmd: Helper.UNCHANGED)
             }
             skin.update(prop: "value", value: value)
             

@@ -10,12 +10,12 @@ import UIKit
 
 class GaugeSkin: CALayer {
     weak var       control        : Tile?
-    var            size           : CGFloat = Tools.DEFAULT_SIZE
-    var            center         : CGFloat = Tools.DEFAULT_SIZE * 0.5
+    var            size           : CGFloat = Helper.DEFAULT_SIZE
+    var            center         : CGFloat = Helper.DEFAULT_SIZE * 0.5
     var            angleStep      : CGFloat = .pi / 100.0
     @NSManaged var currentValue   : CGFloat
-    var            thresholdState : String  = Tools.UNCHANGED
-    var            thresholdColor : UIColor = Tools.GRAY
+    var            thresholdState : String  = Helper.UNCHANGED
+    var            thresholdColor : UIColor = Helper.GRAY
     
     let valueLabel     = AnimLabel()
     let minValueLabel  = UILabel()
@@ -42,7 +42,7 @@ class GaugeSkin: CALayer {
     
     // ******************** Methods ********************
     func update(cmd: String) {
-        if (cmd == Tools.INIT) {
+        if (cmd == Helper.INIT) {
             control!.addSubview(valueLabel)
             control!.addSubview(minValueLabel)
             control!.addSubview(maxValueLabel)
@@ -54,17 +54,17 @@ class GaugeSkin: CALayer {
             
             pointerView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.765)
             pointerView.layer.addSublayer(pointer)
-        } else if (cmd == Tools.REDRAW) {
+        } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
-        } else if (cmd == Tools.RECALC) {
+        } else if (cmd == Helper.RECALC) {
             angleStep = .pi / control!.range
-        } else if (cmd == Tools.EXCEEDED) {
+        } else if (cmd == Helper.EXCEEDED) {
             thresholdState = cmd
-            thresholdColor = Tools.BLUE
-        } else if (cmd == Tools.UNDERRUN) {
+            thresholdColor = Helper.BLUE
+        } else if (cmd == Helper.UNDERRUN) {
             thresholdState = cmd
-            thresholdColor = Tools.GRAY
-        } else if (cmd == Tools.UNCHANGED) {
+            thresholdColor = Helper.GRAY
+        } else if (cmd == Helper.UNCHANGED) {
             thresholdState = cmd
         }
     }
@@ -72,7 +72,7 @@ class GaugeSkin: CALayer {
         if (prop == "value") {
             valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: 1.5)
             
-            if (thresholdState == Tools.EXCEEDED || thresholdState == Tools.UNDERRUN) {
+            if (thresholdState == Helper.EXCEEDED || thresholdState == Helper.UNDERRUN) {
                 setNeedsDisplay()
             }
             
@@ -151,12 +151,11 @@ class GaugeSkin: CALayer {
                          clockwise: false)
             ctx.setLineWidth(size * 0.045)
             ctx.addPath(track.cgPath)
-            ctx.setStrokeColor(Tools.FGD_COLOR.cgColor)
+            ctx.setStrokeColor(Helper.FGD_COLOR.cgColor)
             ctx.strokePath()
             
             // Threshold Area
             let thresholdAngle = (ctrl.maxValue - ctrl.threshold) * angleStep
-            print(thresholdAngle)
             let thresholdTrack:UIBezierPath = UIBezierPath()
             thresholdTrack.addArc(withCenter: CGPoint(x: center, y: center + size * 0.26),
                                   radius: radius,
@@ -164,7 +163,7 @@ class GaugeSkin: CALayer {
                                   clockwise: false)
             ctx.setLineWidth(size * 0.045)
             ctx.addPath(thresholdTrack.cgPath)
-            ctx.setStrokeColor(Tools.BLUE.cgColor)
+            ctx.setStrokeColor(Helper.BLUE.cgColor)
             ctx.strokePath()
             
             // Value text
@@ -219,7 +218,7 @@ class GaugeSkin: CALayer {
         ctx.rotate(by: -.pi * 0.5)
         ctx.translateBy(x: -rotateRectAround.x, y: -rotateRectAround.y)
         
-        ctx.setFillColor(Tools.BKG_COLOR.cgColor)
+        ctx.setFillColor(Helper.BKG_COLOR.cgColor)
         ctx.addPath(needleRect.cgPath)
         ctx.fillPath()
         
@@ -282,7 +281,7 @@ class GaugeSkin: CALayer {
         ctx.rotate(by: -.pi * 0.5)
         ctx.translateBy(x: -rotateNeedleAround.x, y: -rotateNeedleAround.y)
         
-        ctx.setFillColor(Tools.FGD_COLOR.cgColor)
+        ctx.setFillColor(Helper.FGD_COLOR.cgColor)
         ctx.addPath(needle.cgPath)
         ctx.fillPath()
         
