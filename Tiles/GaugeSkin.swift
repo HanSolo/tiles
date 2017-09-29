@@ -121,12 +121,15 @@ class GaugeSkin: CALayer {
             ctx.addPath(path.cgPath)
             ctx.fillPath()
             
-            let font = UIFont.init(name: "Lato-Regular", size: size * 0.06)
+            let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
+            let mediumFont = UIFont.init(name: "Lato-Regular", size: size * 0.07)
+            let biggerFont = UIFont.init(name: "Lato-Regular", size: size * 0.08)
+            let bigFont    = UIFont.init(name: "Lato-Regular", size: size * 0.24)
             
             // Tile Title
             ctrl.titleLabel.text      = ctrl.title
             ctrl.titleLabel.textColor = ctrl.fgdColor
-            ctrl.titleLabel.font      = font
+            ctrl.titleLabel.font      = smallFont
             ctrl.titleLabel.center    = CGPoint(x: size * 0.05, y: size * 0.05)
             ctrl.titleLabel.frame     = CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.06)
             ctrl.titleLabel.setNeedsDisplay()
@@ -134,7 +137,7 @@ class GaugeSkin: CALayer {
             // Tile Text
             ctrl.textLabel.text      = ctrl.text
             ctrl.textLabel.textColor = ctrl.fgdColor
-            ctrl.textLabel.font      = font
+            ctrl.textLabel.font      = smallFont
             ctrl.textLabel.center    = CGPoint(x: size * 0.05, y: size * 0.05)
             ctrl.textLabel.frame     = CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.06)
             ctrl.textLabel.setNeedsDisplay()
@@ -152,7 +155,8 @@ class GaugeSkin: CALayer {
             ctx.strokePath()
             
             // Threshold Area
-            let thresholdAngle = CGFloat(Double.pi) / ctrl.range * (ctrl.range - ctrl.threshold)
+            let thresholdAngle = (ctrl.maxValue - ctrl.threshold) * angleStep
+            print(thresholdAngle)
             let thresholdTrack:UIBezierPath = UIBezierPath()
             thresholdTrack.addArc(withCenter: CGPoint(x: center, y: center + size * 0.26),
                                   radius: radius,
@@ -164,48 +168,32 @@ class GaugeSkin: CALayer {
             ctx.strokePath()
             
             // Value text
-            valueLabel.frame = CGRect(x: size * 0.05, y: center - size * 0.35, width: size * 0.9, height:size * 0.288)
-            valueLabel.textAlignment = .center            
+            valueLabel.frame           = CGRect(x: size * 0.05, y: center - size * 0.35, width: size * 0.9, height:size * 0.288)
+            valueLabel.textAlignment   = .center
             valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: 1.5)
-            valueLabel.numberOfLines = 1
-            valueLabel.textColor = ctrl.fgdColor
+            valueLabel.numberOfLines   = 1
+            valueLabel.textColor       = ctrl.fgdColor
             valueLabel.backgroundColor = UIColor.clear
-            valueLabel.font = UIFont.init(name: "Lato-Regular", size: size * 0.24)
+            valueLabel.font            = bigFont
             valueLabel.setNeedsDisplay()
             
             // Min Value Text
-            minValueLabel.textAlignment = .center
-            minValueLabel.text = String(format: "%.0f", ctrl.minValue)
-            minValueLabel.numberOfLines = 1
-            minValueLabel.sizeToFit()
-            minValueLabel.frame = CGRect(x: center - size * 0.375, y: center + size * 0.255, width: size * 0.15, height:size * 0.1)
-            minValueLabel.textColor = ctrl.fgdColor
-            minValueLabel.backgroundColor = UIColor.clear
-            minValueLabel.font = UIFont.init(name: "Lato-Regular", size: size * 0.07)
-            minValueLabel.setNeedsDisplay()
+            drawText(label : minValueLabel, font: mediumFont!, value: ctrl.minValue, frame: CGRect(x: center - size * 0.375, y: center + size * 0.255, width: size * 0.15, height:size * 0.1), fgdColor: ctrl.fgdColor, bkgColor: UIColor.clear, radius: 0)
             
             // Max Value Text
-            maxValueLabel.textAlignment = .center
-            maxValueLabel.text = String(format: "%.0f", ctrl.maxValue)
-            maxValueLabel.numberOfLines = 1
-            maxValueLabel.sizeToFit()
-            maxValueLabel.frame = CGRect(x: center + size * 0.22, y: center + size * 0.255, width: size * 0.15, height:size * 0.1)
-            maxValueLabel.textColor = ctrl.fgdColor
-            maxValueLabel.backgroundColor = UIColor.clear
-            maxValueLabel.font = UIFont.init(name: "Lato-Regular", size: size * 0.07)
-            maxValueLabel.setNeedsDisplay()
+            drawText(label : maxValueLabel, font: mediumFont!, value: ctrl.maxValue, frame: CGRect(x: center + size * 0.22, y: center + size * 0.255, width: size * 0.15, height:size * 0.1), fgdColor: ctrl.fgdColor, bkgColor: UIColor.clear, radius: 0)
             
-            // Threshold Text
-            thresholdLabel.textAlignment = .center
-            thresholdLabel.text = String(format: "%.0f", ctrl.threshold)
-            thresholdLabel.numberOfLines = 1
+            // Threshold Text            
+            thresholdLabel.textAlignment       = .center
+            thresholdLabel.text                = String(format: "%.0f", ctrl.threshold)
+            thresholdLabel.numberOfLines       = 1
             thresholdLabel.sizeToFit()
-            thresholdLabel.frame = CGRect(x: (size - thresholdLabel.frame.width - size * 0.05) * 0.5, y: center + size * 0.35, width: (thresholdLabel.frame.width + size * 0.05), height: thresholdLabel.frame.height)
-            thresholdLabel.textColor = ctrl.bkgColor
-            thresholdLabel.backgroundColor = thresholdColor
+            thresholdLabel.frame               = CGRect(x: (size - thresholdLabel.frame.width - size * 0.05) * 0.5, y: center + size * 0.35, width: (thresholdLabel.frame.width + size * 0.05), height: thresholdLabel.frame.height)
+            thresholdLabel.textColor           = ctrl.bkgColor
+            thresholdLabel.backgroundColor     = thresholdColor
             thresholdLabel.layer.masksToBounds = true
-            thresholdLabel.layer.cornerRadius = size * 0.0125
-            thresholdLabel.font = UIFont.init(name: "Lato-Regular", size: size * 0.08)
+            thresholdLabel.layer.cornerRadius  = size * 0.0125
+            thresholdLabel.font                = biggerFont
             thresholdLabel.setNeedsDisplay()
         }
         UIGraphicsPopContext()
@@ -303,5 +291,19 @@ class GaugeSkin: CALayer {
         
         UIGraphicsEndImageContext()
         return pointerImage
+    }
+    
+    func drawText(label : UILabel, font: UIFont, value: CGFloat, frame: CGRect, fgdColor: UIColor, bkgColor: UIColor, radius: CGFloat) {
+        label.textAlignment       = .center
+        label.text                = String(format: "%.0f", value)
+        label.numberOfLines       = 1
+        label.sizeToFit()
+        label.frame               = frame
+        label.textColor           = fgdColor
+        label.backgroundColor     = bkgColor
+        label.font                = font
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius  = radius
+        label.setNeedsDisplay()
     }
 }

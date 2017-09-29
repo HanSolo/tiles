@@ -23,8 +23,19 @@ class Tile: UIControl {
     var text         : String = "Text"
     var unit         : String = "Unit"
     
-    var minValue     : CGFloat = 0.0   { didSet { skin.update(cmd: Tools.RECALC) } }
-    var maxValue     : CGFloat = 100.0 { didSet { skin.update(cmd: Tools.RECALC) } }
+    var minValue     : CGFloat = 0.0   {
+        didSet {
+            if (minValue > maxValue) { maxValue = minValue }
+            skin.update(cmd: Tools.RECALC)
+        }
+        
+    }
+    var maxValue     : CGFloat = 100.0 {
+        didSet {
+            if (maxValue < minValue) { minValue = maxValue }
+            skin.update(cmd: Tools.RECALC)
+        }
+    }
     var range        : CGFloat { return maxValue - minValue }
     var threshold    : CGFloat = 100.0 { didSet { skin.update(cmd: Tools.REDRAW) } }
     var animated     : Bool = true

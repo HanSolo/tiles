@@ -19,6 +19,8 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        ctrl.minValue  = 0
+        ctrl.maxValue  = 100
         ctrl.threshold = 75
         ctrl.title     = "Test"
         

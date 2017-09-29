@@ -151,7 +151,7 @@ public class AnimLabel: UILabel {
     
     @objc public func updateValue(_ timer: Timer) {
         // update progress
-        let now = Date.timeIntervalSinceReferenceDate
+        let now         = Date.timeIntervalSinceReferenceDate
         self.progress   = self.progress + now - self.lastUpdate
         self.lastUpdate = now
         
@@ -161,7 +161,6 @@ public class AnimLabel: UILabel {
             self.progress = self.totalTime
         }
         
-        //var formattedValue = String(format: "%.0f", self.currentValue())
         self.setTextValue(self.currentValue())
         
         if self.progress == self.totalTime {
@@ -176,8 +175,8 @@ public class AnimLabel: UILabel {
             self.text = tryFormatBlock(value)
         } else {
             // check if counting with ints - cast to int
-            if nil != self.format.range(of: "%(.*)d", options: String.CompareOptions.regularExpression, range: nil)
-                || nil != self.format.range(of: "%(.*)i") {
+            if (nil != self.format.range(of: "%(.*)d", options: String.CompareOptions.regularExpression, range: nil)
+                || nil != self.format.range(of: "%(.*)i")) {
                 self.text = String(format: self.format, Int(value))
             } else {
                 self.text = String(format: self.format, value)
@@ -193,7 +192,6 @@ public class AnimLabel: UILabel {
     private func runCompletionBlock() {
         if let tryCompletionBlock = self.completionBlock {
             tryCompletionBlock()
-            
             self.completionBlock = nil
         }
     }
