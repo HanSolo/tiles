@@ -14,6 +14,7 @@ class MapSkin: Skin, MKMapViewDelegate {
     var size   : CGFloat   = Helper.DEFAULT_SIZE
     var center : CGFloat   = Helper.DEFAULT_SIZE * 0.5
     var map    : MKMapView = MKMapView()
+    let marker             = MKPointAnnotation()
     
     
     // ******************** Constructors ********************
@@ -40,6 +41,7 @@ class MapSkin: Skin, MKMapViewDelegate {
             map.isScrollEnabled = true
             map.backgroundColor = UIColor.red
             map.delegate        = self
+            map.addAnnotation(marker)
             
             control!.addSubview(map)
         } else if (cmd == Helper.REDRAW) {
@@ -85,27 +87,15 @@ class MapSkin: Skin, MKMapViewDelegate {
             }
             
             // Map
-            map.frame    = CGRect(x: size * 0.05, y: size * 0.15, width: size * 0.9, height: size - size * (ctrl.textVisible ? 0.27 : 0.205))
-            let location = CLLocationCoordinate2D(latitude: ctrl.location.latitude, longitude: ctrl.location.longitude)
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, 1000, 1000)            
+            let location         = CLLocationCoordinate2D(latitude: ctrl.location.latitude, longitude: ctrl.location.longitude)
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, 100, 100)
+            let marker           = MKPointAnnotation()
+            marker.coordinate    = CLLocationCoordinate2D(latitude: ctrl.location.latitude, longitude: ctrl.location.longitude)
+            marker.title         = ctrl.location.name
+            map.frame            = CGRect(x: size * 0.05, y: size * 0.15, width: size * 0.9, height: size - size * (ctrl.textVisible ? 0.27 : 0.205))
             map.setRegion(coordinateRegion, animated: true)
             map.setCenter(location, animated: true)
         }
         UIGraphicsPopContext()
-    }
-    
-    func drawText(label : UILabel, font: UIFont, text: String, frame: CGRect, fgdColor: UIColor, bkgColor: UIColor, radius: CGFloat, align: NSTextAlignment) {
-        label.textAlignment       = align
-        label.text                = text
-        label.numberOfLines       = 1
-        label.sizeToFit()
-        label.frame               = frame
-        label.textColor           = fgdColor
-        label.backgroundColor     = bkgColor
-        label.font                = font
-        //label.center              = CGPoint(x: size * 0.05, y: size * 0.05)
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius  = radius
-        label.setNeedsDisplay()
     }
 }

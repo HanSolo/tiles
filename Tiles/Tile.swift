@@ -14,6 +14,7 @@ class Tile: UIControl {
         case TILE
         case GAUGE
         case MAP
+        case CIRCULAR_PROGRESS
     }
     
     var skin         :Skin = TileSkin()
@@ -21,6 +22,8 @@ class Tile: UIControl {
     let textLabel    = UILabel()
     
     var size         : CGFloat = Helper.DEFAULT_SIZE
+    
+    var animationDuration = 1.5
     
     var bkgColor     : UIColor = Helper.BKG_COLOR
     var fgdColor     : UIColor = Helper.FGD_COLOR
@@ -69,6 +72,15 @@ class Tile: UIControl {
     var location     : Location = Location() {
         didSet { skin.update(cmd: Helper.REDRAW) }
     }
+    var barBackgroundColor : UIColor = Helper.BKG_COLOR {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
+    var barColor     : UIColor  = Helper.BLUE {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
+    var graphicContainerVisible: Bool = false {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
     
     
     
@@ -76,9 +88,10 @@ class Tile: UIControl {
     init(frame: CGRect, skinType: SkinType) {
         super.init(frame: frame)
         switch(skinType) {
-            case SkinType.GAUGE: skin = GaugeSkin(); break
-            case SkinType.MAP  : skin = MapSkin(); break
-            default            : skin = TileSkin(); break
+            case SkinType.GAUGE            : skin = GaugeSkin(); break
+            case SkinType.MAP              : skin = MapSkin(); break
+            case SkinType.CIRCULAR_PROGRESS: skin = CircularProgressSkin(); break
+            default                        : skin = TileSkin(); break
         }
         
         skin.control = self

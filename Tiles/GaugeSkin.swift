@@ -71,13 +71,13 @@ class GaugeSkin: Skin {
     }
     override func update<T>(prop: String, value: T) {
         if (prop == "value") {
-            valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: 1.5)
+            valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: control!.animationDuration)
             
             if (thresholdState == Helper.EXCEEDED || thresholdState == Helper.UNDERRUN) {
                 setNeedsDisplay()
             }
             
-            UIView.animate(withDuration: 1.5, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+            UIView.animate(withDuration: control!.animationDuration, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
                 self.pointerView.transform = CGAffineTransform(rotationAngle: (self.angleStep * self.control!.value))
             }, completion: nil)
         }
@@ -148,8 +148,8 @@ class GaugeSkin: Skin {
             }
             
             // Track
-            let radius  = size * 0.3
-            let track:UIBezierPath = UIBezierPath()
+            let radius = size * 0.3
+            let track  = UIBezierPath()
             track.addArc(withCenter: CGPoint(x: center, y: center + size * 0.26),
                          radius: radius,
                          startAngle: 0.0, endAngle: CGFloat(Double.pi),
@@ -161,7 +161,7 @@ class GaugeSkin: Skin {
             
             // Threshold Area
             let thresholdAngle = (ctrl.maxValue - ctrl.threshold) * angleStep
-            let thresholdTrack:UIBezierPath = UIBezierPath()
+            let thresholdTrack = UIBezierPath()
             thresholdTrack.addArc(withCenter: CGPoint(x: center, y: center + size * 0.26),
                                   radius: radius,
                                   startAngle: 0.0, endAngle: -thresholdAngle,
@@ -182,17 +182,21 @@ class GaugeSkin: Skin {
             valueLabel.setNeedsDisplay()
             
             // Min Value Text
-            drawText(label : minValueLabel, font: mediumFont!, value: ctrl.minValue, frame: CGRect(x: center - size * 0.375, y: center + size * 0.255, width: size * 0.15, height:size * 0.1), fgdColor: ctrl.fgdColor, bkgColor: UIColor.clear, radius: 0)
+            drawTextWithFormat(label : minValueLabel, font: mediumFont!, value: ctrl.minValue, fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, format: "%.0f", align: NSTextAlignment.center, center: CGPoint(x: center - size * 0.3, y: center + size * 0.325))
             
             // Max Value Text
-            drawText(label : maxValueLabel, font: mediumFont!, value: ctrl.maxValue, frame: CGRect(x: center + size * 0.22, y: center + size * 0.255, width: size * 0.15, height:size * 0.1), fgdColor: ctrl.fgdColor, bkgColor: UIColor.clear, radius: 0)
+            drawTextWithFormat(label : maxValueLabel, font: mediumFont!, value: ctrl.maxValue, fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, format: "%.0f", align: NSTextAlignment.center, center: CGPoint(x: center + size * 0.3, y: center + size * 0.325))
             
             // Threshold Text            
+            //drawTextWithFormat(label : thresholdLabel, font: biggerFont!, value: ctrl.threshold, frame: CGRect(x: (size - thresholdLabel.frame.width - size * 0.05) * 0.5, y: center + size * 0.35, width: (thresholdLabel.frame.width + size * 0.05), height: thresholdLabel.frame.height), fgdColor: ctrl.bkgColor, bkgColor: thresholdColor, radius: size * 0.0125, format: "%.0f", align: NSTextAlignment.center)
+            
+            
             thresholdLabel.textAlignment       = .center
             thresholdLabel.text                = String(format: "%.0f", ctrl.threshold)
             thresholdLabel.numberOfLines       = 1
             thresholdLabel.sizeToFit()
-            thresholdLabel.frame               = CGRect(x: (size - thresholdLabel.frame.width - size * 0.05) * 0.5, y: center + size * 0.35, width: (thresholdLabel.frame.width + size * 0.05), height: thresholdLabel.frame.height)
+            thresholdLabel.frame               = CGRect(x: 0.5, y: 0.5, width: (thresholdLabel.frame.width + size * 0.05), height: size * 0.09)
+            thresholdLabel.center              = CGPoint(x: size * 0.5, y: center + size * 0.35 + size * 0.045)
             thresholdLabel.textColor           = ctrl.bkgColor
             thresholdLabel.backgroundColor     = thresholdColor
             thresholdLabel.layer.masksToBounds = true
@@ -295,19 +299,5 @@ class GaugeSkin: Skin {
         
         UIGraphicsEndImageContext()
         return pointerImage
-    }
-    
-    func drawText(label : UILabel, font: UIFont, value: CGFloat, frame: CGRect, fgdColor: UIColor, bkgColor: UIColor, radius: CGFloat) {
-        label.textAlignment       = .center
-        label.text                = String(format: "%.0f", value)
-        label.numberOfLines       = 1
-        label.sizeToFit()
-        label.frame               = frame
-        label.textColor           = fgdColor
-        label.backgroundColor     = bkgColor
-        label.font                = font
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius  = radius
-        label.setNeedsDisplay()
-    }
+    }        
 }

@@ -9,9 +9,9 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let tile      = Tile(frame: CGRect.zero)
-    let gaugeTile = Tile(frame: CGRect.zero, skinType: Tile.SkinType.GAUGE)
-    let mapTile   = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
+    let circularProgressTile = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CIRCULAR_PROGRESS)
+    let gaugeTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.GAUGE)
+    let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
     
     var timer     = Timer()
    
@@ -21,14 +21,15 @@ class ViewController: UIViewController {
         
         view.backgroundColor = UIColor(red: 0.0627451, green: 0.07058824, blue: 0.07843137, alpha: 1.0)
         
-        view.addSubview(tile)
+        view.addSubview(circularProgressTile)
         view.addSubview(gaugeTile)
         view.addSubview(mapTile)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        tile.title = "TileSkin"
-        tile.text  = "Text"
+        circularProgressTile.title    = "CircularProgressSkin"
+        circularProgressTile.minValue = 0
+        circularProgressTile.maxValue = 200
         
         gaugeTile.minValue  = 0
         gaugeTile.maxValue  = 100
@@ -47,9 +48,9 @@ class ViewController: UIViewController {
         let height: CGFloat = 200
         let safeArea        = view.safeAreaInsets
         
-        tile.frame      = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
-        gaugeTile.frame = CGRect(x: margin, y: margin + safeArea.top + height + margin, width: width, height: height)
-        mapTile.frame   = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
+        circularProgressTile.frame = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
+        gaugeTile.frame            = CGRect(x: margin, y: margin + safeArea.top + height + margin, width: width, height: height)
+        mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
     }
     
     func runTimer() {
@@ -57,7 +58,8 @@ class ViewController: UIViewController {
     }
     
     @objc func updateTimer() {
-        gaugeTile.value = CGFloat(drand48() * 100.0)
+        gaugeTile.value            = CGFloat(drand48() * 100.0)
+        circularProgressTile.value = CGFloat(drand48() * 200.0)
     }
 }
 

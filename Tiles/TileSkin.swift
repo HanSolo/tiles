@@ -73,20 +73,5 @@ class TileSkin: Skin {
             }
         }
         UIGraphicsPopContext()
-    }
-    
-    func drawText(label : UILabel, font: UIFont, text: String, frame: CGRect, fgdColor: UIColor, bkgColor: UIColor, radius: CGFloat, align: NSTextAlignment) {
-        label.textAlignment       = align
-        label.text                = text
-        label.numberOfLines       = 1
-        label.sizeToFit()
-        label.frame               = frame
-        label.textColor           = fgdColor
-        label.backgroundColor     = bkgColor
-        label.font                = font
-        //label.center              = CGPoint(x: size * 0.05, y: size * 0.05)
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius  = radius
-        label.setNeedsDisplay()
-    }
+    }        
 }
