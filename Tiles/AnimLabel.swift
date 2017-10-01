@@ -1,5 +1,5 @@
 //
-//  EFCountingLabel.swift
+//  AnimCountingLabel.swift
 //  Tiles
 //
 //  Created by Gerrit Grunwald on 29.09.17.

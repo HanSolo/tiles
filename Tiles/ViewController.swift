@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     let circularProgressTile = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CIRCULAR_PROGRESS)
     let gaugeTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.GAUGE)
-    let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
+    //let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
     
     var timer     = Timer()
    
@@ -23,21 +23,23 @@ class ViewController: UIViewController {
         
         view.addSubview(circularProgressTile)
         view.addSubview(gaugeTile)
-        view.addSubview(mapTile)
+        //view.addSubview(mapTile)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         circularProgressTile.title    = "CircularProgressSkin"
         circularProgressTile.minValue = 0
         circularProgressTile.maxValue = 200
+        circularProgressTile.unit     = "V"
         
         gaugeTile.minValue  = 0
         gaugeTile.maxValue  = 100
         gaugeTile.threshold = 75
         gaugeTile.title     = "GaugeSkin"
+        //gaugeTile.unit      = "V"
         
-        mapTile.title    = "MapSkin"
-        mapTile.location = Location(latitude: 51.9065938, longitude: 7.6352688)
+        //mapTile.title    = "MapSkin"
+        //mapTile.location = Location(latitude: 51.9065938, longitude: 7.6352688)
         
         runTimer()
     }
@@ -50,7 +52,7 @@ class ViewController: UIViewController {
         
         circularProgressTile.frame = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
         gaugeTile.frame            = CGRect(x: margin, y: margin + safeArea.top + height + margin, width: width, height: height)
-        mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
+        //mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
     }
     
     func runTimer() {

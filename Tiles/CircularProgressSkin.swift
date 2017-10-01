@@ -9,10 +9,10 @@
 import UIKit
 
 class CircularProgressSkin: Skin {
-    var size      : CGFloat = Helper.DEFAULT_SIZE
-    var center    : CGFloat = Helper.DEFAULT_SIZE * 0.5
-    var chartSize : CGFloat = 0.0
-    var y         : CGFloat = 0
+    var size        : CGFloat = Helper.DEFAULT_SIZE
+    var center      : CGFloat = Helper.DEFAULT_SIZE * 0.5
+    var chartSize   : CGFloat = 0.0
+    var y           : CGFloat = 0
     let valueLabel            = AnimLabel()
     let percentageValueLabel  = AnimLabel()
     let startAngle            = CGFloat(.pi * 0.5)
@@ -24,8 +24,7 @@ class CircularProgressSkin: Skin {
     override init() {
         super.init()
         
-        percentageValueLabel.method = .easeInOut
-        percentageValueLabel.format = "%.1f%%"
+        percentageValueLabel.method = .easeInOut        
         
         valueLabel.method = .easeInOut
         valueLabel.format = "%.1f"
@@ -52,8 +51,8 @@ class CircularProgressSkin: Skin {
     // ******************** Methods ********************
     override func update(cmd: String) {
         if (cmd == Helper.INIT) {
-            control!.addSubview(valueLabel)
             control!.addSubview(percentageValueLabel)
+            control!.addSubview(valueLabel)
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         }
@@ -132,28 +131,51 @@ class CircularProgressSkin: Skin {
             barLayer.strokeColor = ctrl.barColor.cgColor
             barLayer.lineWidth   = chartSize * 0.1
             
-            let mediumFont = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.075 : 0.1))
-            let bigFont    = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.15 : 0.2))
+            let unitFont           = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.035 : 0.04))
+            let percentageUnitFont = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.07 : 0.08))
+            let mediumFont         = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.075 : 0.1))
+            let bigFont            = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.15 : 0.2))
             
-            percentageValueLabel.frame           = CGRect(x: size * 0.05, y: center - size * 0.35, width: size * 0.9, height:size * 0.288)
+            percentageValueLabel.frame = CGRect(x: size * 0.05, y: center - size * 0.35, width: size * 0.9, height:size * 0.288)
+            percentageValueLabel.attributedFormatBlock = {
+                (value) in
+                let valueFontAttr   = [ NSAttributedStringKey.font: bigFont! ]
+                let valueUnitString = NSMutableAttributedString(string: String(format: "%.1f", value), attributes: valueFontAttr)
+                let unitFontAttr    = [ NSAttributedStringKey.font: percentageUnitFont! ]
+                let unitString      = NSAttributedString(string: "%", attributes: unitFontAttr)
+                valueUnitString.append(unitString)
+                valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: ctrl.valueColor, range: NSRange(location: 0, length: String(format: "%.1f", value).characters.count))
+                valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: ctrl.unitColor, range: NSRange(location: String(format: "%.1f", value).characters.count, length: 1))
+                
+                return valueUnitString
+            }
             percentageValueLabel.textAlignment   = .center
-            percentageValueLabel.countFrom((control!.oldValue / control!.range * 100.0), to: (control!.value / control!.range * 100.0), withDuration: 1.5)
             percentageValueLabel.numberOfLines   = 1
-            percentageValueLabel.textColor       = ctrl.fgdColor
             percentageValueLabel.backgroundColor = UIColor.clear
-            percentageValueLabel.font            = bigFont
             percentageValueLabel.center          = CGPoint(x: size * 0.5, y: y + chartSize * 0.5)
             percentageValueLabel.setNeedsDisplay()
+            percentageValueLabel.countFrom((ctrl.oldValue / ctrl.range * 100.0), to: (ctrl.value / ctrl.range * 100.0), withDuration: ctrl.animationDuration)
             
-            valueLabel.frame           = CGRect(x: 0, y: 0, width: size * 0.9, height:size * 0.12)
+            valueLabel.frame = CGRect(x: 0, y: 0, width: size * 0.9, height:size * 0.12)
+            valueLabel.attributedFormatBlock = {
+                (value) in
+                let valueFontAttr   = [ NSAttributedStringKey.font: mediumFont! ]
+                let valueUnitString = NSMutableAttributedString(string: String(format: "%.1f", value), attributes: valueFontAttr)
+                let unitFontAttr    = [ NSAttributedStringKey.font: unitFont! ]
+                let unitString      = NSAttributedString(string: ctrl.unit, attributes: unitFontAttr)
+                valueUnitString.append(unitString)
+                valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: ctrl.valueColor, range: NSRange(location: 0, length: String(format: "%.1f", value).characters.count))
+                if (ctrl.unit.characters.count > 0) {
+                valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: ctrl.unitColor, range: NSRange(location: String(format: "%.1f", value).characters.count, length: ctrl.unit.characters.count))
+                }
+                return valueUnitString
+            }
             valueLabel.textAlignment   = .center
-            valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: 1.5)
             valueLabel.numberOfLines   = 1
-            valueLabel.textColor       = ctrl.fgdColor
             valueLabel.backgroundColor = UIColor.clear
-            valueLabel.font            = mediumFont
             valueLabel.center          = CGPoint(x: size * 0.5, y: ctrl.graphicContainerVisible ? (y + chartSize * 0.5 - chartSize * 0.22) : (y + chartSize * 0.5 + chartSize * 0.22))
             valueLabel.setNeedsDisplay()
+            valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: ctrl.animationDuration)            
         }
         UIGraphicsPopContext()
     }

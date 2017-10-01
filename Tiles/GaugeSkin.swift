@@ -10,12 +10,11 @@ import UIKit
 
 
 class GaugeSkin: Skin {    
-    var            size           : CGFloat = Helper.DEFAULT_SIZE
-    var            center         : CGFloat = Helper.DEFAULT_SIZE * 0.5
-    var            angleStep      : CGFloat = .pi / 100.0
-    @NSManaged var currentValue   : CGFloat
-    var            thresholdState : String  = Helper.UNCHANGED
-    var            thresholdColor : UIColor = Helper.GRAY
+    var size           : CGFloat = Helper.DEFAULT_SIZE
+    var center         : CGFloat = Helper.DEFAULT_SIZE * 0.5
+    var angleStep      : CGFloat = .pi / 100.0
+    var thresholdState : String  = Helper.UNCHANGED
+    var thresholdColor : UIColor = Helper.GRAY
     
     let valueLabel     = AnimLabel()
     let minValueLabel  = UILabel()
@@ -30,7 +29,6 @@ class GaugeSkin: Skin {
     override init() {
         super.init()
         valueLabel.method = .easeInOut
-        valueLabel.format = "%.0f"
     }
     override init(layer: Any) {
         super.init(layer: layer)
@@ -91,22 +89,6 @@ class GaugeSkin: Skin {
         pointer.contents  = drawPointer(in: bounds)?.cgImage
     }
     
-    override class func needsDisplay(forKey key: String) -> Bool {
-        return key == "currentValue" ? true : super.needsDisplay(forKey: key)
-    }
-    
-    override func action(forKey key: String) -> CAAction? {
-        if (key == "currentValue") {
-            let animation: CABasicAnimation = CABasicAnimation.init(keyPath: key)
-            animation.fromValue      = self.presentation()?.currentValue
-            animation.toValue        = control!.value
-            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            animation.duration       = 1.0
-            return animation
-        }
-        return super.action(forKey: key)
-    }
-    
     
     // ******************** Redraw ********************
     override func draw(in ctx: CGContext) {
@@ -125,6 +107,7 @@ class GaugeSkin: Skin {
             let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
             let mediumFont = UIFont.init(name: "Lato-Regular", size: size * 0.07)
             let biggerFont = UIFont.init(name: "Lato-Regular", size: size * 0.08)
+            let unitFont   = UIFont.init(name: "Lato-Regular", size: size * 0.1)
             let bigFont    = UIFont.init(name: "Lato-Regular", size: size * 0.24)
             
             // Tile Title
@@ -171,15 +154,26 @@ class GaugeSkin: Skin {
             ctx.setStrokeColor(Helper.BLUE.cgColor)
             ctx.strokePath()
             
-            // Value text
+            // Value and Unit text
             valueLabel.frame           = CGRect(x: size * 0.05, y: center - size * 0.35, width: size * 0.9, height:size * 0.288)
             valueLabel.textAlignment   = .center
-            valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: 1.5)
+            valueLabel.attributedFormatBlock = {
+                (value) in
+                let valueFontAttr   = [ NSAttributedStringKey.font: bigFont! ]
+                let valueUnitString = NSMutableAttributedString(string: String(format: "%.0f", value), attributes: valueFontAttr)
+                let unitFontAttr    = [ NSAttributedStringKey.font: unitFont! ]
+                let unitString      = NSAttributedString(string: ctrl.unit, attributes: unitFontAttr)
+                valueUnitString.append(unitString)
+                valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: ctrl.valueColor, range: NSRange(location: 0, length: String(format: "%.0f", value).characters.count))
+                if (ctrl.unit.characters.count > 0) {
+                    valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: ctrl.unitColor, range: NSRange(location: String(format: "%.0f", value).characters.count, length: ctrl.unit.characters.count))
+                }
+                return valueUnitString
+            }
             valueLabel.numberOfLines   = 1
-            valueLabel.textColor       = ctrl.fgdColor
             valueLabel.backgroundColor = UIColor.clear
-            valueLabel.font            = bigFont
             valueLabel.setNeedsDisplay()
+            valueLabel.countFrom(ctrl.oldValue, to: ctrl.value, withDuration: ctrl.animationDuration)
             
             // Min Value Text
             drawTextWithFormat(label : minValueLabel, font: mediumFont!, value: ctrl.minValue, fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, format: "%.0f", align: NSTextAlignment.center, center: CGPoint(x: center - size * 0.3, y: center + size * 0.325))
@@ -187,10 +181,7 @@ class GaugeSkin: Skin {
             // Max Value Text
             drawTextWithFormat(label : maxValueLabel, font: mediumFont!, value: ctrl.maxValue, fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, format: "%.0f", align: NSTextAlignment.center, center: CGPoint(x: center + size * 0.3, y: center + size * 0.325))
             
-            // Threshold Text            
-            //drawTextWithFormat(label : thresholdLabel, font: biggerFont!, value: ctrl.threshold, frame: CGRect(x: (size - thresholdLabel.frame.width - size * 0.05) * 0.5, y: center + size * 0.35, width: (thresholdLabel.frame.width + size * 0.05), height: thresholdLabel.frame.height), fgdColor: ctrl.bkgColor, bkgColor: thresholdColor, radius: size * 0.0125, format: "%.0f", align: NSTextAlignment.center)
-            
-            
+            // Threshold Text
             thresholdLabel.textAlignment       = .center
             thresholdLabel.text                = String(format: "%.0f", ctrl.threshold)
             thresholdLabel.numberOfLines       = 1

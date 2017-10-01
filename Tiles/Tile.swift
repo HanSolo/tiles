@@ -28,14 +28,20 @@ class Tile: UIControl {
     var bkgColor     : UIColor = Helper.BKG_COLOR
     var fgdColor     : UIColor = Helper.FGD_COLOR
     
-    var title        : String = "Title"
-    var text         : String = "Text"
+    var title        : String = "Title" {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
+    var text         : String = "Text" {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
     var textVisible  : Bool   = true {
         didSet {
             skin.update(cmd: Helper.REDRAW)
         }
     }
-    var unit         : String = "Unit"
+    var unit         : String = "" {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
     var minValue     : CGFloat = 0.0   {
         didSet {
             if (minValue > maxValue) { maxValue = minValue }
@@ -81,7 +87,12 @@ class Tile: UIControl {
     var graphicContainerVisible: Bool = false {
         didSet { skin.update(cmd: Helper.REDRAW) }
     }
-    
+    var valueColor   : UIColor = Helper.FGD_COLOR {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
+    var unitColor    : UIColor = Helper.FGD_COLOR {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
     
     
     // ******************** Constructor ***********************
