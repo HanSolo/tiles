@@ -31,12 +31,13 @@ class ViewController: UIViewController {
         circularProgressTile.minValue = 0
         circularProgressTile.maxValue = 200
         circularProgressTile.unit     = "V"
+        circularProgressTile.decimals = 1
         
         gaugeTile.minValue  = 0
         gaugeTile.maxValue  = 100
         gaugeTile.threshold = 75
         gaugeTile.title     = "GaugeSkin"
-        //gaugeTile.unit      = "V"
+        gaugeTile.unit      = "V"
         
         //mapTile.title    = "MapSkin"
         //mapTile.location = Location(latitude: 51.9065938, longitude: 7.6352688)

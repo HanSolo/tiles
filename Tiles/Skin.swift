@@ -48,4 +48,23 @@ class Skin :CALayer {
         label.center              = center
         label.setNeedsDisplay()
     }
+    
+    func setAttributedFormatBlock (label: AnimLabel, valueFont: UIFont, formatString: String, valueColor: UIColor, unit: String, unitFont: UIFont, unitColor: UIColor) {
+        label.attributedFormatBlock = {
+            (value) in
+            let formattedValue       = String(format: formatString, value)
+            let formattedValueLength = formattedValue.characters.count
+            let unitLength           = unit.characters.count
+            let valueFontAttr        = [ NSAttributedStringKey.font: valueFont ]
+            let valueUnitString      = NSMutableAttributedString(string: formattedValue, attributes: valueFontAttr)
+            let unitFontAttr         = [ NSAttributedStringKey.font: unitFont ]
+            let unitString           = NSAttributedString(string: unit, attributes: unitFontAttr)
+            valueUnitString.append(unitString)
+            valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: valueColor, range: NSRange(location: 0, length: formattedValueLength))
+            if (unitLength > 0) {
+                valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: unitColor, range: NSRange(location: formattedValueLength, length: unitLength))
+            }
+            return valueUnitString
+        }
+    }
 }

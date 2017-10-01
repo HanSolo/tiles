@@ -75,6 +75,12 @@ class Tile: UIControl {
         }
     }
     var oldValue     : CGFloat  = 0.0
+    var decimals     : Int = 0 {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
+    var tickLabelDecimals : Int = 0 {
+        didSet { skin.update(cmd: Helper.REDRAW) }
+    }
     var location     : Location = Location() {
         didSet { skin.update(cmd: Helper.REDRAW) }
     }

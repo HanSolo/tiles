@@ -154,36 +154,27 @@ class GaugeSkin: Skin {
             ctx.setStrokeColor(Helper.BLUE.cgColor)
             ctx.strokePath()
             
+            let formatString          = "%.\(ctrl.decimals)f"
+            let tickLabelFormatString = "%.\(ctrl.tickLabelDecimals)f"
+            
             // Value and Unit text
             valueLabel.frame           = CGRect(x: size * 0.05, y: center - size * 0.35, width: size * 0.9, height:size * 0.288)
-            valueLabel.textAlignment   = .center
-            valueLabel.attributedFormatBlock = {
-                (value) in
-                let valueFontAttr   = [ NSAttributedStringKey.font: bigFont! ]
-                let valueUnitString = NSMutableAttributedString(string: String(format: "%.0f", value), attributes: valueFontAttr)
-                let unitFontAttr    = [ NSAttributedStringKey.font: unitFont! ]
-                let unitString      = NSAttributedString(string: ctrl.unit, attributes: unitFontAttr)
-                valueUnitString.append(unitString)
-                valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: ctrl.valueColor, range: NSRange(location: 0, length: String(format: "%.0f", value).characters.count))
-                if (ctrl.unit.characters.count > 0) {
-                    valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: ctrl.unitColor, range: NSRange(location: String(format: "%.0f", value).characters.count, length: ctrl.unit.characters.count))
-                }
-                return valueUnitString
-            }
+            valueLabel.textAlignment   = .center            
+            setAttributedFormatBlock (label: valueLabel, valueFont: bigFont!, formatString: formatString, valueColor: ctrl.valueColor, unit: ctrl.unit, unitFont: unitFont!, unitColor: ctrl.unitColor)
             valueLabel.numberOfLines   = 1
             valueLabel.backgroundColor = UIColor.clear
             valueLabel.setNeedsDisplay()
             valueLabel.countFrom(ctrl.oldValue, to: ctrl.value, withDuration: ctrl.animationDuration)
             
             // Min Value Text
-            drawTextWithFormat(label : minValueLabel, font: mediumFont!, value: ctrl.minValue, fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, format: "%.0f", align: NSTextAlignment.center, center: CGPoint(x: center - size * 0.3, y: center + size * 0.325))
+            drawTextWithFormat(label : minValueLabel, font: mediumFont!, value: ctrl.minValue, fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, format: tickLabelFormatString, align: NSTextAlignment.center, center: CGPoint(x: center - size * 0.3, y: center + size * 0.325))
             
             // Max Value Text
-            drawTextWithFormat(label : maxValueLabel, font: mediumFont!, value: ctrl.maxValue, fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, format: "%.0f", align: NSTextAlignment.center, center: CGPoint(x: center + size * 0.3, y: center + size * 0.325))
+            drawTextWithFormat(label : maxValueLabel, font: mediumFont!, value: ctrl.maxValue, fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, format: tickLabelFormatString, align: NSTextAlignment.center, center: CGPoint(x: center + size * 0.3, y: center + size * 0.325))
             
             // Threshold Text
             thresholdLabel.textAlignment       = .center
-            thresholdLabel.text                = String(format: "%.0f", ctrl.threshold)
+            thresholdLabel.text                = String(format: formatString, ctrl.threshold)
             thresholdLabel.numberOfLines       = 1
             thresholdLabel.sizeToFit()
             thresholdLabel.frame               = CGRect(x: 0.5, y: 0.5, width: (thresholdLabel.frame.width + size * 0.05), height: size * 0.09)
