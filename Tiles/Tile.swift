@@ -15,34 +15,26 @@ class Tile: UIControl {
         case GAUGE
         case MAP
         case CIRCULAR_PROGRESS
+        case PERCENTAGE
     }
     
     var skin         :Skin = TileSkin()
     let titleLabel   = UILabel()
     let textLabel    = UILabel()
     
-    var size         : CGFloat = Helper.DEFAULT_SIZE
+    var size              : CGFloat = Helper.DEFAULT_SIZE
     
-    var animationDuration = 1.5
+    var animationDuration : Double  = 1.5
     
-    var bkgColor     : UIColor = Helper.BKG_COLOR
-    var fgdColor     : UIColor = Helper.FGD_COLOR
+    var bkgColor          : UIColor = Helper.BKG_COLOR
+    var fgdColor          : UIColor = Helper.FGD_COLOR
     
-    var title        : String = "Title" {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var text         : String = "Text" {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var textVisible  : Bool   = true {
-        didSet {
-            skin.update(cmd: Helper.REDRAW)
-        }
-    }
-    var unit         : String = "" {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var minValue     : CGFloat = 0.0   {
+    var title             : String = "Title" { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var text              : String = "Text"  { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var textVisible       : Bool   = true    { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var unit              : String = ""      { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var descr             : String = ""      { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var minValue          : CGFloat = 0.0   {
         didSet {
             if (minValue > maxValue) { maxValue = minValue }
             skin.update(cmd: Helper.RECALC)
@@ -56,7 +48,7 @@ class Tile: UIControl {
         }
     }
     var range        : CGFloat { return maxValue - minValue }
-    var threshold    : CGFloat = 100.0 { didSet { skin.update(cmd: Helper.REDRAW) } }
+    var threshold    : CGFloat = 100.0 { didSet { skin.update(cmd: Helper.REDRAW) }}
     var animated     : Bool = true
     var value        : CGFloat = 0.0 {
         didSet {
@@ -74,31 +66,16 @@ class Tile: UIControl {
             //skin.setValue(value, forKey: "currentValue")
         }
     }
-    var oldValue     : CGFloat  = 0.0
-    var decimals     : Int = 0 {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var tickLabelDecimals : Int = 0 {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var location     : Location = Location() {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var barBackgroundColor : UIColor = Helper.BKG_COLOR {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var barColor     : UIColor  = Helper.BLUE {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var graphicContainerVisible: Bool = false {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var valueColor   : UIColor = Helper.FGD_COLOR {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
-    var unitColor    : UIColor = Helper.FGD_COLOR {
-        didSet { skin.update(cmd: Helper.REDRAW) }
-    }
+    var oldValue               : CGFloat  = 0.0
+    var decimals               : Int      = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var tickLabelDecimals      : Int      = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var location               : Location = Location()       { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var barBackgroundColor     : UIColor  = Helper.BKG_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var barColor               : UIColor  = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var graphicContainerVisible: Bool     = false            { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var valueColor             : UIColor  = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var unitColor              : UIColor  = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var thresholdColor         : UIColor  = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
     
     
     // ******************** Constructor ***********************
@@ -108,6 +85,7 @@ class Tile: UIControl {
             case SkinType.GAUGE            : skin = GaugeSkin(); break
             case SkinType.MAP              : skin = MapSkin(); break
             case SkinType.CIRCULAR_PROGRESS: skin = CircularProgressSkin(); break
+            case SkinType.PERCENTAGE       : skin = PercentageSkin(); break
             default                        : skin = TileSkin(); break
         }
         

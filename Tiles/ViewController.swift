@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     let circularProgressTile = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CIRCULAR_PROGRESS)
     let gaugeTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.GAUGE)
+    let percentageTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.PERCENTAGE)
     //let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
     
     var timer     = Timer()
@@ -23,6 +24,7 @@ class ViewController: UIViewController {
         
         view.addSubview(circularProgressTile)
         view.addSubview(gaugeTile)
+        view.addSubview(percentageTile)
         //view.addSubview(mapTile)
     }
     
@@ -39,6 +41,13 @@ class ViewController: UIViewController {
         gaugeTile.title     = "GaugeSkin"
         gaugeTile.unit      = "V"
         
+        percentageTile.title    = "PercentageSkin"
+        percentageTile.descr    = "Test"
+        percentageTile.unit     = "V"
+        percentageTile.maxValue = 60
+        percentageTile.decimals = 1
+        
+        
         //mapTile.title    = "MapSkin"
         //mapTile.location = Location(latitude: 51.9065938, longitude: 7.6352688)
         
@@ -53,6 +62,7 @@ class ViewController: UIViewController {
         
         circularProgressTile.frame = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
         gaugeTile.frame            = CGRect(x: margin, y: margin + safeArea.top + height + margin, width: width, height: height)
+        percentageTile.frame       = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
         //mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
     }
     
@@ -63,6 +73,7 @@ class ViewController: UIViewController {
     @objc func updateTimer() {
         gaugeTile.value            = CGFloat(drand48() * 100.0)
         circularProgressTile.value = CGFloat(drand48() * 200.0)
+        percentageTile.value       = CGFloat(drand48() * 200.0)
     }
 }
 

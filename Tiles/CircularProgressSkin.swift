@@ -72,12 +72,11 @@ class CircularProgressSkin: Skin {
     
     func animateBar(duration: TimeInterval) {
         let animation            = CABasicAnimation(keyPath: "strokeEnd")
-        animation.duration       = control!.animationDuration
         animation.fromValue      = (control!.oldValue / control!.range) // 0 -> no circle
         animation.toValue        = (control!.value / control!.range)    // 1 -> full circle
+        animation.duration       = duration
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         barLayer.strokeEnd       = (control!.value / control!.range) // end value after animation
-                
         barLayer.add(animation, forKey: "animateBar")
     }
     
@@ -99,11 +98,25 @@ class CircularProgressSkin: Skin {
             let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
             
             // Tile Title
-            drawText(label: ctrl.titleLabel, font: smallFont!, text: ctrl.title, frame: CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08), fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, align: .left)
+            drawText(label   : ctrl.titleLabel,
+                     font    : smallFont!,
+                     text    : ctrl.title,
+                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08),
+                     fgdColor: ctrl.fgdColor,
+                     bkgColor: ctrl.bkgColor,
+                     radius  : 0,
+                     align   : .left)
             
             // Tile Text
             if (ctrl.textVisible) {
-                drawText(label: ctrl.textLabel, font: smallFont!, text: ctrl.text, frame: CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08), fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, align: .left)
+                drawText(label   : ctrl.textLabel,
+                         font    : smallFont!,
+                         text    : ctrl.text,
+                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08),
+                         fgdColor: ctrl.fgdColor,
+                         bkgColor: ctrl.bkgColor,
+                         radius  : 0,
+                         align   : .left)
             } else {
                 ctrl.textLabel.textColor = UIColor.clear
             }
@@ -113,7 +126,7 @@ class CircularProgressSkin: Skin {
             chartSize       = chartWidth < chartHeight ? chartWidth : chartHeight
             y = size * 0.15 + (size * (ctrl.textVisible ? 0.75 : 0.85) - chartSize) * 0.5
             
-            let barBackground = UIBezierPath(arcCenter: CGPoint(x: center, y: y + chartSize * 0.5),
+            let barBackground = UIBezierPath(arcCenter : CGPoint(x: center, y: y + chartSize * 0.5),
                                              radius    : chartSize * 0.4135,
                                              startAngle: 0,
                                              endAngle  : .pi * 2.0,
@@ -122,7 +135,7 @@ class CircularProgressSkin: Skin {
             ctrl.barBackgroundColor.brighter(by: 7)?.setStroke()
             barBackground.stroke()
             
-            bar = UIBezierPath(arcCenter: CGPoint(x: center, y: y + chartSize * 0.5),
+            bar = UIBezierPath(arcCenter : CGPoint(x: center, y: y + chartSize * 0.5),
                                radius    : chartSize * 0.4135,
                                startAngle: -startAngle,
                                endAngle  : -startAngle + .pi * 2.0,
@@ -138,8 +151,17 @@ class CircularProgressSkin: Skin {
             let mediumFont         = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.075 : 0.1))
             let bigFont            = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.15 : 0.2))
             
-            percentageValueLabel.frame = CGRect(x: size * 0.05, y: center - size * 0.35, width: size * 0.9, height:size * 0.288)
-            setAttributedFormatBlock (label: percentageValueLabel, valueFont: bigFont!, formatString: formatString, valueColor: ctrl.valueColor, unit: "%", unitFont: percentageUnitFont!, unitColor: ctrl.unitColor)
+            percentageValueLabel.frame = CGRect(x     : size * 0.05,
+                                                y     : center - size * 0.35,
+                                                width : size * 0.9,
+                                                height: size * 0.288)
+            setAttributedFormatBlock(label       : percentageValueLabel,
+                                     valueFont   : bigFont!,
+                                     formatString: formatString,
+                                     valueColor  : ctrl.valueColor,
+                                     unit        : "%",
+                                     unitFont    : percentageUnitFont!,
+                                     unitColor   : ctrl.unitColor)
             percentageValueLabel.textAlignment   = .center
             percentageValueLabel.numberOfLines   = 1
             percentageValueLabel.backgroundColor = UIColor.clear
@@ -148,11 +170,18 @@ class CircularProgressSkin: Skin {
             percentageValueLabel.countFrom((ctrl.oldValue / ctrl.range * 100.0), to: (ctrl.value / ctrl.range * 100.0), withDuration: ctrl.animationDuration)
             
             valueLabel.frame = CGRect(x: 0, y: 0, width: size * 0.9, height:size * 0.12)
-            setAttributedFormatBlock (label: valueLabel, valueFont: mediumFont!, formatString: formatString, valueColor: ctrl.valueColor, unit: ctrl.unit, unitFont: unitFont!, unitColor: ctrl.unitColor)
+            setAttributedFormatBlock(label       : valueLabel,
+                                     valueFont   : mediumFont!,
+                                     formatString: formatString,
+                                     valueColor  : ctrl.valueColor,
+                                     unit        : ctrl.unit,
+                                     unitFont    : unitFont!,
+                                     unitColor   : ctrl.unitColor)
             valueLabel.textAlignment   = .center
             valueLabel.numberOfLines   = 1
             valueLabel.backgroundColor = UIColor.clear
-            valueLabel.center          = CGPoint(x: size * 0.5, y: ctrl.graphicContainerVisible ? (y + chartSize * 0.5 - chartSize * 0.22) : (y + chartSize * 0.5 + chartSize * 0.22))
+            valueLabel.center          = CGPoint(x: size * 0.5,
+                                                 y: ctrl.graphicContainerVisible ? (y + chartSize * 0.5 - chartSize * 0.22) : (y + chartSize * 0.5 + chartSize * 0.22))
             valueLabel.setNeedsDisplay()
             valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: ctrl.animationDuration)
         }

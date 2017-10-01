@@ -16,6 +16,7 @@
 		4F2E53E01F79021C009FD3B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2E53DE1F79021C009FD3B7 /* Main.storyboard */; };
 		4F2E53E21F79021C009FD3B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2E53E11F79021C009FD3B7 /* Assets.xcassets */; };
 		4F2E53E51F79021C009FD3B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F2E53E31F79021C009FD3B7 /* LaunchScreen.storyboard */; };
+		4F597BB91F80AABE00A251EF /* PercentageSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F597BB81F80AABE00A251EF /* PercentageSkin.swift */; };
 		4F821CD81F793E5E00713915 /* Lato-Reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD61F793E5D00713915 /* Lato-Reg.ttf */; };
 		4F821CD91F793E5E00713915 /* Lato-Bol.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD71F793E5D00713915 /* Lato-Bol.ttf */; };
 		4F821CDB1F79569000713915 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F821CDA1F79569000713915 /* Helper.swift */; };
@@ -39,6 +40,7 @@
 		4F2E53E11F79021C009FD3B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F2E53E41F79021C009FD3B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F2E53E61F79021C009FD3B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F597BB81F80AABE00A251EF /* PercentageSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PercentageSkin.swift; path = Tiles/PercentageSkin.swift; sourceTree = SOURCE_ROOT; };
 		4F821CD61F793E5D00713915 /* Lato-Reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Reg.ttf"; path = "Tiles/Resources/Lato-Reg.ttf"; sourceTree = "<group>"; };
 		4F821CD71F793E5D00713915 /* Lato-Bol.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bol.ttf"; path = "Tiles/Resources/Lato-Bol.ttf"; sourceTree = "<group>"; };
 		4F821CDA1F79569000713915 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -92,13 +94,14 @@
 				4F2E53E11F79021C009FD3B7 /* Assets.xcassets */,
 				4F2E53E31F79021C009FD3B7 /* LaunchScreen.storyboard */,
 				4F2E53E61F79021C009FD3B7 /* Info.plist */,
-				4F16E3661F7CF123005DAAE1 /* Tile.swift */,
-				4F16E3721F7D32DD005DAAE1 /* GaugeSkin.swift */,
 				4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */,
-				4F0174AF1F7E41C600FF3ADE /* TileSkin.swift */,
+				4F16E3661F7CF123005DAAE1 /* Tile.swift */,
 				4F0174B11F7E450100FF3ADE /* Skin.swift */,
+				4F0174AF1F7E41C600FF3ADE /* TileSkin.swift */,
+				4F16E3721F7D32DD005DAAE1 /* GaugeSkin.swift */,
 				4FFEC6081F7E4D6F009F92C8 /* MapSkin.swift */,
 				4F98D1111F7F511200F1DA1D /* CircularProgressSkin.swift */,
+				4F597BB81F80AABE00A251EF /* PercentageSkin.swift */,
 			);
 			path = Tiles;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F597BB91F80AABE00A251EF /* PercentageSkin.swift in Sources */,
 				4F16E3731F7D32DD005DAAE1 /* GaugeSkin.swift in Sources */,
 				4F2E53DD1F79021C009FD3B7 /* ViewController.swift in Sources */,
 				4FFEC60C1F7E4F5C009F92C8 /* Location.swift in Sources */,

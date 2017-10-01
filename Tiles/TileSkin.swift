@@ -63,11 +63,25 @@ class TileSkin: Skin {
             let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
             
             // Tile Title
-            drawText(label: ctrl.titleLabel, font: smallFont!, text: ctrl.title, frame: CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08), fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, align: .left)
+            drawText(label   : ctrl.titleLabel,
+                     font    : smallFont!,
+                     text    : ctrl.title,
+                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08),
+                     fgdColor: ctrl.fgdColor,
+                     bkgColor: ctrl.bkgColor,
+                     radius  : 0,
+                     align   : .left)
             
             // Tile Text
             if (ctrl.textVisible) {
-                drawText(label: ctrl.textLabel, font: smallFont!, text: ctrl.text, frame: CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08), fgdColor: ctrl.fgdColor, bkgColor: ctrl.bkgColor, radius: 0, align: .left)
+                drawText(label   : ctrl.textLabel,
+                         font    : smallFont!,
+                         text    : ctrl.text,
+                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08),
+                         fgdColor: ctrl.fgdColor,
+                         bkgColor: ctrl.bkgColor,
+                         radius  : 0,
+                         align   : .left)
             } else {
                 ctrl.textLabel.textColor = UIColor.clear
             }
