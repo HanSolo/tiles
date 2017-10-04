@@ -12,7 +12,7 @@ import UIKit
 class TileSkin: Skin {
     
 
-    // ******************** Constructors ********************
+    // ******************** Constructors **************
     override init() {
         super.init()
     }
@@ -24,7 +24,7 @@ class TileSkin: Skin {
     }
     
     
-    // ******************** Methods ********************
+    // ******************** Methods *******************
     override func update(cmd: String) {
         if (cmd == Helper.INIT) {            
         } else if (cmd == Helper.REDRAW) {
@@ -42,6 +42,18 @@ class TileSkin: Skin {
         
     }
     
+    
+    // ******************** Event Handling ************
+    /*
+    override func onTileEvent(event: TileEvent) {
+        switch(event.type) {
+        case .VALUE(let value): break
+        case .REDRAW          : break
+        case .RECALC          : break
+        }
+    }
+    */
+ 
     
     // ******************** Redraw ********************
     override func draw(in ctx: CGContext) {

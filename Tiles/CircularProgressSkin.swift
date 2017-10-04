@@ -18,7 +18,7 @@ class CircularProgressSkin: Skin {
     var bar                   = UIBezierPath()
     
     
-    // ******************** Constructors ********************
+    // ******************** Constructors **************
     override init() {
         super.init()
         
@@ -46,7 +46,7 @@ class CircularProgressSkin: Skin {
     }
     
     
-    // ******************** Methods ********************
+    // ******************** Methods *******************
     override func update(cmd: String) {        
         if (cmd == Helper.INIT) {
             control!.addSubview(percentageValueLabel)
@@ -77,14 +77,6 @@ class CircularProgressSkin: Skin {
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         barLayer.strokeEnd       = (control!.value / control!.range) // end value after animation
         barLayer.add(animation, forKey: "animateBar")
-    }
-    
-    override func onTileEvent(event: TileEvent) {
-        switch(event.type) {
-        case .VALUE(let value): break
-        case .REDRAW          : break
-        case .RECALC          : break
-        }
     }
     
     

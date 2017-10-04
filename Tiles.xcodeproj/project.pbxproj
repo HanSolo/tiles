@@ -23,6 +23,7 @@
 		4F3C6F461F84DBA200CFF317 /* TileEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3C6F451F84DBA200CFF317 /* TileEvent.swift */; };
 		4F4D112A1F84E812004070B5 /* TileEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D11291F84E812004070B5 /* TileEventType.swift */; };
 		4F4D112C1F84F13A004070B5 /* ClockSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D112B1F84F13A004070B5 /* ClockSkin.swift */; };
+		4F4D112E1F8500ED004070B5 /* HighLowSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D112D1F8500ED004070B5 /* HighLowSkin.swift */; };
 		4F597BB91F80AABE00A251EF /* PercentageSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F597BB81F80AABE00A251EF /* PercentageSkin.swift */; };
 		4F821CD81F793E5E00713915 /* Lato-Reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD61F793E5D00713915 /* Lato-Reg.ttf */; };
 		4F821CD91F793E5E00713915 /* Lato-Bol.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD71F793E5D00713915 /* Lato-Bol.ttf */; };
@@ -54,6 +55,7 @@
 		4F3C6F451F84DBA200CFF317 /* TileEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileEvent.swift; sourceTree = "<group>"; };
 		4F4D11291F84E812004070B5 /* TileEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileEventType.swift; sourceTree = "<group>"; };
 		4F4D112B1F84F13A004070B5 /* ClockSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockSkin.swift; sourceTree = "<group>"; };
+		4F4D112D1F8500ED004070B5 /* HighLowSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighLowSkin.swift; sourceTree = "<group>"; };
 		4F597BB81F80AABE00A251EF /* PercentageSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PercentageSkin.swift; path = Tiles/PercentageSkin.swift; sourceTree = SOURCE_ROOT; };
 		4F821CD61F793E5D00713915 /* Lato-Reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Reg.ttf"; path = "Tiles/Resources/Lato-Reg.ttf"; sourceTree = "<group>"; };
 		4F821CD71F793E5D00713915 /* Lato-Bol.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bol.ttf"; path = "Tiles/Resources/Lato-Bol.ttf"; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				4F597BB81F80AABE00A251EF /* PercentageSkin.swift */,
 				4F0C9ADC1F821441005F5195 /* SmoothAreaTileSkin.swift */,
 				4F4D112B1F84F13A004070B5 /* ClockSkin.swift */,
+				4F4D112D1F8500ED004070B5 /* HighLowSkin.swift */,
 			);
 			path = Tiles;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				4F2E53DB1F79021C009FD3B7 /* AppDelegate.swift in Sources */,
 				4FFCA4F11F7E150F00491D7D /* AnimLabel.swift in Sources */,
 				4F821CDB1F79569000713915 /* Helper.swift in Sources */,
+				4F4D112E1F8500ED004070B5 /* HighLowSkin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

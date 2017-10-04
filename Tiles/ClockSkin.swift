@@ -18,7 +18,7 @@ class ClockSkin: Skin {
     let dayFormatter  = DateFormatter()
     
     
-    // ******************** Constructors ********************
+    // ******************** Constructors **************
     override init() {
         super.init()
     }
@@ -30,7 +30,7 @@ class ClockSkin: Skin {
     }
     
     
-    // ******************** Methods ********************
+    // ******************** Methods *******************
     override func update(cmd: String) {
         if (cmd == Helper.INIT) {
             control!.addSubview(timeLabel)
@@ -62,6 +62,7 @@ class ClockSkin: Skin {
     }
     
     
+    // ******************** Methods *******************
     @objc func tick() {        
         let now = Date()
         timeLabel.text = timeFormatter.string(from: now)

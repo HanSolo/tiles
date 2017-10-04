@@ -15,7 +15,7 @@ class MapSkin: Skin, MKMapViewDelegate {
     let marker             = MKPointAnnotation()
     
     
-    // ******************** Constructors ********************
+    // ******************** Constructors **************
     override init() {
         super.init()
     }
@@ -27,7 +27,7 @@ class MapSkin: Skin, MKMapViewDelegate {
     }
     
     
-    // ******************** Methods ********************
+    // ******************** Methods *******************
     override func update(cmd: String) {
         if (cmd == Helper.INIT) {
             width   = self.frame.width

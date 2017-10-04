@@ -18,6 +18,7 @@ class Tile: UIControl {
         case PERCENTAGE
         case SMOOTH_AREA
         case CLOCK
+        case HIGH_LOW
     }
     
     let events       = EventBus()
@@ -69,6 +70,8 @@ class Tile: UIControl {
         }
     }
     var oldValue               : CGFloat             = 0.0
+    var referenceValue         : CGFloat             = 0.0
+    var autoReferenceVAlue     : Bool                = true
     var decimals               : Int                 = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
     var tickLabelDecimals      : Int                 = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
     var location               : Location            = Location()       { didSet { skin.update(cmd: Helper.REDRAW) }}
@@ -93,7 +96,8 @@ class Tile: UIControl {
             case SkinType.CIRCULAR_PROGRESS: skin = CircularProgressSkin(); break
             case SkinType.PERCENTAGE       : skin = PercentageSkin(); break
             case SkinType.SMOOTH_AREA      : skin = SmoothAreaTileSkin(); break
-            case SkinType.CLOCK            : skin = ClockSkin(); break;
+            case SkinType.CLOCK            : skin = ClockSkin(); break
+            case SkinType.HIGH_LOW         : skin = HighLowSkin(); break
             default                        : skin = TileSkin(); break
         }
         

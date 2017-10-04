@@ -193,6 +193,7 @@ class PercentageSkin: Skin {
             percentageValueLabel.setNeedsDisplay()
             percentageValueLabel.countFrom((ctrl.oldValue / ctrl.range * 100.0), to: (ctrl.value / ctrl.range * 100.0), withDuration: ctrl.animationDuration)
             
+            // Description
             drawText(label   : descriptionLabel,
                      font    : mediumFont!,
                      text    : ctrl.descr,

@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     let percentageTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.PERCENTAGE)
     let smoothAreaTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.SMOOTH_AREA)
     let clockTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CLOCK)
+    let highLowTile          = Tile(frame: CGRect.zero, skinType: Tile.SkinType.HIGH_LOW)
     //let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
     
     let chartData0           = ChartData(name: "0", timestamp: Date(), value: CGFloat(drand48() * 10.0))
@@ -35,6 +36,7 @@ class ViewController: UIViewController {
         view.addSubview(percentageTile)
         view.addSubview(smoothAreaTile)
         view.addSubview(clockTile)
+        view.addSubview(highLowTile)
         //view.addSubview(mapTile)
     }
     
@@ -63,6 +65,14 @@ class ViewController: UIViewController {
         
         clockTile.title = "ClockSkin"
         
+        highLowTile.title             = "HighLowSkin"
+        highLowTile.text              = "Whatever text"
+        highLowTile.descr             = "Test"
+        highLowTile.unit              = "%"
+        highLowTile.referenceValue    = 6.7
+        highLowTile.decimals          = 1
+        highLowTile.tickLabelDecimals = 1
+        
         //mapTile.title    = "MapSkin"
         //mapTile.location = Location(latitude: 51.9065938, longitude: 7.6352688)
         
@@ -80,6 +90,7 @@ class ViewController: UIViewController {
         percentageTile.frame       = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
         smoothAreaTile.frame       = CGRect(x: margin + width + margin, y: margin + safeArea.top, width: width, height: height)
         clockTile.frame            = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
+        highLowTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
         //mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
     }
     
@@ -97,6 +108,8 @@ class ViewController: UIViewController {
         chartData2.value           = chartData3.value
         chartData3.value           = chartData4.value
         chartData4.value           = CGFloat(drand48() * 10.0)
+        
+        highLowTile.value          = CGFloat(drand48() * 10.0)
     }
 }
 

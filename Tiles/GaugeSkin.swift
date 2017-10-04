@@ -21,7 +21,7 @@ class GaugeSkin: Skin {
     
     
     
-    // ******************** Constructors ********************
+    // ******************** Constructors **************
     override init() {
         super.init()
         valueLabel.method = .easeInOut
@@ -34,7 +34,7 @@ class GaugeSkin: Skin {
     }
     
     
-    // ******************** Methods ********************
+    // ******************** Methods *******************
     override func update(cmd: String) {
         if (cmd == Helper.INIT) {
             control!.textVisible = false
