@@ -74,16 +74,17 @@ class Tile: UIControl {
     var oldValue               : CGFloat             = 0.0
     var referenceValue         : CGFloat             = 0.0
     var autoReferenceVAlue     : Bool                = true
-    var decimals               : Int                 = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var tickLabelDecimals      : Int                 = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var location               : Location            = Location()       { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var barBackgroundColor     : UIColor             = Helper.BKG_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var barColor               : UIColor             = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var graphicContainerVisible: Bool                = false            { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var valueColor             : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var unitColor              : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var thresholdColor         : UIColor             = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var chartDataList          : Array<ChartData>    = []               { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var decimals               : Int                 = 0                { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var tickLabelDecimals      : Int                 = 0                { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var location               : Location            = Location()       { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var barBackgroundColor     : UIColor             = Helper.BKG_COLOR { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var barColor               : UIColor             = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var graphicContainerVisible: Bool                = false            { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var valueColor             : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var unitColor              : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var thresholdColor         : UIColor             = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW)   }}
+    var chartDataList          : Array<ChartData>    = []               { didSet { skin.update(cmd: Helper.UPDATE)   }}
+    var sections               : Array<Section>      = []               { didSet { skin.update(cmd: Helper.SECTIONS) }}
     
     var listeners              : [TileEventListener] = []
     

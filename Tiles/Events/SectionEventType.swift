@@ -1,5 +1,5 @@
 //
-//  TileEventType.swift
+//  SectionEventType.swift
 //  Tiles
 //
 //  Created by Gerrit Grunwald on 04.10.17.
@@ -8,9 +8,8 @@
 
 import UIKit
 
-enum TileEventType {
-    case REDRAW
-    case RECALC
-    case VALUE(value : CGFloat)
-    case SECTION
+enum SectionEventType {
+    case ENTERED
+    case LEFT
+    case UPDATE
 }
