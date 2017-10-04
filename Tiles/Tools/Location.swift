@@ -45,7 +45,7 @@ class Location {
     var NNW = CardinalDirection.NNW("North North-West", 326.25, 348.75)
     
     var name      : String
-    var timestamp : NSDate
+    var timestamp : Date
     var latitude  : Double
     var longitude : Double
     var altitude  : Double
@@ -58,30 +58,30 @@ class Location {
     }
     
     convenience init() {
-        self.init(latitude: 0, longitude: 0, altitude: 0, timestamp: NSDate(), name: "", info: "", color: Helper.BLUE)
+        self.init(latitude: 0, longitude: 0, altitude: 0, timestamp: Date(), name: "", info: "", color: Helper.BLUE)
     }
     convenience init(latitude:Double, longitude:Double) {
-        self.init(latitude: latitude, longitude:longitude, altitude: 0, timestamp:NSDate(), name: "", info: "", color: Helper.BLUE)
+        self.init(latitude: latitude, longitude:longitude, altitude: 0, timestamp:Date(), name: "", info: "", color: Helper.BLUE)
     }
     convenience init(latitude:Double, longitude:Double, name:String) {
-        self.init(latitude: latitude, longitude: longitude, altitude:0, timestamp: NSDate() ,name: name, info: "", color: Helper.BLUE);
+        self.init(latitude: latitude, longitude: longitude, altitude:0, timestamp: Date() ,name: name, info: "", color: Helper.BLUE);
     }
     convenience init(latitude:Double, longitude:Double, name:String, color:UIColor) {
-        self.init(latitude:latitude, longitude:longitude, altitude:0, timestamp:NSDate() ,name:name, info:"", color:color);
+        self.init(latitude:latitude, longitude:longitude, altitude:0, timestamp:Date() ,name:name, info:"", color:color);
     }
     convenience init(latitude:Double, longitude:Double, name:String, info:String) {
-        self.init(latitude:latitude, longitude:longitude, altitude:0, timestamp:NSDate() ,name:name, info:info, color:Helper.BLUE);
+        self.init(latitude:latitude, longitude:longitude, altitude:0, timestamp:Date() ,name:name, info:info, color:Helper.BLUE);
     }
     convenience init(latitude:Double, longitude:Double, name:String, info:String, color:UIColor) {
-        self.init(latitude:latitude, longitude:longitude, altitude:0, timestamp:NSDate() ,name:name, info:info, color:color);
+        self.init(latitude:latitude, longitude:longitude, altitude:0, timestamp:Date() ,name:name, info:info, color:color);
     }
     convenience init(latitude:Double, longitude:Double, altitude:Double, name:String) {
-        self.init(latitude:latitude, longitude:longitude, altitude:altitude, timestamp:NSDate(), name:name, info:"", color:Helper.BLUE);
+        self.init(latitude:latitude, longitude:longitude, altitude:altitude, timestamp:Date(), name:name, info:"", color:Helper.BLUE);
     }
-    convenience init(latitude:Double, longitude:Double, altitude:Double, timestamp:NSDate, name:String) {
+    convenience init(latitude:Double, longitude:Double, altitude:Double, timestamp:Date, name:String) {
         self.init(latitude:latitude, longitude:longitude, altitude:altitude, timestamp:timestamp, name:name, info:"", color:Helper.BLUE);
     }
-    init(latitude:Double, longitude:Double, altitude:Double, timestamp:NSDate, name:String, info:String, color:UIColor) {
+    init(latitude:Double, longitude:Double, altitude:Double, timestamp:Date, name:String, info:String, color:UIColor) {
         self.latitude  = latitude
         self.longitude = longitude
         self.altitude  = altitude
@@ -98,15 +98,15 @@ class Location {
     func set(latitude: Double, longitude: Double) {
         self.latitude  = latitude
         self.longitude = longitude
-        timestamp      = NSDate()
+        timestamp      = Date()
     }
-    func set(latitude: Double, longitude: Double, altitude: Double, timestamp: NSDate) {
+    func set(latitude: Double, longitude: Double, altitude: Double, timestamp: Date) {
         self.latitude  = latitude
         self.longitude = longitude
         self.altitude  = altitude
         self.timestamp = timestamp
     }
-    func set(latitude: Double, longitude: Double, altitude: Double, timestamp: NSDate, info: String) {
+    func set(latitude: Double, longitude: Double, altitude: Double, timestamp: Date, info: String) {
         self.latitude  = latitude
         self.longitude = longitude
         self.altitude  = altitude

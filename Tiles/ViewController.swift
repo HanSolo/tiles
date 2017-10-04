@@ -12,9 +12,17 @@ class ViewController: UIViewController {
     let circularProgressTile = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CIRCULAR_PROGRESS)
     let gaugeTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.GAUGE)
     let percentageTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.PERCENTAGE)
+    let smoothAreaTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.SMOOTH_AREA)
+    let clockTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CLOCK)
     //let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
     
-    var timer     = Timer()
+    let chartData0           = ChartData(name: "0", timestamp: Date(), value: CGFloat(drand48() * 10.0))
+    let chartData1           = ChartData(name: "1", timestamp: Date(), value: CGFloat(drand48() * 10.0))
+    let chartData2           = ChartData(name: "2", timestamp: Date(), value: CGFloat(drand48() * 10.0))
+    let chartData3           = ChartData(name: "3", timestamp: Date(), value: CGFloat(drand48() * 10.0))
+    let chartData4           = ChartData(name: "4", timestamp: Date(), value: CGFloat(drand48() * 10.0))
+    
+    var timer                = Timer()
    
     
     override func viewDidLoad() {
@@ -25,6 +33,8 @@ class ViewController: UIViewController {
         view.addSubview(circularProgressTile)
         view.addSubview(gaugeTile)
         view.addSubview(percentageTile)
+        view.addSubview(smoothAreaTile)
+        view.addSubview(clockTile)
         //view.addSubview(mapTile)
     }
     
@@ -47,6 +57,11 @@ class ViewController: UIViewController {
         percentageTile.maxValue = 60
         percentageTile.decimals = 1
         
+        smoothAreaTile.title = "SmoothAreaSkin"
+        smoothAreaTile.unit  = "V"        
+        smoothAreaTile.chartDataList.append(contentsOf: [ chartData0, chartData1, chartData2, chartData3, chartData4 ])
+        
+        clockTile.title = "ClockSkin"
         
         //mapTile.title    = "MapSkin"
         //mapTile.location = Location(latitude: 51.9065938, longitude: 7.6352688)
@@ -63,6 +78,8 @@ class ViewController: UIViewController {
         circularProgressTile.frame = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
         gaugeTile.frame            = CGRect(x: margin, y: margin + safeArea.top + height + margin, width: width, height: height)
         percentageTile.frame       = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
+        smoothAreaTile.frame       = CGRect(x: margin + width + margin, y: margin + safeArea.top, width: width, height: height)
+        clockTile.frame            = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
         //mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
     }
     
@@ -74,6 +91,12 @@ class ViewController: UIViewController {
         gaugeTile.value            = CGFloat(drand48() * 100.0)
         circularProgressTile.value = CGFloat(drand48() * 200.0)
         percentageTile.value       = CGFloat(drand48() * 200.0)
+        
+        chartData0.value           = chartData1.value
+        chartData1.value           = chartData2.value
+        chartData2.value           = chartData3.value
+        chartData3.value           = chartData4.value
+        chartData4.value           = CGFloat(drand48() * 10.0)
     }
 }
 

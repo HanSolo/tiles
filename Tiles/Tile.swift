@@ -16,7 +16,11 @@ class Tile: UIControl {
         case MAP
         case CIRCULAR_PROGRESS
         case PERCENTAGE
+        case SMOOTH_AREA
+        case CLOCK
     }
+    
+    let events       = EventBus()
     
     var skin         :Skin = TileSkin()
     let titleLabel   = UILabel()
@@ -61,21 +65,23 @@ class Tile: UIControl {
                 skin.update(cmd: Helper.UNCHANGED)
             }
             skin.update(prop: "value", value: value)
-            
-            // Kick off animation
-            //skin.setValue(value, forKey: "currentValue")
+            //fireTileEvent(event: TileEvent(type: TileEventType.VALUE(value: value)))
         }
     }
-    var oldValue               : CGFloat  = 0.0
-    var decimals               : Int      = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var tickLabelDecimals      : Int      = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var location               : Location = Location()       { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var barBackgroundColor     : UIColor  = Helper.BKG_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var barColor               : UIColor  = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var graphicContainerVisible: Bool     = false            { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var valueColor             : UIColor  = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var unitColor              : UIColor  = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var thresholdColor         : UIColor  = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var oldValue               : CGFloat             = 0.0
+    var decimals               : Int                 = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var tickLabelDecimals      : Int                 = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var location               : Location            = Location()       { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var barBackgroundColor     : UIColor             = Helper.BKG_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var barColor               : UIColor             = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var graphicContainerVisible: Bool                = false            { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var valueColor             : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var unitColor              : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var thresholdColor         : UIColor             = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var chartDataList          : Array<ChartData>    = []               { didSet { skin.update(cmd: Helper.UPDATE) }}
+    
+    var listeners              : [TileEventListener] = []
+    
     
     
     // ******************** Constructor ***********************
@@ -86,6 +92,8 @@ class Tile: UIControl {
             case SkinType.MAP              : skin = MapSkin(); break
             case SkinType.CIRCULAR_PROGRESS: skin = CircularProgressSkin(); break
             case SkinType.PERCENTAGE       : skin = PercentageSkin(); break
+            case SkinType.SMOOTH_AREA      : skin = SmoothAreaTileSkin(); break
+            case SkinType.CLOCK            : skin = ClockSkin(); break;
             default                        : skin = TileSkin(); break
         }
         
@@ -124,11 +132,31 @@ class Tile: UIControl {
     }
     
     
-    // ******************** Methods *********************
+    // ******************** Methods ********************
     override var frame: CGRect {
         didSet {
             redraw()
         }
+    }
+    
+    
+    // ******************** Event Handling *************
+    func addTileEventListener(listener: TileEventListener) {
+        if (!listeners.isEmpty) {
+            for i in 0...listeners.count { if (listeners[i] === listener) { return } }
+        }
+        listeners.append(listener)
+    }
+    func removeTileEventListener(listener: TileEventListener) {
+        for i in 0...listeners.count {
+            if listeners[i] === listener {
+                listeners.remove(at: i)
+                return
+            }
+        }
+    }
+    func fireTileEvent(event : TileEvent) {        
+        listeners.forEach { listener in listener.onTileEvent(event: event) }
     }
     
     

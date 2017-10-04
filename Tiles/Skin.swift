@@ -9,8 +9,13 @@
 import UIKit
 
 
-class Skin :CALayer {
-    public weak var control :Tile?
+class Skin : CALayer, TileEventListener {
+    public weak var control : Tile?
+    var width               : CGFloat = Helper.DEFAULT_SIZE
+    var height              : CGFloat = Helper.DEFAULT_SIZE
+    var size                : CGFloat = Helper.DEFAULT_SIZE
+    var centerX             : CGFloat = Helper.DEFAULT_SIZE * 0.5
+    var centerY             : CGFloat = Helper.DEFAULT_SIZE * 0.5
     
     func update(cmd: String) {
         preconditionFailure("This method must be overridden")
@@ -18,6 +23,10 @@ class Skin :CALayer {
     
     func update<T>(prop: String, value: T) {
         preconditionFailure("This method must be overridden") 
+    }
+    
+    func onTileEvent(event: TileEvent) {
+        
     }
     
     func drawText(label : UILabel, font: UIFont, text: String, frame: CGRect, fgdColor: UIColor, bkgColor: UIColor, radius: CGFloat, align: NSTextAlignment) {

@@ -9,10 +9,8 @@
 import UIKit
 
 
-class GaugeSkin: Skin {    
-    var size           : CGFloat = Helper.DEFAULT_SIZE
-    var center         : CGFloat = Helper.DEFAULT_SIZE * 0.5
-    var angleStep      : CGFloat = .pi / 100.0
+class GaugeSkin: Skin {
+    var angleStep : CGFloat = .pi / 100.0
     
     let valueLabel     = AnimLabel()
     let minValueLabel  = UILabel()
@@ -84,8 +82,11 @@ class GaugeSkin: Skin {
         super.draw(in: ctx)
         UIGraphicsPushContext(ctx)
         if let ctrl = control {
-            size   = ctrl.size
-            center = size * 0.5
+            width   = self.frame.width
+            height  = self.frame.height
+            size    = width < height ? width : height
+            centerX = width * 0.5
+            centerY = height * 0.5
             
             // Background
             let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
@@ -103,7 +104,7 @@ class GaugeSkin: Skin {
             drawText(label   : ctrl.titleLabel,
                      font    : smallFont!,
                      text    : ctrl.title,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: size * 0.08),
                      fgdColor: ctrl.fgdColor,
                      bkgColor: ctrl.bkgColor,
                      radius  : 0,
@@ -114,7 +115,7 @@ class GaugeSkin: Skin {
                 drawText(label   : ctrl.textLabel,
                          font    : smallFont!,
                          text    : ctrl.text,
-                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08),
+                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
                          fgdColor: ctrl.fgdColor,
                          bkgColor: ctrl.bkgColor,
                          radius  : 0,
@@ -126,7 +127,7 @@ class GaugeSkin: Skin {
             // Track
             let radius = size * 0.3
             let track  = UIBezierPath()
-            track.addArc(withCenter: CGPoint(x: center, y: center + size * 0.26),
+            track.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
                          radius    : radius,
                          startAngle: 0.0,
                          endAngle  : CGFloat(Double.pi),
@@ -139,7 +140,7 @@ class GaugeSkin: Skin {
             // Threshold Area
             let thresholdAngle = (ctrl.maxValue - ctrl.threshold) * angleStep
             let thresholdTrack = UIBezierPath()
-            thresholdTrack.addArc(withCenter: CGPoint(x: center, y: center + size * 0.26),
+            thresholdTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
                                   radius    : radius,
                                   startAngle: 0.0, endAngle: -thresholdAngle,
                                   clockwise : false)
@@ -152,7 +153,7 @@ class GaugeSkin: Skin {
             let tickLabelFormatString = "%.\(ctrl.tickLabelDecimals)f"
             
             // Value and Unit text
-            valueLabel.frame           = CGRect(x: size * 0.05, y: center - size * 0.35, width: size * 0.9, height:size * 0.288)
+            valueLabel.frame           = CGRect(x: size * 0.05, y: centerY - size * 0.35, width: size * 0.9, height:size * 0.288)
             valueLabel.textAlignment   = .center            
             setAttributedFormatBlock (label       : valueLabel,
                                       valueFont   : bigFont!,
@@ -175,7 +176,7 @@ class GaugeSkin: Skin {
                                radius  : 0,
                                format  : tickLabelFormatString,
                                align   : NSTextAlignment.center,
-                               center  : CGPoint(x: center - size * 0.3, y: center + size * 0.325))
+                               center  : CGPoint(x: centerX - size * 0.3, y: centerY + size * 0.325))
             
             // Max Value Text
             drawTextWithFormat(label   : maxValueLabel,
@@ -186,7 +187,7 @@ class GaugeSkin: Skin {
                                radius  : 0,
                                format  : tickLabelFormatString,
                                align   : NSTextAlignment.center,
-                               center  : CGPoint(x: center + size * 0.3, y: center + size * 0.325))
+                               center  : CGPoint(x: centerX + size * 0.3, y: centerY + size * 0.325))
             
             // Threshold Text
             thresholdLabel.textAlignment       = .center
@@ -197,7 +198,7 @@ class GaugeSkin: Skin {
                                                         y     : 0.5,
                                                         width : (thresholdLabel.frame.width + size * 0.05),
                                                         height: size * 0.09)
-            thresholdLabel.center              = CGPoint(x: size * 0.5, y: center + size * 0.35 + size * 0.045)
+            thresholdLabel.center              = CGPoint(x: size * 0.5, y: centerY + size * 0.35 + size * 0.045)
             thresholdLabel.textColor           = ctrl.bkgColor
             thresholdLabel.backgroundColor     = ctrl.value > ctrl.threshold ? ctrl.thresholdColor : Helper.GRAY
             thresholdLabel.layer.masksToBounds = true

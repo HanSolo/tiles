@@ -9,8 +9,6 @@
 import UIKit
 
 class CircularProgressSkin: Skin {
-    var size        : CGFloat = Helper.DEFAULT_SIZE
-    var center      : CGFloat = Helper.DEFAULT_SIZE * 0.5
     var chartSize   : CGFloat = 0.0
     var y           : CGFloat = 0
     let valueLabel            = AnimLabel()
@@ -29,7 +27,7 @@ class CircularProgressSkin: Skin {
         valueLabel.method = .easeInOut
         valueLabel.format = "%.1f"
         
-        bar = UIBezierPath(arcCenter: CGPoint(x: center, y: center),
+        bar = UIBezierPath(arcCenter: CGPoint(x: centerX, y: centerY),
                            radius    : size * 0.4135,
                            startAngle: -startAngle,
                            endAngle  : -startAngle + .pi * 2.0,
@@ -49,10 +47,11 @@ class CircularProgressSkin: Skin {
     
     
     // ******************** Methods ********************
-    override func update(cmd: String) {
+    override func update(cmd: String) {        
         if (cmd == Helper.INIT) {
             control!.addSubview(percentageValueLabel)
             control!.addSubview(valueLabel)
+            control!.addTileEventListener(listener: self)
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         }
@@ -80,14 +79,25 @@ class CircularProgressSkin: Skin {
         barLayer.add(animation, forKey: "animateBar")
     }
     
+    override func onTileEvent(event: TileEvent) {
+        switch(event.type) {
+        case .VALUE(let value): break
+        case .REDRAW          : break
+        case .RECALC          : break
+        }
+    }
+    
     
     // ******************** Redraw ********************
     override func draw(in ctx: CGContext) {
         super.draw(in: ctx)
         UIGraphicsPushContext(ctx)
         if let ctrl = control {
-            size   = ctrl.size
-            center = size * 0.5
+            width   = self.frame.width
+            height  = self.frame.height
+            size    = width < height ? width : height
+            centerX = width * 0.5
+            centerY = height * 0.5
             
             // Background
             let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
@@ -101,7 +111,7 @@ class CircularProgressSkin: Skin {
             drawText(label   : ctrl.titleLabel,
                      font    : smallFont!,
                      text    : ctrl.title,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: size * 0.08),
                      fgdColor: ctrl.fgdColor,
                      bkgColor: ctrl.bkgColor,
                      radius  : 0,
@@ -112,7 +122,7 @@ class CircularProgressSkin: Skin {
                 drawText(label   : ctrl.textLabel,
                          font    : smallFont!,
                          text    : ctrl.text,
-                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08),
+                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
                          fgdColor: ctrl.fgdColor,
                          bkgColor: ctrl.bkgColor,
                          radius  : 0,
@@ -121,12 +131,12 @@ class CircularProgressSkin: Skin {
                 ctrl.textLabel.textColor = UIColor.clear
             }
             
-            let chartWidth  = size * 0.9
+            let chartWidth  = width * 0.9
             let chartHeight = ctrl.textVisible ? (size * 0.72) : (size * 0.795)
             chartSize       = chartWidth < chartHeight ? chartWidth : chartHeight
             y = size * 0.15 + (size * (ctrl.textVisible ? 0.75 : 0.85) - chartSize) * 0.5
             
-            let barBackground = UIBezierPath(arcCenter : CGPoint(x: center, y: y + chartSize * 0.5),
+            let barBackground = UIBezierPath(arcCenter : CGPoint(x: centerX, y: y + chartSize * 0.5),
                                              radius    : chartSize * 0.4135,
                                              startAngle: 0,
                                              endAngle  : .pi * 2.0,
@@ -135,7 +145,7 @@ class CircularProgressSkin: Skin {
             ctrl.barBackgroundColor.brighter(by: 7)?.setStroke()
             barBackground.stroke()
             
-            bar = UIBezierPath(arcCenter : CGPoint(x: center, y: y + chartSize * 0.5),
+            bar = UIBezierPath(arcCenter : CGPoint(x: centerX, y: y + chartSize * 0.5),
                                radius    : chartSize * 0.4135,
                                startAngle: -startAngle,
                                endAngle  : -startAngle + .pi * 2.0,
@@ -152,7 +162,7 @@ class CircularProgressSkin: Skin {
             let bigFont            = UIFont.init(name: "Lato-Regular", size: chartSize * (ctrl.graphicContainerVisible ? 0.15 : 0.2))
             
             percentageValueLabel.frame = CGRect(x     : size * 0.05,
-                                                y     : center - size * 0.35,
+                                                y     : centerY - size * 0.35,
                                                 width : size * 0.9,
                                                 height: size * 0.288)
             setAttributedFormatBlock(label       : percentageValueLabel,

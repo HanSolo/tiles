@@ -32,6 +32,7 @@ class Helper: NSObject {
     static let EXCEEDED      = String("exceeded")
     static let UNDERRUN      = String("underrun")
     static let UNCHANGED     = String("unchanged")
+    static let UPDATE        = String("update")
     
     static func clamp(min: Double, max: Double, value: Double) -> Double {
         if (value < min) { return min }

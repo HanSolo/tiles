@@ -10,10 +10,8 @@ import UIKit
 
 
 class TileSkin: Skin {
-    var size   : CGFloat = Helper.DEFAULT_SIZE
-    var center : CGFloat = Helper.DEFAULT_SIZE * 0.5
     
-    
+
     // ******************** Constructors ********************
     override init() {
         super.init()
@@ -28,8 +26,7 @@ class TileSkin: Skin {
     
     // ******************** Methods ********************
     override func update(cmd: String) {
-        if (cmd == Helper.INIT) {
-            
+        if (cmd == Helper.INIT) {            
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         }
@@ -51,8 +48,11 @@ class TileSkin: Skin {
         super.draw(in: ctx)
         UIGraphicsPushContext(ctx)
         if let ctrl = control {
-            size   = ctrl.size
-            center = size * 0.5
+            width   = self.frame.width
+            height  = self.frame.height
+            size    = width < height ? width : height
+            centerX = width * 0.5
+            centerY = height * 0.5
             
             // Background
             let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
@@ -66,7 +66,7 @@ class TileSkin: Skin {
             drawText(label   : ctrl.titleLabel,
                      font    : smallFont!,
                      text    : ctrl.title,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: height * 0.08),
                      fgdColor: ctrl.fgdColor,
                      bkgColor: ctrl.bkgColor,
                      radius  : 0,
@@ -77,7 +77,7 @@ class TileSkin: Skin {
                 drawText(label   : ctrl.textLabel,
                          font    : smallFont!,
                          text    : ctrl.text,
-                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08),
+                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
                          fgdColor: ctrl.fgdColor,
                          bkgColor: ctrl.bkgColor,
                          radius  : 0,

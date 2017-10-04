@@ -9,9 +9,6 @@
 import UIKit
 
 class PercentageSkin: Skin {
-    var size        : CGFloat = Helper.DEFAULT_SIZE
-    var center      : CGFloat = Helper.DEFAULT_SIZE * 0.5
-    
     let valueLabel            = AnimLabel()
     let percentageValueLabel  = AnimLabel()
     let descriptionLabel      = UILabel()
@@ -32,7 +29,7 @@ class PercentageSkin: Skin {
         valueLabel.format        = "%.1f"
         valueLabel.textAlignment = .right
         
-        bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: 0, height: size * 0.035),
+        bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035, width: 0, height: size * 0.035),
                            byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
                            cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
 
@@ -81,8 +78,8 @@ class PercentageSkin: Skin {
     
     func animateBar(duration: TimeInterval) {
         bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: Helper.clamp(min: 0, max: size, value:(control!.oldValue / control!.range) * size), height: size * 0.035),
-                                    byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
-                                    cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
+                           byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
+                           cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
         let toPath = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: Helper.clamp(min: 0, max: size, value:(control!.value / control!.range) * size), height: size * 0.035),
                                   byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
                                   cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
@@ -102,8 +99,11 @@ class PercentageSkin: Skin {
         super.draw(in: ctx)
         UIGraphicsPushContext(ctx)
         if let ctrl = control {
-            size   = ctrl.size
-            center = size * 0.5
+            width   = self.frame.width
+            height  = self.frame.height
+            size    = width < height ? width : height
+            centerX = width * 0.5
+            centerY = height * 0.5
             
             // Background
             let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
@@ -117,7 +117,7 @@ class PercentageSkin: Skin {
             drawText(label   : ctrl.titleLabel,
                      font    : smallFont!,
                      text    : ctrl.title,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: frame.width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: size * 0.08),
                      fgdColor: ctrl.fgdColor,
                      bkgColor: ctrl.bkgColor,
                      radius  : 0,
@@ -128,7 +128,7 @@ class PercentageSkin: Skin {
                 drawText(label   : ctrl.textLabel,
                          font    : smallFont!,
                          text    : ctrl.text,
-                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: frame.width - size * 0.1, height: size * 0.08),
+                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
                          fgdColor: ctrl.fgdColor,
                          bkgColor: ctrl.bkgColor,
                          radius  : 0,
@@ -137,21 +137,21 @@ class PercentageSkin: Skin {
                 ctrl.textLabel.textColor = UIColor.clear
             }
             
-            let barBackground = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: size, height: size * 0.035),
+            let barBackground = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035, width: size, height: size * 0.035),
                                              byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
                                              cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
             ctrl.barBackgroundColor.brighter(by: 7)?.setFill()
             barBackground.fill()
             
-            bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: (ctrl.value / ctrl.range) * size, height: size * 0.035),
+            bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035, width: (ctrl.value / ctrl.range) * size, height: size * 0.035),
                                byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
                                cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
             barLayer.fillColor = ctrl.barColor.cgColor
             
+            // Value
             let formatString          = "%.\(ctrl.decimals)f"
             let tickLabelFormatString = "%.\(ctrl.tickLabelDecimals)f"
             
-            //let unitFont           = UIFont.init(name: "Lato-Regular", size: size * (ctrl.graphicContainerVisible ? 0.035 : 0.04))
             let biggerFont         = UIFont.init(name: "Lato-Regular", size: size * 0.08)
             let mediumFont         = UIFont.init(name: "Lato-Regular", size: size * 0.1)
             let unitFont           = UIFont.init(name: "Lato-Regular", size: size * 0.12)
@@ -175,8 +175,9 @@ class PercentageSkin: Skin {
             valueLabel.setNeedsDisplay()
             valueLabel.countFrom(ctrl.oldValue, to: ctrl.value, withDuration: ctrl.animationDuration)
             
+            // Percentage
             percentageValueLabel.frame = CGRect(x     : size * 0.05,
-                                                y     : size - size * 0.36,
+                                                y     : height - size * 0.36,
                                                 width : size * 0.9,
                                                 height: size * 0.21)
             setAttributedFormatBlock(label       : percentageValueLabel,
@@ -210,7 +211,7 @@ class PercentageSkin: Skin {
                                                        y     : 0.5,
                                                        width : (maxValueLabel.frame.width + size * 0.05),
                                                        height: size * 0.09)
-            maxValueLabel.center              = CGPoint(x: (size - size * 0.05) - (maxValueLabel.frame.width * 0.5 + size * 0.05) * 0.75, y: size - size * 0.2225)
+            maxValueLabel.center              = CGPoint(x: (width - size * 0.05) - (maxValueLabel.frame.width * 0.5 + size * 0.05) * 0.75, y: height - size * 0.2225)
             maxValueLabel.textColor           = ctrl.bkgColor
             maxValueLabel.backgroundColor     = ctrl.value > ctrl.maxValue ? ctrl.barColor : ctrl.thresholdColor
             maxValueLabel.layer.masksToBounds = true
