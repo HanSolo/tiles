@@ -19,6 +19,8 @@ class Tile: UIControl {
         case SMOOTH_AREA
         case CLOCK
         case HIGH_LOW
+        case NUMBER
+        case TEXT
     }
     
     let events       = EventBus()
@@ -98,7 +100,9 @@ class Tile: UIControl {
             case SkinType.SMOOTH_AREA      : skin = SmoothAreaTileSkin(); break
             case SkinType.CLOCK            : skin = ClockSkin(); break
             case SkinType.HIGH_LOW         : skin = HighLowSkin(); break
-            default                        : skin = TileSkin(); break
+            case SkinType.NUMBER           : skin = NumberSkin(); break
+            case SkinType.TEXT             : skin = TextSkin(); break
+        default                            : skin = TileSkin(); break
         }
         
         skin.control = self
