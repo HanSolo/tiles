@@ -10,9 +10,11 @@ import UIKit
 
 
 class TileEvent {
+    var src  : Tile
     var type : TileEventType
     
-    init(type : TileEventType) {
+    init(src : Tile, type : TileEventType) {
+        self.src  = src
         self.type = type
     }
 }

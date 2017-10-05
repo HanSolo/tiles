@@ -83,8 +83,8 @@ class Tile: UIControl {
     var valueColor             : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW)   }}
     var unitColor              : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.REDRAW)   }}
     var thresholdColor         : UIColor             = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW)   }}
-    var chartDataList          : Array<ChartData>    = []               { didSet { skin.update(cmd: Helper.UPDATE)   }}
-    var sections               : Array<Section>      = []               { didSet { skin.update(cmd: Helper.SECTIONS) }}
+    var chartDataList          : [ChartData]         = []               { didSet { skin.update(cmd: Helper.UPDATE)   }}
+    var sections               : [Section]           = []               { didSet { skin.update(cmd: Helper.SECTIONS) }}
     
     var listeners              : [TileEventListener] = []
     

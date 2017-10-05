@@ -9,16 +9,13 @@
 import UIKit
 
 class Section {
-    let ENTERED_EVENT = SectionEvent(type: SectionEventType.ENTERED)
-    let LEFT_EVENT    = SectionEvent(type: SectionEventType.LEFT)
-    let UPDATE_EVENT  = SectionEvent(type: SectionEventType.UPDATE)
-    var start          : CGFloat { didSet { fireSectionEvent(event: UPDATE_EVENT) }}
-    var stop           : CGFloat { didSet { fireSectionEvent(event: UPDATE_EVENT) }}
-    var text           : String  { didSet { fireSectionEvent(event: UPDATE_EVENT) }}
-    var icon           : UIImage { didSet { fireSectionEvent(event: UPDATE_EVENT) }}
-    var color          : UIColor { didSet { fireSectionEvent(event: UPDATE_EVENT) }}
-    var highlightColor : UIColor { didSet { fireSectionEvent(event: UPDATE_EVENT) }}
-    var textColor      : UIColor { didSet { fireSectionEvent(event: UPDATE_EVENT) }}
+    var start          : CGFloat { didSet { fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.UPDATE)) }}
+    var stop           : CGFloat { didSet { fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.UPDATE)) }}
+    var text           : String  { didSet { fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.UPDATE)) }}
+    var icon           : UIImage { didSet { fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.UPDATE)) }}
+    var color          : UIColor { didSet { fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.UPDATE)) }}
+    var highlightColor : UIColor { didSet { fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.UPDATE)) }}
+    var textColor      : UIColor { didSet { fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.UPDATE)) }}
     var checkedValue   : CGFloat
     var listeners      : [SectionEventListener] = []
     
@@ -69,9 +66,9 @@ class Section {
         let wasInSection = contains(value: checkedValue)
         let isInSection  = contains(value: value)
         if (!wasInSection && isInSection) {
-            fireSectionEvent(event: ENTERED_EVENT)
+            fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.ENTERED))
         } else if (wasInSection && !isInSection) {
-            fireSectionEvent(event: LEFT_EVENT)
+            fireSectionEvent(event: SectionEvent(src: self, type: SectionEventType.LEFT))
         }
         checkedValue = value
     }

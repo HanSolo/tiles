@@ -9,9 +9,11 @@
 import UIKit
 
 class SectionEvent {
+    var src  : Section
     var type : SectionEventType
     
-    init(type : SectionEventType) {
+    init(src : Section, type : SectionEventType) {
+        self.src  = src
         self.type = type
     }
 }

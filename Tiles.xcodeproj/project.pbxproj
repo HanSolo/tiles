@@ -68,7 +68,7 @@
 		4F4D11351F853E16004070B5 /* SectionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionEvent.swift; sourceTree = "<group>"; };
 		4F4D11371F853E27004070B5 /* SectionEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionEventListener.swift; sourceTree = "<group>"; };
 		4F4D11391F853E36004070B5 /* SectionEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionEventType.swift; sourceTree = "<group>"; };
-		4F597BB81F80AABE00A251EF /* PercentageSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PercentageSkin.swift; path = Tiles/PercentageSkin.swift; sourceTree = SOURCE_ROOT; };
+		4F597BB81F80AABE00A251EF /* PercentageSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PercentageSkin.swift; path = Tiles/Skins/PercentageSkin.swift; sourceTree = SOURCE_ROOT; };
 		4F821CD61F793E5D00713915 /* Lato-Reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Reg.ttf"; path = "Tiles/Resources/Lato-Reg.ttf"; sourceTree = "<group>"; };
 		4F821CD71F793E5D00713915 /* Lato-Bol.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bol.ttf"; path = "Tiles/Resources/Lato-Bol.ttf"; sourceTree = "<group>"; };
 		4F821CDA1F79569000713915 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -136,6 +136,7 @@
 		4F2E53D91F79021C009FD3B7 /* Tiles */ = {
 			isa = PBXGroup;
 			children = (
+				4F618AD81F860C3100C7395B /* Skins */,
 				4F0C9AE11F8218BE005F5195 /* Events */,
 				4F0C9ADE1F82167C005F5195 /* Chart */,
 				4F98D1131F7F688F00F1DA1D /* Extensions */,
@@ -149,6 +150,14 @@
 				4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */,
 				4F16E3661F7CF123005DAAE1 /* Tile.swift */,
 				4F0174B11F7E450100FF3ADE /* Skin.swift */,
+				4F4D11331F853994004070B5 /* Section.swift */,
+			);
+			path = Tiles;
+			sourceTree = "<group>";
+		};
+		4F618AD81F860C3100C7395B /* Skins */ = {
+			isa = PBXGroup;
+			children = (
 				4F0174AF1F7E41C600FF3ADE /* TileSkin.swift */,
 				4F16E3721F7D32DD005DAAE1 /* GaugeSkin.swift */,
 				4FFEC6081F7E4D6F009F92C8 /* MapSkin.swift */,
@@ -159,9 +168,8 @@
 				4F4D112D1F8500ED004070B5 /* HighLowSkin.swift */,
 				4F4D112F1F8536CB004070B5 /* NumberSkin.swift */,
 				4F4D11311F853726004070B5 /* TextSkin.swift */,
-				4F4D11331F853994004070B5 /* Section.swift */,
 			);
-			path = Tiles;
+			path = Skins;
 			sourceTree = "<group>";
 		};
 		4F98D1131F7F688F00F1DA1D /* Extensions */ = {
