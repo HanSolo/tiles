@@ -92,7 +92,7 @@ class ClockSkin: Skin {
                  fgdColor: tile.fgdColor,
                  bkgColor: tile.bkgColor,
                  radius  : 0,
-                 align   : .left)
+                 align   : tile.titleAlignment)
         
         // Tile Text
         if (tile.textVisible) {
@@ -103,7 +103,7 @@ class ClockSkin: Skin {
                      fgdColor: tile.fgdColor,
                      bkgColor: tile.bkgColor,
                      radius  : 0,
-                     align   : .left)
+                     align   : tile.textAlignment)
         } else {
             tile.textLabel.textColor = UIColor.clear
         }

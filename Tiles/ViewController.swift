@@ -58,6 +58,7 @@ class ViewController: UIViewController {
         percentageTile.unit     = "V"
         percentageTile.maxValue = 60
         percentageTile.decimals = 1
+        percentageTile.titleAlignment = .right
         
         smoothAreaTile.title = "SmoothAreaSkin"
         smoothAreaTile.unit  = "V"        
