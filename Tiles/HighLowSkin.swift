@@ -45,28 +45,28 @@ class HighLowSkin: Skin {
     
     // ******************** Methods *******************
     override func update(cmd: String) {
+        guard let tile = control else { return }
+        
         if (cmd == Helper.INIT) {
-            control!.addSubview(valueLabel)
-            control!.addSubview(referenceLabel)
-            control!.addSubview(descriptionLabel)
+            tile.addSubview(valueLabel)
+            tile.addSubview(referenceLabel)
+            tile.addSubview(descriptionLabel)
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         }
     }
     override func update<T>(prop: String, value: T) {
+        guard let tile = control else { return }
+        
         if (prop == "value") {
-            updateState(value: control!.value, referenceValue: control!.referenceValue)
-            valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: control!.animationDuration)
-            referenceLabel.countFrom(control!.referenceValue, to: control!.referenceValue, withDuration: 0)
+            updateState(value: tile.value, referenceValue: tile.referenceValue, tile:tile)
+            valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
+            referenceLabel.countFrom(tile.referenceValue, to: tile.referenceValue, withDuration: 0)
         }
     }
     
-    override func layoutSublayers() {
-        super.layoutSublayers()
-        
-    }
     
-    func updateState(value : CGFloat, referenceValue : CGFloat) {
+    func updateState(value : CGFloat, referenceValue : CGFloat, tile : Tile) {
         if (value > referenceValue) {
             state = .INCREASE
         } else if (value < referenceValue) {
@@ -74,19 +74,19 @@ class HighLowSkin: Skin {
         } else {
             state = .CONSTANT
         }
-        animateTriangle(duration: control!.animationDuration)
+        animateTriangle(tile: tile)
         setAttributedFormatBlock(label       : referenceLabel,
                                  valueFont   : percentageFont!,
-                                 formatString: "%.\(control!.tickLabelDecimals)f",
+                                 formatString: "%.\(tile.tickLabelDecimals)f",
                                  valueColor  : getStateColor(),
-                                 unit        : control!.unit,
+                                 unit        : tile.unit,
                                  unitFont    : unitFont!,
                                  unitColor   : getStateColor())
         triangleLayer.fillColor = getStateColor().cgColor
     }
     
-    func animateTriangle(duration: TimeInterval) {
-        UIView.animate(withDuration: control!.animationDuration, delay: 0.0, options: .curveEaseInOut, animations: {
+    func animateTriangle(tile: Tile) {
+        UIView.animate(withDuration: tile.animationDuration, delay: 0.0, options: .curveEaseInOut, animations: {
             var angle = CGFloat(0.0)
             switch(self.state) {
             case .INCREASE : angle = .pi * 0.0; break
@@ -109,116 +109,118 @@ class HighLowSkin: Skin {
     // ******************** Redraw ********************
     override func draw(in ctx: CGContext) {
         super.draw(in: ctx)
+        guard let tile = control else { return }
+        
         UIGraphicsPushContext(ctx)
-        if let ctrl = control {
-            width   = self.frame.width
-            height  = self.frame.height
-            size    = width < height ? width : height
-            centerX = width * 0.5
-            centerY = height * 0.5
-            
-            // Background
-            let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
-            ctx.setFillColor(ctrl.bkgColor.cgColor)
-            ctx.addPath(path.cgPath)
-            ctx.fillPath()
-            
-            let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
-            
-            // Tile Title
-            drawText(label   : ctrl.titleLabel,
+        
+        width   = self.frame.width
+        height  = self.frame.height
+        size    = width < height ? width : height
+        centerX = width * 0.5
+        centerY = height * 0.5
+        
+        // Background
+        let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
+        ctx.setFillColor(tile.bkgColor.cgColor)
+        ctx.addPath(path.cgPath)
+        ctx.fillPath()
+        
+        let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
+        
+        // Tile Title
+        drawText(label   : tile.titleLabel,
+                 font    : smallFont!,
+                 text    : tile.title,
+                 frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: height * 0.08),
+                 fgdColor: tile.fgdColor,
+                 bkgColor: tile.bkgColor,
+                 radius  : 0,
+                 align   : .left)
+        
+        // Tile Text
+        if (tile.textVisible) {
+            drawText(label   : tile.textLabel,
                      font    : smallFont!,
-                     text    : ctrl.title,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: height * 0.08),
-                     fgdColor: ctrl.fgdColor,
-                     bkgColor: ctrl.bkgColor,
+                     text    : tile.text,
+                     frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
+                     fgdColor: tile.fgdColor,
+                     bkgColor: tile.bkgColor,
                      radius  : 0,
                      align   : .left)
-            
-            // Tile Text
-            if (ctrl.textVisible) {
-                drawText(label   : ctrl.textLabel,
-                         font    : smallFont!,
-                         text    : ctrl.text,
-                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
-                         fgdColor: ctrl.fgdColor,
-                         bkgColor: ctrl.bkgColor,
-                         radius  : 0,
-                         align   : .left)
-            } else {
-                ctrl.textLabel.textColor = UIColor.clear
-            }
-            
-            mediumFont     = UIFont.init(name: "Lato-Regular", size: size * 0.1)
-            unitFont       = UIFont.init(name: "Lato-Regular", size: size * 0.12)
-            percentageFont = UIFont.init(name: "Lato-Regular", size: size * 0.18)
-            bigFont        = UIFont.init(name: "Lato-Regular", size: size * 0.24)
-            
-            // Description
-            drawText(label   : descriptionLabel,
-                     font    : mediumFont!,
-                     text    : ctrl.descr,
-                     frame   :CGRect(x: size * 0.05, y: size * 0.42, width: size * 0.9, height: size * 0.12),
-                     fgdColor: ctrl.fgdColor,
-                     bkgColor: ctrl.bkgColor,
-                     radius  : 0,
-                     align   : .right)
-            
-            // Value
-            let formatString          = "%.\(ctrl.decimals)f"
-            let tickLabelFormatString = "%.\(ctrl.tickLabelDecimals)f"
-            
-            valueLabel.frame = CGRect(x     : size * 0.05,
-                                      y     : size * 0.15,
-                                      width : width - size * 0.1,
-                                      height: size * 0.288)
-            setAttributedFormatBlock(label       : valueLabel,
-                                     valueFont   : bigFont!,
-                                     formatString: formatString,
-                                     valueColor  : ctrl.valueColor,
-                                     unit        : ctrl.unit,
-                                     unitFont    : unitFont!,
-                                     unitColor   : ctrl.unitColor)
-            valueLabel.textAlignment   = .right
-            valueLabel.numberOfLines   = 1
-            valueLabel.backgroundColor = UIColor.clear
-            valueLabel.setNeedsDisplay()
-            valueLabel.countFrom(ctrl.oldValue, to: ctrl.value, withDuration: ctrl.animationDuration)
-            
-            // Reference
-            referenceLabel.frame = CGRect(x     : size * 0.2,
-                                          y     : height - size * 0.36,
-                                          width : width - size * 0.25,
-                                          height: size * 0.21)
-            setAttributedFormatBlock(label       : referenceLabel,
-                                     valueFont   : percentageFont!,
-                                     formatString: tickLabelFormatString,
-                                     valueColor  : getStateColor(),
-                                     unit        : ctrl.unit,
-                                     unitFont    : unitFont!,
-                                     unitColor   : getStateColor())
-            referenceLabel.textAlignment   = .left
-            referenceLabel.numberOfLines   = 1
-            referenceLabel.backgroundColor = UIColor.clear
-            referenceLabel.setNeedsDisplay()
-            referenceLabel.countFrom(control!.referenceValue, to: control!.referenceValue, withDuration: control!.animationDuration)
-            
-            // Triangle
-            let triangle = UIBezierPath()
-            triangle.move(to: CGPoint(x: 0.056 * size, y: 0.032 * size))
-            triangle.addCurve(to: CGPoint(x: 0.068 * size, y: 0.032 * size), controlPoint1: CGPoint(x: 0.060 * size, y: 0.028 * size), controlPoint2: CGPoint(x: 0.064 * size, y: 0.028 * size))
-            triangle.addCurve(to: CGPoint(x: 0.120 * size, y: 0.080 * size), controlPoint1: CGPoint(x: 0.068 * size, y: 0.032 * size), controlPoint2: CGPoint(x: 0.120 * size, y: 0.080 * size))
-            triangle.addCurve(to: CGPoint(x: 0.112 * size, y: 0.096 * size), controlPoint1: CGPoint(x: 0.128 * size, y: 0.088 * size), controlPoint2: CGPoint(x: 0.124 * size, y: 0.096 * size))
-            triangle.addCurve(to: CGPoint(x: 0.012 * size, y: 0.096 * size), controlPoint1: CGPoint(x: 0.112 * size, y: 0.096 * size), controlPoint2: CGPoint(x: 0.012 * size, y: 0.096 * size))
-            triangle.addCurve(to: CGPoint(x: 0.004 * size, y: 0.080 * size), controlPoint1: CGPoint(x: 0.0, y: 0.096 * size), controlPoint2: CGPoint(x: -0.004 * size, y: 0.088 * size))
-            triangle.addCurve(to: CGPoint(x: 0.056 * size, y: 0.032 * size), controlPoint1: CGPoint(x: 0.004 * size, y: 0.080 * size), controlPoint2: CGPoint(x: 0.056 * size, y: 0.032 * size))
-            triangle.close()
-            
-            triangleLayer.path      = triangle.cgPath
-            triangleLayer.fillColor = getStateColor().cgColor
-            triangleLayer.frame     = triangle.bounds
-            triangleLayer.position  = CGPoint(x: size * 0.1, y: size * 0.75)
+        } else {
+            tile.textLabel.textColor = UIColor.clear
         }
+        
+        mediumFont     = UIFont.init(name: "Lato-Regular", size: size * 0.1)
+        unitFont       = UIFont.init(name: "Lato-Regular", size: size * 0.12)
+        percentageFont = UIFont.init(name: "Lato-Regular", size: size * 0.18)
+        bigFont        = UIFont.init(name: "Lato-Regular", size: size * 0.24)
+        
+        // Description
+        drawText(label   : descriptionLabel,
+                 font    : mediumFont!,
+                 text    : tile.descr,
+                 frame   :CGRect(x: size * 0.05, y: size * 0.42, width: size * 0.9, height: size * 0.12),
+                 fgdColor: tile.fgdColor,
+                 bkgColor: tile.bkgColor,
+                 radius  : 0,
+                 align   : .right)
+        
+        // Value
+        let formatString          = "%.\(tile.decimals)f"
+        let tickLabelFormatString = "%.\(tile.tickLabelDecimals)f"
+        
+        valueLabel.frame = CGRect(x     : size * 0.05,
+                                  y     : size * 0.15,
+                                  width : width - size * 0.1,
+                                  height: size * 0.288)
+        setAttributedFormatBlock(label       : valueLabel,
+                                 valueFont   : bigFont!,
+                                 formatString: formatString,
+                                 valueColor  : tile.valueColor,
+                                 unit        : tile.unit,
+                                 unitFont    : unitFont!,
+                                 unitColor   : tile.unitColor)
+        valueLabel.textAlignment   = .right
+        valueLabel.numberOfLines   = 1
+        valueLabel.backgroundColor = UIColor.clear
+        valueLabel.setNeedsDisplay()
+        valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
+        
+        // Reference
+        referenceLabel.frame = CGRect(x     : size * 0.2,
+                                      y     : height - size * 0.36,
+                                      width : width - size * 0.25,
+                                      height: size * 0.21)
+        setAttributedFormatBlock(label       : referenceLabel,
+                                 valueFont   : percentageFont!,
+                                 formatString: tickLabelFormatString,
+                                 valueColor  : getStateColor(),
+                                 unit        : tile.unit,
+                                 unitFont    : unitFont!,
+                                 unitColor   : getStateColor())
+        referenceLabel.textAlignment   = .left
+        referenceLabel.numberOfLines   = 1
+        referenceLabel.backgroundColor = UIColor.clear
+        referenceLabel.setNeedsDisplay()
+        referenceLabel.countFrom(tile.referenceValue, to: tile.referenceValue, withDuration: tile.animationDuration)
+        
+        // Triangle
+        let triangle = UIBezierPath()
+        triangle.move(to: CGPoint(x: 0.056 * size, y: 0.032 * size))
+        triangle.addCurve(to: CGPoint(x: 0.068 * size, y: 0.032 * size), controlPoint1: CGPoint(x: 0.060 * size, y: 0.028 * size), controlPoint2: CGPoint(x: 0.064 * size, y: 0.028 * size))
+        triangle.addCurve(to: CGPoint(x: 0.120 * size, y: 0.080 * size), controlPoint1: CGPoint(x: 0.068 * size, y: 0.032 * size), controlPoint2: CGPoint(x: 0.120 * size, y: 0.080 * size))
+        triangle.addCurve(to: CGPoint(x: 0.112 * size, y: 0.096 * size), controlPoint1: CGPoint(x: 0.128 * size, y: 0.088 * size), controlPoint2: CGPoint(x: 0.124 * size, y: 0.096 * size))
+        triangle.addCurve(to: CGPoint(x: 0.012 * size, y: 0.096 * size), controlPoint1: CGPoint(x: 0.112 * size, y: 0.096 * size), controlPoint2: CGPoint(x: 0.012 * size, y: 0.096 * size))
+        triangle.addCurve(to: CGPoint(x: 0.004 * size, y: 0.080 * size), controlPoint1: CGPoint(x: 0.0, y: 0.096 * size), controlPoint2: CGPoint(x: -0.004 * size, y: 0.088 * size))
+        triangle.addCurve(to: CGPoint(x: 0.056 * size, y: 0.032 * size), controlPoint1: CGPoint(x: 0.004 * size, y: 0.080 * size), controlPoint2: CGPoint(x: 0.056 * size, y: 0.032 * size))
+        triangle.close()
+        
+        triangleLayer.path      = triangle.cgPath
+        triangleLayer.fillColor = getStateColor().cgColor
+        triangleLayer.frame     = triangle.bounds
+        triangleLayer.position  = CGPoint(x: size * 0.1, y: size * 0.75)
+        
         UIGraphicsPopContext()
     }
 }

@@ -55,27 +55,27 @@ class SmoothAreaTileSkin: Skin {
     
     // ******************** Methods ********************
     override func update(cmd: String) {
+        guard let tile = control else { return }
+        
         if (cmd == Helper.INIT) {
-            control!.textVisible = false
-            control!.addSubview(valueLabel)
+            tile.textVisible = false
+            tile.addSubview(valueLabel)
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         } else if (cmd == Helper.UPDATE) {
-            control!.chartDataList.forEach { chartData in chartData.eventBus.unsubscribe(eventNameToRemoveOrNil: Helper.UPDATE) }
-            control!.chartDataList.forEach { chartData in
+            tile.chartDataList.forEach { chartData in chartData.eventBus.unsubscribe(eventNameToRemoveOrNil: Helper.UPDATE) }
+            tile.chartDataList.forEach { chartData in
                 chartData.eventBus.subscribeTo(eventName: Helper.UPDATE, action: self.animateChart)
             }
             setNeedsDisplay()
         }
     }
     override func update<T>(prop: String, value: T) {
+        guard let tile = control else { return }
+        
         if (prop == "value") {
-            valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: control!.animationDuration)
+            valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
         }
-    }
-    
-    override func layoutSublayers() {
-        super.layoutSublayers()
     }
     
     func handleSingleChartData(chartData : Any?) {
@@ -85,11 +85,13 @@ class SmoothAreaTileSkin: Skin {
     }
     
     func getValuePaths() -> (UIBezierPath, UIBezierPath) {
-        var data :[ChartData] = control!.chartDataList
+        guard let tile = control else { return (UIBezierPath(), UIBezierPath()) }
+        
+        var data :[ChartData] = tile.chartDataList
         dataSize = data.count
         if (dataSize == 0) { return (UIBezierPath(), UIBezierPath()) }
         
-        if let lastDataEntryValue = data.last?.value { control!.value = lastDataEntryValue }
+        if let lastDataEntryValue = data.last?.value { tile.value = lastDataEntryValue }
         
         maxValue  =  CGFloat(data.map { $0.value }.max()!)
         hStepSize = width / CGFloat(dataSize)
@@ -109,7 +111,9 @@ class SmoothAreaTileSkin: Skin {
     }
     
     func getOldValuePaths() -> (UIBezierPath, UIBezierPath) {
-        var data :[ChartData] = control!.chartDataList
+        guard let tile = control else { return (UIBezierPath(), UIBezierPath())}
+        
+        var data :[ChartData] = tile.chartDataList
         dataSize = data.count
         if (dataSize == 0) { return (UIBezierPath(), UIBezierPath()) }
         
@@ -242,6 +246,8 @@ class SmoothAreaTileSkin: Skin {
     }
     
     func animateChart() {
+        guard let tile = control else { return }
+        
         let oldPaths : (UIBezierPath, UIBezierPath) = getOldValuePaths()
         let newPaths : (UIBezierPath, UIBezierPath) = getValuePaths()
         
@@ -252,7 +258,7 @@ class SmoothAreaTileSkin: Skin {
         let animation0                   = CABasicAnimation(keyPath: "path")
         animation0.fromValue             = fillPath.cgPath
         animation0.toValue               = toFillPath.cgPath
-        animation0.duration              = control!.animationDuration
+        animation0.duration              = tile.animationDuration
         animation0.timingFunction        = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         animation0.fillMode              = kCAFillModeForwards
         animation0.isRemovedOnCompletion = false
@@ -264,7 +270,7 @@ class SmoothAreaTileSkin: Skin {
         let animation1                   = CABasicAnimation(keyPath: "path")
         animation1.fromValue             = strokePath.cgPath
         animation1.toValue               = toStrokePath.cgPath
-        animation1.duration              = control!.animationDuration
+        animation1.duration              = tile.animationDuration
         animation1.timingFunction        = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         animation1.fillMode              = kCAFillModeForwards
         animation1.isRemovedOnCompletion = false
@@ -277,111 +283,113 @@ class SmoothAreaTileSkin: Skin {
     // ******************** Redraw ********************
     override func draw(in ctx: CGContext) {
         super.draw(in: ctx)
+        guard let tile = control else { return }
+        
         UIGraphicsPushContext(ctx)
-        if let ctrl = control {
-            width   = self.frame.width
-            height  = self.frame.height
-            size    = width < height ? width : height
-            centerX = width * 0.5
-            centerY = height * 0.5
-            
-            // Background
-            let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
-            ctx.setFillColor(ctrl.bkgColor.cgColor)
-            ctx.addPath(path.cgPath)
-            ctx.fillPath()
-            
-            let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
-            
-            // Tile Title
-            drawText(label   : ctrl.titleLabel,
+        
+        width   = self.frame.width
+        height  = self.frame.height
+        size    = width < height ? width : height
+        centerX = width * 0.5
+        centerY = height * 0.5
+        
+        // Background
+        let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
+        ctx.setFillColor(tile.bkgColor.cgColor)
+        ctx.addPath(path.cgPath)
+        ctx.fillPath()
+        
+        let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
+        
+        // Tile Title
+        drawText(label   : tile.titleLabel,
+                 font    : smallFont!,
+                 text    : tile.title,
+                 frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: height * 0.08),
+                 fgdColor: tile.fgdColor,
+                 bkgColor: tile.bkgColor,
+                 radius  : 0,
+                 align   : .left)
+        
+        // Tile Text
+        if (tile.textVisible) {
+            drawText(label   : tile.textLabel,
                      font    : smallFont!,
-                     text    : ctrl.title,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: height * 0.08),
-                     fgdColor: ctrl.fgdColor,
-                     bkgColor: ctrl.bkgColor,
+                     text    : tile.text,
+                     frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
+                     fgdColor: tile.fgdColor,
+                     bkgColor: tile.bkgColor,
                      radius  : 0,
                      align   : .left)
-            
-            // Tile Text
-            if (ctrl.textVisible) {
-                drawText(label   : ctrl.textLabel,
-                         font    : smallFont!,
-                         text    : ctrl.text,
-                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
-                         fgdColor: ctrl.fgdColor,
-                         bkgColor: ctrl.bkgColor,
-                         radius  : 0,
-                         align   : .left)
-            } else {
-                ctrl.textLabel.textColor = UIColor.clear
-            }
-            
-            // Value
-            let formatString = "%.\(ctrl.decimals)f"
-            
-            let unitFont     = UIFont.init(name: "Lato-Regular", size: size * 0.12)
-            let bigFont      = UIFont.init(name: "Lato-Regular", size: size * 0.24)
-            
-            valueLabel.frame = CGRect(x     : size * 0.05,
-                                      y     : size * 0.15,
-                                      width : size * 0.9,
-                                      height: size * 0.288)
-            setAttributedFormatBlock(label       : valueLabel,
-                                     valueFont   : bigFont!,
-                                     formatString: formatString,
-                                     valueColor  : ctrl.valueColor,
-                                     unit        : ctrl.unit,
-                                     unitFont    : unitFont!,
-                                     unitColor   : ctrl.unitColor)
-            valueLabel.textAlignment   = .right
-            valueLabel.numberOfLines   = 1
-            valueLabel.backgroundColor = UIColor.clear
-            valueLabel.setNeedsDisplay()
-            valueLabel.countFrom(ctrl.oldValue, to: ctrl.value, withDuration: ctrl.animationDuration)
-            
-            // Chart
-            hStepSize = width / CGFloat(dataSize)
-            vStepSize = (height * 0.5) / maxValue
-            
-            let newPaths : (UIBezierPath, UIBezierPath) = getValuePaths()
-            
-            fillPath.removeAllPoints()
-            fillPath.append(newPaths.1)
-            fillLayer.frame         = CGRect(x: 0, y: 0, width: width, height: height)
-            fillLayer.path          = fillPath.cgPath
-            fillLayer.fillColor     = ctrl.barColor.withAlphaComponent(CGFloat(0.5)).cgColor
-            
-            /*
-            let fillPathColor1       = ctrl.barColor.withAlphaComponent(CGFloat(0.7)).cgColor
-            let fillPathColor2       = ctrl.barColor.withAlphaComponent(CGFloat(0.1)).cgColor
-            let gradientLayer        = CAGradientLayer()
-            gradientLayer.frame      = fillPath.bounds
-            gradientLayer.colors     = [ fillPathColor1, fillPathColor2 ]
-            gradientLayer.locations  = [ 0.0, 1.0 ]
-            //gradientLayer.mask       = fillLayer
-            fillLayer.addSublayer(gradientLayer)
-            */
-            
-            strokePath.removeAllPoints()
-            strokePath.append(newPaths.0)
-            strokeLayer.frame       = CGRect(x: 0, y: 0, width: width, height: height)
-            strokeLayer.lineWidth   = size * 0.02
-            strokeLayer.lineCap     = kCALineCapSquare
-            strokeLayer.lineJoin    = kCALineJoinMiter
-            strokeLayer.path        = strokePath.cgPath
-            strokeLayer.strokeColor = ctrl.barColor.cgColor
-            
-            let clippingPathFill   = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
-            let clippingLayerFill  = CAShapeLayer()
-            clippingLayerFill.path = clippingPathFill.cgPath
-            fillLayer.mask         = clippingLayerFill
-            
-            let clippingPathStroke   = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
-            let clippingLayerStroke  = CAShapeLayer()
-            clippingLayerStroke.path = clippingPathStroke.cgPath
-            strokeLayer.mask         = clippingLayerStroke
+        } else {
+            tile.textLabel.textColor = UIColor.clear
         }
+        
+        // Value
+        let formatString = "%.\(tile.decimals)f"
+        
+        let unitFont     = UIFont.init(name: "Lato-Regular", size: size * 0.12)
+        let bigFont      = UIFont.init(name: "Lato-Regular", size: size * 0.24)
+        
+        valueLabel.frame = CGRect(x     : size * 0.05,
+                                  y     : size * 0.15,
+                                  width : size * 0.9,
+                                  height: size * 0.288)
+        setAttributedFormatBlock(label       : valueLabel,
+                                 valueFont   : bigFont!,
+                                 formatString: formatString,
+                                 valueColor  : tile.valueColor,
+                                 unit        : tile.unit,
+                                 unitFont    : unitFont!,
+                                 unitColor   : tile.unitColor)
+        valueLabel.textAlignment   = .right
+        valueLabel.numberOfLines   = 1
+        valueLabel.backgroundColor = UIColor.clear
+        valueLabel.setNeedsDisplay()
+        valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
+        
+        // Chart
+        hStepSize = width / CGFloat(dataSize)
+        vStepSize = (height * 0.5) / maxValue
+        
+        let newPaths : (UIBezierPath, UIBezierPath) = getValuePaths()
+        
+        fillPath.removeAllPoints()
+        fillPath.append(newPaths.1)
+        fillLayer.frame         = CGRect(x: 0, y: 0, width: width, height: height)
+        fillLayer.path          = fillPath.cgPath
+        fillLayer.fillColor     = tile.barColor.withAlphaComponent(CGFloat(0.5)).cgColor
+        
+        /*
+        let fillPathColor1       = tile.barColor.withAlphaComponent(CGFloat(0.7)).cgColor
+        let fillPathColor2       = tile.barColor.withAlphaComponent(CGFloat(0.1)).cgColor
+        let gradientLayer        = CAGradientLayer()
+        gradientLayer.frame      = fillPath.bounds
+        gradientLayer.colors     = [ fillPathColor1, fillPathColor2 ]
+        gradientLayer.locations  = [ 0.0, 1.0 ]
+        //gradientLayer.mask       = fillLayer
+        fillLayer.addSublayer(gradientLayer)
+        */
+        
+        strokePath.removeAllPoints()
+        strokePath.append(newPaths.0)
+        strokeLayer.frame       = CGRect(x: 0, y: 0, width: width, height: height)
+        strokeLayer.lineWidth   = size * 0.02
+        strokeLayer.lineCap     = kCALineCapSquare
+        strokeLayer.lineJoin    = kCALineJoinMiter
+        strokeLayer.path        = strokePath.cgPath
+        strokeLayer.strokeColor = tile.barColor.cgColor
+        
+        let clippingPathFill   = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
+        let clippingLayerFill  = CAShapeLayer()
+        clippingLayerFill.path = clippingPathFill.cgPath
+        fillLayer.mask         = clippingLayerFill
+        
+        let clippingPathStroke   = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
+        let clippingLayerStroke  = CAShapeLayer()
+        clippingLayerStroke.path = clippingPathStroke.cgPath
+        strokeLayer.mask         = clippingLayerStroke
+        
         UIGraphicsPopContext()
     }
 }

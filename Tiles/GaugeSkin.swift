@@ -36,34 +36,36 @@ class GaugeSkin: Skin {
     
     // ******************** Methods *******************
     override func update(cmd: String) {
+        guard let tile = control else { return }
         if (cmd == Helper.INIT) {
-            control!.textVisible = false
-            control!.addSubview(valueLabel)
-            control!.addSubview(minValueLabel)
-            control!.addSubview(maxValueLabel)
-            control!.addSubview(thresholdLabel)
+            tile.textVisible = false
+            tile.addSubview(valueLabel)
+            tile.addSubview(minValueLabel)
+            tile.addSubview(maxValueLabel)
+            tile.addSubview(thresholdLabel)
             
             pointer.contentsScale = UIScreen.main.scale
             pointer.anchorPoint = CGPoint(x: 0.5, y: 0.765)
-            control!.addSubview(pointerView)
+            tile.addSubview(pointerView)
             
             pointerView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.765)
             pointerView.layer.addSublayer(pointer)
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         } else if (cmd == Helper.RECALC) {
-            angleStep = .pi / control!.range
+            angleStep = .pi / tile.range
         }
     }
     override func update<T>(prop: String, value: T) {
+        guard let tile = control else { return }
         if (prop == "value") {
-            valueLabel.countFrom(control!.oldValue, to: control!.value, withDuration: control!.animationDuration)
+            valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
             
-            thresholdLabel.backgroundColor = control!.value > control!.threshold ? control!.thresholdColor : Helper.GRAY
+            thresholdLabel.backgroundColor = tile.value > tile.threshold ? tile.thresholdColor : Helper.GRAY
             thresholdLabel.setNeedsDisplay()
             
-            UIView.animate(withDuration: control!.animationDuration, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
-                self.pointerView.transform = CGAffineTransform(rotationAngle: (self.angleStep * self.control!.value))
+            UIView.animate(withDuration: tile.animationDuration, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+                self.pointerView.transform = CGAffineTransform(rotationAngle: (self.angleStep * tile.value))
             }, completion: nil)
         }
     }
@@ -80,132 +82,134 @@ class GaugeSkin: Skin {
     // ******************** Redraw ********************
     override func draw(in ctx: CGContext) {
         super.draw(in: ctx)
+        guard let tile = control else { return }
+        
         UIGraphicsPushContext(ctx)
-        if let ctrl = control {
-            width   = self.frame.width
-            height  = self.frame.height
-            size    = width < height ? width : height
-            centerX = width * 0.5
-            centerY = height * 0.5
-            
-            // Background
-            let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
-            ctx.setFillColor(ctrl.bkgColor.cgColor)
-            ctx.addPath(path.cgPath)
-            ctx.fillPath()
-            
-            let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
-            let mediumFont = UIFont.init(name: "Lato-Regular", size: size * 0.07)
-            let biggerFont = UIFont.init(name: "Lato-Regular", size: size * 0.08)
-            let unitFont   = UIFont.init(name: "Lato-Regular", size: size * 0.1)
-            let bigFont    = UIFont.init(name: "Lato-Regular", size: size * 0.24)
-            
-            // Tile Title
-            drawText(label   : ctrl.titleLabel,
+        
+        width   = self.frame.width
+        height  = self.frame.height
+        size    = width < height ? width : height
+        centerX = width * 0.5
+        centerY = height * 0.5
+        
+        // Background
+        let path = UIBezierPath(roundedRect: bounds, cornerRadius: size * 0.025)
+        ctx.setFillColor(tile.bkgColor.cgColor)
+        ctx.addPath(path.cgPath)
+        ctx.fillPath()
+        
+        let smallFont  = UIFont.init(name: "Lato-Regular", size: size * 0.06)
+        let mediumFont = UIFont.init(name: "Lato-Regular", size: size * 0.07)
+        let biggerFont = UIFont.init(name: "Lato-Regular", size: size * 0.08)
+        let unitFont   = UIFont.init(name: "Lato-Regular", size: size * 0.1)
+        let bigFont    = UIFont.init(name: "Lato-Regular", size: size * 0.24)
+        
+        // Tile Title
+        drawText(label   : tile.titleLabel,
+                 font    : smallFont!,
+                 text    : tile.title,
+                 frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: size * 0.08),
+                 fgdColor: tile.fgdColor,
+                 bkgColor: tile.bkgColor,
+                 radius  : 0,
+                 align   : .left)
+        
+        // Tile Text
+        if (tile.textVisible) {
+            drawText(label   : tile.textLabel,
                      font    : smallFont!,
-                     text    : ctrl.title,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: size * 0.08),
-                     fgdColor: ctrl.fgdColor,
-                     bkgColor: ctrl.bkgColor,
+                     text    : tile.text,
+                     frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
+                     fgdColor: tile.fgdColor,
+                     bkgColor: tile.bkgColor,
                      radius  : 0,
                      align   : .left)
-            
-            // Tile Text
-            if (ctrl.textVisible) {
-                drawText(label   : ctrl.textLabel,
-                         font    : smallFont!,
-                         text    : ctrl.text,
-                         frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
-                         fgdColor: ctrl.fgdColor,
-                         bkgColor: ctrl.bkgColor,
-                         radius  : 0,
-                         align   : .left)
-            } else {
-                ctrl.textLabel.textColor = UIColor.clear
-            }
-            
-            // Track
-            let radius = size * 0.3
-            let track  = UIBezierPath()
-            track.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
-                         radius    : radius,
-                         startAngle: 0.0,
-                         endAngle  : CGFloat(Double.pi),
-                         clockwise : false)
-            ctx.setLineWidth(size * 0.045)
-            ctx.addPath(track.cgPath)
-            ctx.setStrokeColor(Helper.FGD_COLOR.cgColor)
-            ctx.strokePath()
-            
-            // Threshold Area
-            let thresholdAngle = (ctrl.maxValue - ctrl.threshold) * angleStep
-            let thresholdTrack = UIBezierPath()
-            thresholdTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
-                                  radius    : radius,
-                                  startAngle: 0.0, endAngle: -thresholdAngle,
-                                  clockwise : false)
-            ctx.setLineWidth(size * 0.045)
-            ctx.addPath(thresholdTrack.cgPath)
-            ctx.setStrokeColor(Helper.BLUE.cgColor)
-            ctx.strokePath()
-            
-            let formatString          = "%.\(ctrl.decimals)f"
-            let tickLabelFormatString = "%.\(ctrl.tickLabelDecimals)f"
-            
-            // Value and Unit text
-            valueLabel.frame           = CGRect(x: size * 0.05, y: centerY - size * 0.35, width: size * 0.9, height:size * 0.288)
-            valueLabel.textAlignment   = .center            
-            setAttributedFormatBlock (label       : valueLabel,
-                                      valueFont   : bigFont!,
-                                      formatString: formatString,
-                                      valueColor  : ctrl.valueColor,
-                                      unit        : ctrl.unit,
-                                      unitFont    : unitFont!,
-                                      unitColor   : ctrl.unitColor)
-            valueLabel.numberOfLines   = 1
-            valueLabel.backgroundColor = UIColor.clear
-            valueLabel.setNeedsDisplay()
-            valueLabel.countFrom(ctrl.oldValue, to: ctrl.value, withDuration: ctrl.animationDuration)
-            
-            // Min Value Text
-            drawTextWithFormat(label   : minValueLabel,
-                               font    : mediumFont!,
-                               value   : ctrl.minValue,
-                               fgdColor: ctrl.fgdColor,
-                               bkgColor: ctrl.bkgColor,
-                               radius  : 0,
-                               format  : tickLabelFormatString,
-                               align   : NSTextAlignment.center,
-                               center  : CGPoint(x: centerX - size * 0.3, y: centerY + size * 0.325))
-            
-            // Max Value Text
-            drawTextWithFormat(label   : maxValueLabel,
-                               font    : mediumFont!,
-                               value   : ctrl.maxValue,
-                               fgdColor: ctrl.fgdColor,
-                               bkgColor: ctrl.bkgColor,
-                               radius  : 0,
-                               format  : tickLabelFormatString,
-                               align   : NSTextAlignment.center,
-                               center  : CGPoint(x: centerX + size * 0.3, y: centerY + size * 0.325))
-            
-            // Threshold Text
-            thresholdLabel.textAlignment       = .center
-            thresholdLabel.text                = String(format: formatString, ctrl.threshold)
-            thresholdLabel.numberOfLines       = 1
-            thresholdLabel.sizeToFit()
-            thresholdLabel.frame               = CGRect(x     : 0.5,
-                                                        y     : 0.5,
-                                                        width : (thresholdLabel.frame.width + size * 0.05),
-                                                        height: size * 0.09)
-            thresholdLabel.center              = CGPoint(x: size * 0.5, y: centerY + size * 0.35 + size * 0.045)
-            thresholdLabel.textColor           = ctrl.bkgColor
-            thresholdLabel.backgroundColor     = ctrl.value > ctrl.threshold ? ctrl.thresholdColor : Helper.GRAY
-            thresholdLabel.layer.masksToBounds = true
-            thresholdLabel.layer.cornerRadius  = size * 0.0125
-            thresholdLabel.font                = biggerFont
-            thresholdLabel.setNeedsDisplay()
+        } else {
+            tile.textLabel.textColor = UIColor.clear
         }
+        
+        // Track
+        let radius = size * 0.3
+        let track  = UIBezierPath()
+        track.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
+                     radius    : radius,
+                     startAngle: 0.0,
+                     endAngle  : CGFloat(Double.pi),
+                     clockwise : false)
+        ctx.setLineWidth(size * 0.045)
+        ctx.addPath(track.cgPath)
+        ctx.setStrokeColor(Helper.FGD_COLOR.cgColor)
+        ctx.strokePath()
+        
+        // Threshold Area
+        let thresholdAngle = (tile.maxValue - tile.threshold) * angleStep
+        let thresholdTrack = UIBezierPath()
+        thresholdTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
+                              radius    : radius,
+                              startAngle: 0.0, endAngle: -thresholdAngle,
+                              clockwise : false)
+        ctx.setLineWidth(size * 0.045)
+        ctx.addPath(thresholdTrack.cgPath)
+        ctx.setStrokeColor(Helper.BLUE.cgColor)
+        ctx.strokePath()
+        
+        let formatString          = "%.\(tile.decimals)f"
+        let tickLabelFormatString = "%.\(tile.tickLabelDecimals)f"
+        
+        // Value and Unit text
+        valueLabel.frame           = CGRect(x: size * 0.05, y: centerY - size * 0.35, width: size * 0.9, height:size * 0.288)
+        valueLabel.textAlignment   = .center
+        setAttributedFormatBlock (label       : valueLabel,
+                                  valueFont   : bigFont!,
+                                  formatString: formatString,
+                                  valueColor  : tile.valueColor,
+                                  unit        : tile.unit,
+                                  unitFont    : unitFont!,
+                                  unitColor   : tile.unitColor)
+        valueLabel.numberOfLines   = 1
+        valueLabel.backgroundColor = UIColor.clear
+        valueLabel.setNeedsDisplay()
+        valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
+        
+        // Min Value Text
+        drawTextWithFormat(label   : minValueLabel,
+                           font    : mediumFont!,
+                           value   : tile.minValue,
+                           fgdColor: tile.fgdColor,
+                           bkgColor: tile.bkgColor,
+                           radius  : 0,
+                           format  : tickLabelFormatString,
+                           align   : NSTextAlignment.center,
+                           center  : CGPoint(x: centerX - size * 0.3, y: centerY + size * 0.325))
+        
+        // Max Value Text
+        drawTextWithFormat(label   : maxValueLabel,
+                           font    : mediumFont!,
+                           value   : tile.maxValue,
+                           fgdColor: tile.fgdColor,
+                           bkgColor: tile.bkgColor,
+                           radius  : 0,
+                           format  : tickLabelFormatString,
+                           align   : NSTextAlignment.center,
+                           center  : CGPoint(x: centerX + size * 0.3, y: centerY + size * 0.325))
+        
+        // Threshold Text
+        thresholdLabel.textAlignment       = .center
+        thresholdLabel.text                = String(format: formatString, tile.threshold)
+        thresholdLabel.numberOfLines       = 1
+        thresholdLabel.sizeToFit()
+        thresholdLabel.frame               = CGRect(x     : 0.5,
+                                                    y     : 0.5,
+                                                    width : (thresholdLabel.frame.width + size * 0.05),
+                                                    height: size * 0.09)
+        thresholdLabel.center              = CGPoint(x: size * 0.5, y: centerY + size * 0.35 + size * 0.045)
+        thresholdLabel.textColor           = tile.bkgColor
+        thresholdLabel.backgroundColor     = tile.value > tile.threshold ? tile.thresholdColor : Helper.GRAY
+        thresholdLabel.layer.masksToBounds = true
+        thresholdLabel.layer.cornerRadius  = size * 0.0125
+        thresholdLabel.font                = biggerFont
+        thresholdLabel.setNeedsDisplay()
+        
         UIGraphicsPopContext()
     }
     

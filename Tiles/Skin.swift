@@ -70,7 +70,7 @@ class Skin : CALayer, TileEventListener {
             let unitString           = NSAttributedString(string: unit, attributes: unitFontAttr)
             valueUnitString.append(unitString)
             valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: valueColor, range: NSRange(location: 0, length: formattedValueLength))
-            if (unitLength > 0) {
+            if (!unit.characters.isEmpty) {
                 valueUnitString.addAttribute(NSAttributedStringKey.foregroundColor, value: unitColor, range: NSRange(location: formattedValueLength, length: unitLength))
             }
             return valueUnitString
