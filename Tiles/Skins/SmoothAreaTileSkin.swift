@@ -35,7 +35,7 @@ class SmoothAreaTileSkin: Skin {
         
         fillLayer.path          = fillPath.cgPath
         fillLayer.strokeColor   = UIColor.clear.cgColor
-        fillLayer.fillColor     = Helper.BLUE.cgColor
+        fillLayer.fillColor     = UIColor.black.cgColor
         addSublayer(fillLayer)
         
         //addSublayer(gradientLayer)
@@ -229,8 +229,7 @@ class SmoothAreaTileSkin: Skin {
         let oldPaths : (UIBezierPath, UIBezierPath) = getPaths(oldValues: true)
         let newPaths : (UIBezierPath, UIBezierPath) = getPaths(oldValues: false)
         
-        fillPath.removeAllPoints()
-        fillPath.append(oldPaths.1)
+        fillPath = oldPaths.1
         
         let toFillPath                   = newPaths.1
         let animation0                   = CABasicAnimation(keyPath: "path")
@@ -241,8 +240,7 @@ class SmoothAreaTileSkin: Skin {
         animation0.fillMode              = kCAFillModeForwards
         animation0.isRemovedOnCompletion = false
         
-        strokePath.removeAllPoints()
-        strokePath.append(oldPaths.0)
+        strokePath = oldPaths.0
         
         let toStrokePath                 = newPaths.0
         let animation1                   = CABasicAnimation(keyPath: "path")
@@ -345,8 +343,9 @@ class SmoothAreaTileSkin: Skin {
         gradientLayer.frame      = fillPath.bounds
         gradientLayer.colors     = [ fillPathColor1, fillPathColor2 ]
         gradientLayer.locations  = [ 0.0, 1.0 ]
-        //gradientLayer.mask       = fillLayer
-        fillLayer.addSublayer(gradientLayer)
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint   = CGPoint(x: 0, y: 1)
+        gradientLayer.mask       = fillLayer
         */
         
         strokePath.removeAllPoints()
