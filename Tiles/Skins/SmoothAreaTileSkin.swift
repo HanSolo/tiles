@@ -84,50 +84,34 @@ class SmoothAreaTileSkin: Skin {
         }
     }
     
-    func getValuePaths() -> (UIBezierPath, UIBezierPath) {
+    func getPaths(oldValues : Bool) -> (UIBezierPath, UIBezierPath) {
         guard let tile = control else { return (UIBezierPath(), UIBezierPath()) }
-        
         var data :[ChartData] = tile.chartDataList
         dataSize = data.count
         if (dataSize == 0) { return (UIBezierPath(), UIBezierPath()) }
         
-        if let lastDataEntryValue = data.last?.value { tile.value = lastDataEntryValue }
-        
-        maxValue  =  CGFloat(data.map { $0.value }.max()!)
-        hStepSize = width / CGFloat(dataSize)
-        vStepSize = (height * 0.5) / maxValue
-        var fillElements   : [CGPoint] = []
-        var strokeElements : [CGPoint] = []
-        fillElements.append(CGPoint(x: 0, y: height))
-        strokeElements.append(CGPoint(x: 0, y: height - data[0].value * vStepSize))
-        
-        for i in 0..<dataSize {
-            fillElements.append(CGPoint(x: CGFloat(i + 1) * hStepSize, y: height - data[i].value * vStepSize))
-            strokeElements.append(CGPoint(x: CGFloat(i + 1) * hStepSize, y: height - data[i].value * vStepSize))
+        if (!oldValues) {
+            if let lastDataEntryValue = data.last?.value { tile.value = lastDataEntryValue }
         }
         
-        fillElements.append(CGPoint(x: width, y: height))
-        return smooth(strokeElements: &strokeElements, fillElements: &fillElements)
-    }
-    
-    func getOldValuePaths() -> (UIBezierPath, UIBezierPath) {
-        guard let tile = control else { return (UIBezierPath(), UIBezierPath())}
-        
-        var data :[ChartData] = tile.chartDataList
-        dataSize = data.count
-        if (dataSize == 0) { return (UIBezierPath(), UIBezierPath()) }
-        
-        maxValue  =  CGFloat(data.map { $0.oldValue }.max()!)
+        maxValue  =  CGFloat(data.map { oldValues ? $0.oldValue : $0.value }.max()!)
         hStepSize = width / CGFloat(dataSize)
         vStepSize = (height * 0.5) / maxValue
         var fillElements   : [CGPoint] = []
         var strokeElements : [CGPoint] = []
         fillElements.append(CGPoint(x: 0, y: height))
-        strokeElements.append(CGPoint(x: 0, y: height - data[0].oldValue * vStepSize))
+        strokeElements.append(CGPoint(x: 0, y: height - (oldValues ? data[0].oldValue : data[0].value) * vStepSize))
         
-        for i in 0..<dataSize {
-            fillElements.append(CGPoint(x: CGFloat(i + 1) * hStepSize, y: height - data[i].oldValue * vStepSize))
-            strokeElements.append(CGPoint(x: CGFloat(i + 1) * hStepSize, y: height - data[i].oldValue * vStepSize))
+        if (oldValues) {
+            for i in 0..<dataSize {
+                fillElements.append(CGPoint(x: CGFloat(i + 1) * hStepSize, y: height - data[i].oldValue * vStepSize))
+                strokeElements.append(CGPoint(x: CGFloat(i + 1) * hStepSize, y: height - data[i].oldValue * vStepSize))
+            }
+        } else {
+            for i in 0..<dataSize {
+                fillElements.append(CGPoint(x: CGFloat(i + 1) * hStepSize, y: height - data[i].value * vStepSize))
+                strokeElements.append(CGPoint(x: CGFloat(i + 1) * hStepSize, y: height - data[i].value * vStepSize))
+            }
         }
         
         fillElements.append(CGPoint(x: width, y: height))
@@ -136,17 +120,11 @@ class SmoothAreaTileSkin: Skin {
     
     func smooth(strokeElements : inout [CGPoint], fillElements : inout [CGPoint]) -> (UIBezierPath, UIBezierPath) {
         if (fillElements.isEmpty) { return (UIBezierPath(), UIBezierPath())}
-        var dataPoints : [CGPoint] = []
-        for i in 0..<strokeElements.count {
-            dataPoints.insert(CGPoint(x: strokeElements[i].x, y: strokeElements[i].y), at: i)
-        }
-        
         // next we need to know the zero Y value
         let zeroY = fillElements[0].y
-        // now clear and rebuild elements
-        //strokeElements.removeAll()
-        //fillElements.removeAll()
-        let result : ([CGPoint], [CGPoint]) = calcCurveControlPoints(dataPoints: dataPoints)
+        
+        // now rebuild elements
+        let result : ([CGPoint], [CGPoint]) = calcCurveControlPoints(dataPoints: strokeElements)
         var firstControlPoints  = result.0
         var secondControlPoints = result.1
         
@@ -155,21 +133,21 @@ class SmoothAreaTileSkin: Skin {
         let fillPath   : UIBezierPath = UIBezierPath()
         
         // start both paths
-        strokePath.move(to: CGPoint(x: dataPoints[0].x, y: dataPoints[0].y))
-        fillPath.move(to: CGPoint(x: dataPoints[0].x, y: zeroY))
-        fillPath.addLine(to: CGPoint(x: dataPoints[0].x, y: dataPoints[0].y))
+        strokePath.move(to: CGPoint(x: strokeElements[0].x, y: strokeElements[0].y))
+        fillPath.move(to: CGPoint(x: strokeElements[0].x, y: zeroY))
+        fillPath.addLine(to: CGPoint(x: strokeElements[0].x, y: strokeElements[0].y))
         
         // add curves
-        for i in 2..<dataPoints.count {
+        for i in 2..<strokeElements.count {
             let ci = i - 1
-            let point         = CGPoint(x: dataPoints[i].x, y: dataPoints[i].y)
+            let point         = CGPoint(x: strokeElements[i].x, y: strokeElements[i].y)
             let controlPoint1 = CGPoint(x: firstControlPoints[ci].x, y: firstControlPoints[ci].y)
             let controlPoint2 = CGPoint(x: secondControlPoints[ci].x, y: secondControlPoints[ci].y)
             strokePath.addCurve(to: point, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
             fillPath.addCurve(to: point, controlPoint1: controlPoint1, controlPoint2: controlPoint2)
         }
         // end the paths
-        fillPath.addLine(to: CGPoint(x: dataPoints[dataPoints.count - 1].x, y: zeroY))
+        fillPath.addLine(to: CGPoint(x: strokeElements[strokeElements.count - 1].x, y: zeroY))
         fillPath.close()
         return (strokePath, fillPath)
     }
@@ -242,14 +220,14 @@ class SmoothAreaTileSkin: Skin {
         for i in 1..<n {
             x[n - i - 1] -= tmp[n - i] * x[n - i]
         }
-        return x;
+        return x
     }
     
     func animateChart() {
         guard let tile = control else { return }
         
-        let oldPaths : (UIBezierPath, UIBezierPath) = getOldValuePaths()
-        let newPaths : (UIBezierPath, UIBezierPath) = getValuePaths()
+        let oldPaths : (UIBezierPath, UIBezierPath) = getPaths(oldValues: true)
+        let newPaths : (UIBezierPath, UIBezierPath) = getPaths(oldValues: false)
         
         fillPath.removeAllPoints()
         fillPath.append(oldPaths.1)
@@ -352,7 +330,7 @@ class SmoothAreaTileSkin: Skin {
         hStepSize = width / CGFloat(dataSize)
         vStepSize = (height * 0.5) / maxValue
         
-        let newPaths : (UIBezierPath, UIBezierPath) = getValuePaths()
+        let newPaths : (UIBezierPath, UIBezierPath) = getPaths(oldValues: false) //getValuePaths()
         
         fillPath.removeAllPoints()
         fillPath.append(newPaths.1)
