@@ -55,6 +55,8 @@ class GaugeSkin: Skin {
             setNeedsDisplay()
         } else if (cmd == Helper.RECALC) {
             angleStep = .pi / tile.range
+        } else if (cmd == Helper.SECTIONS) {
+            setNeedsDisplay()
         }
     }
     override func update<T>(prop: String, value: T) {
@@ -105,8 +107,7 @@ class GaugeSkin: Skin {
     }
     
     override func layoutSublayers() {
-        super.layoutSublayers()
-        
+        super.layoutSublayers()        
         pointerView.frame     = bounds
         pointerLayer.frame    = bounds
         pointerLayer.contents = drawPointer(in: bounds)?.cgImage

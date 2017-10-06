@@ -56,8 +56,14 @@ class Helper: NSObject {
     static func toRadians(deg: Double) -> Double {
         return (deg * .pi / 180.0)
     }
+    static func toRadians(deg: CGFloat) -> CGFloat {
+        return (deg * .pi / 180.0)
+    }
     
     static func toDegrees(rad: Double) -> Double {
+        return (rad * 180.0 / .pi)
+    }
+    static func toDegrees(rad: CGFloat) -> CGFloat {
         return (rad * 180.0 / .pi)
     }
 }

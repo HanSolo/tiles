@@ -21,6 +21,7 @@ class Tile: UIControl {
         case HIGH_LOW
         case NUMBER
         case TEXT
+        case TIME_CONTROL
     }
     
     let events       = EventBus()
@@ -29,35 +30,31 @@ class Tile: UIControl {
     let titleLabel   = UILabel()
     let textLabel    = UILabel()
     
-    var size              : CGFloat = Helper.DEFAULT_SIZE
-    
-    var animationDuration : Double  = 1.5
-    
-    var bkgColor          : UIColor = Helper.BKG_COLOR
-    var fgdColor          : UIColor = Helper.FGD_COLOR
-    
-    var title             : String = "Title" { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var text              : String = "Text"  { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var textVisible       : Bool   = true    { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var unit              : String = ""      { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var descr             : String = ""      { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var minValue          : CGFloat = 0.0   {
+    var size                   : CGFloat = Helper.DEFAULT_SIZE
+    var animationDuration      : Double  = 1.5
+    var bkgColor               : UIColor = Helper.BKG_COLOR
+    var fgdColor               : UIColor = Helper.FGD_COLOR
+    var title                  : String = "Title"                       { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var text                   : String = "Text"                        { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var textVisible            : Bool   = true                          { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var unit                   : String = ""                            { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var descr                  : String = ""                            { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var minValue               : CGFloat = 0.0   {
         didSet {
             if (minValue > maxValue) { maxValue = minValue }
             skin.update(cmd: Helper.RECALC)
         }
-        
     }
-    var maxValue     : CGFloat = 100.0 {
+    var maxValue               : CGFloat = 100.0 {
         didSet {
             if (maxValue < minValue) { minValue = maxValue }
             skin.update(cmd: Helper.RECALC)
         }
     }
-    var range        : CGFloat { return maxValue - minValue }
-    var threshold    : CGFloat = 100.0 { didSet { skin.update(cmd: Helper.REDRAW) }}
-    var animated     : Bool = true
-    var value        : CGFloat = 0.0 {
+    var range                  : CGFloat { return maxValue - minValue }
+    var threshold              : CGFloat = 100.0 { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var animated               : Bool = true
+    var value                  : CGFloat = 0.0 {
         didSet {
             self.oldValue = oldValue
             if (oldValue < threshold && value > threshold) {
@@ -85,14 +82,29 @@ class Tile: UIControl {
     var thresholdColor         : UIColor             = Helper.BLUE      { didSet { skin.update(cmd: Helper.REDRAW) }}
     var chartDataList          : [ChartData]         = []               { didSet { skin.update(cmd: Helper.UPDATE) }}
     var sections               : [Section]           = [] {
-        didSet{
+        didSet {
             sections.sort { $0.start < $1.start }
+            skin.update(cmd: Helper.SECTIONS)
+        }
+    }
+    var timeSections           : [TimeSection]       = [] {
+        didSet {
+            timeSections.sort { $0.start < $1.start }
             skin.update(cmd: Helper.SECTIONS)
         }
     }
     var sectionsVisible        : Bool                = true             { didSet { skin.update(cmd: Helper.UPDATE) }}
     var titleAlignment         : NSTextAlignment     = .left            { didSet { titleLabel.textAlignment = titleAlignment }}
     var textAlignment          : NSTextAlignment     = .left            { didSet { textLabel.textAlignment = textAlignment   }}
+    var hourTickMarksVisible   : Bool                = true             { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var minuteTickMarksVisible : Bool                = true             { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var highlightSections      : Bool                = false            { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var time                   : Date                = Date()           { didSet { skin.update(cmd: Helper.UPDATE) }}
+
+    var hourColor              : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var minuteColor            : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var secondColor            : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var knobColor              : UIColor             = Helper.FGD_COLOR { didSet { skin.update(cmd: Helper.UPDATE) }}
     
     var listeners              : [TileEventListener] = []
     
@@ -111,6 +123,7 @@ class Tile: UIControl {
             case SkinType.HIGH_LOW         : skin = HighLowSkin(); break
             case SkinType.NUMBER           : skin = NumberSkin(); break
             case SkinType.TEXT             : skin = TextSkin(); break
+            case SkinType.TIME_CONTROL     : skin = TimerControlSkin(); break
         default                            : skin = TileSkin(); break
         }
         

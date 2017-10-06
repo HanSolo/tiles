@@ -24,31 +24,37 @@ class TimeSection {
     
     // ******************** Constructors *************
     convenience init() {
-        self.init(start: Date(), stop: Date(), text: "", icon: UIImage(), color: UIColor.clear, highlightColor: UIColor.clear, textColor: UIColor.clear, active: true, days: 0,1,2,3,4,5,6,7)
+        self.init(start: Date(), stop: Date(), text: "", icon: UIImage(), color: UIColor.clear, highlightColor: UIColor.clear, textColor: UIColor.clear, active: false, days: 0,1,2,3,4,5,6,7)
     }
     convenience init(start: Date, stop: Date) {
-        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: UIColor.clear, highlightColor: UIColor.clear, textColor: UIColor.clear, active: true, days: 0,1,2,3,4,5,6,7)
+        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: UIColor.clear, highlightColor: UIColor.clear, textColor: UIColor.clear, active: false, days: 0,1,2,3,4,5,6,7)
     }
     convenience init(start: Date, stop: Date, color: UIColor) {
-        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: color, highlightColor: UIColor.clear, textColor: UIColor.clear, active: true, days: 0,1,2,3,4,5,6,7)
+        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: color, highlightColor: UIColor.clear, textColor: UIColor.clear, active: false, days: 0,1,2,3,4,5,6,7)
+    }
+    convenience init(start: Date, stop: Date, color: UIColor, active: Bool) {
+        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: color, highlightColor: UIColor.clear, textColor: UIColor.clear, active: active, days: 0,1,2,3,4,5,6,7)
+    }
+    convenience init(start: Date, stop: Date, color: UIColor, active: Bool, days: Int...) {
+        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: color, highlightColor: UIColor.clear, textColor: UIColor.clear, active: active, days: days)
     }
     convenience init(start: Date, stop: Date, color: UIColor, highlightColor: UIColor) {
-        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: color, highlightColor: highlightColor, textColor: UIColor.clear, active: true, days: 0,1,2,3,4,5,6,7)
+        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: color, highlightColor: highlightColor, textColor: UIColor.clear, active: false, days: 0,1,2,3,4,5,6,7)
     }
     convenience init(start: Date, stop: Date, color: UIColor, highlightColor: UIColor, days: Int...) {
-        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: color, highlightColor: highlightColor, textColor: UIColor.clear, active: true, days: days)
+        self.init(start: start, stop: stop, text: "", icon: UIImage(), color: color, highlightColor: highlightColor, textColor: UIColor.clear, active: false, days: days)
     }
     convenience init(start: Date, stop: Date, icon: UIImage, color: UIColor) {
-        self.init(start: start, stop: stop, text: "", icon: icon, color: color, highlightColor: UIColor.clear, textColor: UIColor.clear, active: true, days: 0,1,2,3,4,5,6,7)
+        self.init(start: start, stop: stop, text: "", icon: icon, color: color, highlightColor: UIColor.clear, textColor: UIColor.clear, active: false, days: 0,1,2,3,4,5,6,7)
     }
     convenience init(start: Date, stop: Date, text: String, color: UIColor) {
-        self.init(start: start, stop: stop, text: text, icon: UIImage(), color: color, highlightColor: UIColor.clear, textColor: UIColor.clear, active: true, days: 0,1,2,3,4,5,6,7)
+        self.init(start: start, stop: stop, text: text, icon: UIImage(), color: color, highlightColor: UIColor.clear, textColor: UIColor.clear, active: false, days: 0,1,2,3,4,5,6,7)
     }
     convenience init(start: Date, stop: Date, text: String, color: UIColor, textColor: UIColor) {
-        self.init(start: start, stop: stop, text: text, icon: UIImage(), color: color, highlightColor: UIColor.clear, textColor: textColor, active: true, days: 0,1,2,3,4,5,6,7)
+        self.init(start: start, stop: stop, text: text, icon: UIImage(), color: color, highlightColor: UIColor.clear, textColor: textColor, active: false, days: 0,1,2,3,4,5,6,7)
     }
     convenience init(start: Date, stop: Date, text: String, icon: UIImage, color: UIColor, textColor: UIColor) {
-        self.init(start: start, stop: stop, text: text, icon: icon, color: color, highlightColor: UIColor.clear, textColor: textColor, active: true, days: 0,1,2,3,4,5,6,7)
+        self.init(start: start, stop: stop, text: text, icon: icon, color: color, highlightColor: UIColor.clear, textColor: textColor, active: false, days: 0,1,2,3,4,5,6,7)
     }
     convenience init(start: Date, stop: Date, text: String, icon: UIImage, color: UIColor, highlightColor: UIColor, textColor: UIColor, active: Bool, days: [Int]) {
         self.init(start: start, stop: stop, text: text, icon: icon, color: color, highlightColor: highlightColor, textColor: textColor, active: active, days: days)
