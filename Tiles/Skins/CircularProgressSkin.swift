@@ -9,13 +9,13 @@
 import UIKit
 
 class CircularProgressSkin: Skin {
-    var chartSize   : CGFloat = 0.0
-    var y           : CGFloat = 0
-    let valueLabel            = AnimLabel()
-    let percentageValueLabel  = AnimLabel()
-    let startAngle            = CGFloat(.pi * 0.5)
-    let barLayer              = CAShapeLayer()
-    var bar                   = UIBezierPath()
+    private var chartSize   : CGFloat = 0.0
+    private var y           : CGFloat = 0
+    private let valueLabel            = AnimLabel()
+    private let percentageValueLabel  = AnimLabel()
+    private let startAngle            = CGFloat(.pi * 0.5)
+    private let barLayer              = CAShapeLayer()
+    private var bar                   = UIBezierPath()
     
     
     // ******************** Constructors **************

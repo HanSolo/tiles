@@ -14,19 +14,19 @@ class HighLowSkin: Skin {
         case DECREASE
         case CONSTANT
     }
-    let valueLabel      = AnimLabel()
-    let descriptionLabel = UILabel()
-    let referenceLabel  = AnimLabel()
-    var state               = State.CONSTANT { didSet { self.oldState = oldValue } }
-    var oldState            = State.CONSTANT
-    var percentageFont    = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.18)
-    var unitFont          = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.12)
-    var mediumFont        = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.1)
-    var bigFont           = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.24)
-    var triangleLayer              = CAShapeLayer()
-    var deviation         :CGFloat = 0.0
-    var oldDeviation      :CGFloat = 0.0
-    var oldValue          :CGFloat = 0.0
+    private let valueLabel              = AnimLabel()
+    private let descriptionLabel        = UILabel()
+    private let referenceLabel          = AnimLabel()
+    private var state                   = State.CONSTANT { didSet { self.oldState = oldValue } }
+    private var oldState                = State.CONSTANT
+    private var percentageFont          = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.18)
+    private var unitFont                = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.12)
+    private var mediumFont              = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.1)
+    private var bigFont                 = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.24)
+    private var triangleLayer           = CAShapeLayer()
+    private var deviation      :CGFloat = 0.0
+    private var oldDeviation   :CGFloat = 0.0
+    private var oldValue       :CGFloat = 0.0
     
     
     // ******************** Constructors **************

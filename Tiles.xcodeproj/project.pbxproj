@@ -36,6 +36,10 @@
 		4F821CDB1F79569000713915 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F821CDA1F79569000713915 /* Helper.swift */; };
 		4F98D1121F7F511200F1DA1D /* CircularProgressSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F98D1111F7F511200F1DA1D /* CircularProgressSkin.swift */; };
 		4F98D1151F7F68B200F1DA1D /* UIColor+BrighterDarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F98D1141F7F68B200F1DA1D /* UIColor+BrighterDarker.swift */; };
+		4FA202491F87757200CF29B7 /* TimeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA202481F87757200CF29B7 /* TimeSection.swift */; };
+		4FA2024B1F8775B100CF29B7 /* TimeSectionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA2024A1F8775B100CF29B7 /* TimeSectionEvent.swift */; };
+		4FA2024D1F8775C100CF29B7 /* TimeSectionEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA2024C1F8775C100CF29B7 /* TimeSectionEventListener.swift */; };
+		4FA2024F1F8775DE00CF29B7 /* TimeSectionEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA2024E1F8775DE00CF29B7 /* TimeSectionEventType.swift */; };
 		4FFCA4F11F7E150F00491D7D /* AnimLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */; };
 		4FFEC6091F7E4D6F009F92C8 /* MapSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEC6081F7E4D6F009F92C8 /* MapSkin.swift */; };
 		4FFEC60C1F7E4F5C009F92C8 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEC60B1F7E4F5C009F92C8 /* Location.swift */; };
@@ -74,6 +78,10 @@
 		4F821CDA1F79569000713915 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		4F98D1111F7F511200F1DA1D /* CircularProgressSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressSkin.swift; sourceTree = "<group>"; };
 		4F98D1141F7F68B200F1DA1D /* UIColor+BrighterDarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+BrighterDarker.swift"; sourceTree = "<group>"; };
+		4FA202481F87757200CF29B7 /* TimeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSection.swift; sourceTree = "<group>"; };
+		4FA2024A1F8775B100CF29B7 /* TimeSectionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSectionEvent.swift; sourceTree = "<group>"; };
+		4FA2024C1F8775C100CF29B7 /* TimeSectionEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSectionEventListener.swift; sourceTree = "<group>"; };
+		4FA2024E1F8775DE00CF29B7 /* TimeSectionEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSectionEventType.swift; sourceTree = "<group>"; };
 		4FFCA4F01F7E150F00491D7D /* AnimLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimLabel.swift; sourceTree = "<group>"; };
 		4FFEC6081F7E4D6F009F92C8 /* MapSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSkin.swift; sourceTree = "<group>"; };
 		4FFEC60B1F7E4F5C009F92C8 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -110,6 +118,9 @@
 				4F4D11351F853E16004070B5 /* SectionEvent.swift */,
 				4F4D11371F853E27004070B5 /* SectionEventListener.swift */,
 				4F4D11391F853E36004070B5 /* SectionEventType.swift */,
+				4FA2024A1F8775B100CF29B7 /* TimeSectionEvent.swift */,
+				4FA2024C1F8775C100CF29B7 /* TimeSectionEventListener.swift */,
+				4FA2024E1F8775DE00CF29B7 /* TimeSectionEventType.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -151,6 +162,7 @@
 				4F16E3661F7CF123005DAAE1 /* Tile.swift */,
 				4F0174B11F7E450100FF3ADE /* Skin.swift */,
 				4F4D11331F853994004070B5 /* Section.swift */,
+				4FA202481F87757200CF29B7 /* TimeSection.swift */,
 			);
 			path = Tiles;
 			sourceTree = "<group>";
@@ -280,12 +292,15 @@
 				4F0C9AE01F82168A005F5195 /* ChartData.swift in Sources */,
 				4F16E3731F7D32DD005DAAE1 /* GaugeSkin.swift in Sources */,
 				4F4D11301F8536CB004070B5 /* NumberSkin.swift in Sources */,
+				4FA202491F87757200CF29B7 /* TimeSection.swift in Sources */,
+				4FA2024F1F8775DE00CF29B7 /* TimeSectionEventType.swift in Sources */,
 				4F2E53DD1F79021C009FD3B7 /* ViewController.swift in Sources */,
 				4FFEC60C1F7E4F5C009F92C8 /* Location.swift in Sources */,
 				4F3C6F441F84DB6B00CFF317 /* TileEventListener.swift in Sources */,
 				4F3C6F461F84DBA200CFF317 /* TileEvent.swift in Sources */,
 				4F4D11381F853E27004070B5 /* SectionEventListener.swift in Sources */,
 				4F4D112A1F84E812004070B5 /* TileEventType.swift in Sources */,
+				4FA2024D1F8775C100CF29B7 /* TimeSectionEventListener.swift in Sources */,
 				4F0C9AE31F8218D0005F5195 /* EventBus.swift in Sources */,
 				4F4D11361F853E16004070B5 /* SectionEvent.swift in Sources */,
 				4F98D1151F7F68B200F1DA1D /* UIColor+BrighterDarker.swift in Sources */,
@@ -294,6 +309,7 @@
 				4F0174B01F7E41C600FF3ADE /* TileSkin.swift in Sources */,
 				4F16E3671F7CF123005DAAE1 /* Tile.swift in Sources */,
 				4F4D113A1F853E36004070B5 /* SectionEventType.swift in Sources */,
+				4FA2024B1F8775B100CF29B7 /* TimeSectionEvent.swift in Sources */,
 				4F4D11321F853726004070B5 /* TextSkin.swift in Sources */,
 				4F0C9ADD1F821441005F5195 /* SmoothAreaTileSkin.swift in Sources */,
 				4F0174B21F7E450100FF3ADE /* Skin.swift in Sources */,

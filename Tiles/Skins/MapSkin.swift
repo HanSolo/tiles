@@ -11,8 +11,8 @@ import MapKit
 
 
 class MapSkin: Skin, MKMapViewDelegate {
-    var map    : MKMapView = MKMapView()
-    let marker             = MKPointAnnotation()
+    private var map    : MKMapView = MKMapView()
+    private let marker             = MKPointAnnotation()
     
     
     // ******************** Constructors **************

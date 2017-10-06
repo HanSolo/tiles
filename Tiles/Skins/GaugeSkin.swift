@@ -10,14 +10,16 @@ import UIKit
 
 
 class GaugeSkin: Skin {
-    var angleStep : CGFloat = .pi / 100.0
-    
-    let valueLabel     = AnimLabel()
-    let minValueLabel  = UILabel()
-    let maxValueLabel  = UILabel()
-    let thresholdLabel = UILabel()
-    var pointerLayer   = CALayer()
-    var pointerView    = UIView()
+    private var angleStep : CGFloat = .pi / 100.0
+    private let valueLabel          = AnimLabel()
+    private let minValueLabel       = UILabel()
+    private let maxValueLabel       = UILabel()
+    private let thresholdLabel      = UILabel()
+    private var pointerLayer        = CALayer()
+    private var pointerView         = UIView()
+    private var startTime           = 0.0
+    private var stepSize            = CGFloat(0.0)
+    private var displayLink         : CADisplayLink?
     
     
     // ******************** Constructors **************
@@ -58,15 +60,48 @@ class GaugeSkin: Skin {
     override func update<T>(prop: String, value: T) {
         guard let tile = control else { return }
         if (prop == "value") {
-            valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
+            // Calculate stepSize
+            stepSize = (tile.value - tile.oldValue) / CGFloat(tile.animationDuration)
+            startDisplayLink()
             
-            thresholdLabel.backgroundColor = tile.value > tile.threshold ? tile.thresholdColor : Helper.GRAY
-            thresholdLabel.setNeedsDisplay()
+            valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
             
             UIView.animate(withDuration: tile.animationDuration, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
                 self.pointerView.transform = CGAffineTransform(rotationAngle: (self.angleStep * tile.value))
-            }, completion: nil)
+            }, completion: { (_) in
+                self.displayLink?.invalidate()
+            })
         }
+    }
+    
+    func startDisplayLink() {
+        // make sure to stop a previous running display link
+        stopDisplayLink()
+        
+        // reset start time
+        startTime = CACurrentMediaTime()
+        
+        // create displayLink & add it to the run-loop
+        displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire))
+        displayLink?.preferredFramesPerSecond = 6
+        displayLink?.add(to: .main, forMode: .commonModes)
+    }
+    func stopDisplayLink() {
+        displayLink?.invalidate()
+        displayLink = nil
+    }
+    @objc func displayLinkDidFire(displayLink: CADisplayLink) {
+        guard let tile = control else { return }
+        var elapsed = CACurrentMediaTime() - startTime
+        if elapsed > tile.animationDuration {
+            stopDisplayLink()
+            elapsed = tile.animationDuration // clamp the elapsed time to the anim length
+        }
+        let currentValue = tile.oldValue + CGFloat(elapsed) * stepSize
+        handleCurrentValue(tile: tile, value: currentValue)
+    }    
+    func handleCurrentValue(tile: Tile, value: CGFloat) {
+        thresholdLabel.backgroundColor = value > tile.threshold ? tile.thresholdColor : Helper.GRAY
     }
     
     override func layoutSublayers() {

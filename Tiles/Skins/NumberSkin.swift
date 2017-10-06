@@ -9,8 +9,9 @@
 import UIKit
 
 class NumberSkin: Skin {
-    let valueLabel       = AnimLabel()
-    let descriptionLabel = UILabel()
+    private let valueLabel       = AnimLabel()
+    private let descriptionLabel = UILabel()
+    
     
     // ******************** Constructors **************
     override init() {

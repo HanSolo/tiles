@@ -9,13 +9,15 @@
 import UIKit
 
 class PercentageSkin: Skin {
-    let valueLabel            = AnimLabel()
-    let percentageValueLabel  = AnimLabel()
-    let descriptionLabel      = UILabel()
-    let maxValueLabel         = UILabel()
-    
-    let barLayer              = CAShapeLayer()
-    var bar                   = UIBezierPath()
+    private let valueLabel           = AnimLabel()
+    private let percentageValueLabel = AnimLabel()
+    private let descriptionLabel     = UILabel()
+    private let maxValueLabel        = UILabel()
+    private let barLayer             = CAShapeLayer()
+    private var bar                  = UIBezierPath()
+    private var startTime            = 0.0
+    private var stepSize             = CGFloat(0.0)
+    private var displayLink          : CADisplayLink?
     
     
     // ******************** Constructors ********************
@@ -66,15 +68,47 @@ class PercentageSkin: Skin {
         guard let tile = control else { return }
         
         if (prop == "value") {
+            // Calculate stepSize
+            stepSize = (tile.value - tile.oldValue) / CGFloat(tile.animationDuration)
+            startDisplayLink()
+            
             valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
             percentageValueLabel.countFrom((tile.oldValue / tile.range * 100.0), to: (tile.value / tile.range * 100.0), withDuration: tile.animationDuration)
-    
-            maxValueLabel.backgroundColor = tile.value > tile.maxValue ? tile.barColor : tile.thresholdColor
-            maxValueLabel.setNeedsDisplay()
             
             animateBar(duration: tile.animationDuration, tile:tile)
         }
     }
+    
+    func startDisplayLink() {
+        // make sure to stop a previous running display link
+        stopDisplayLink()
+        
+        // reset start time
+        startTime = CACurrentMediaTime()
+        
+        // create displayLink & add it to the run-loop
+        displayLink = CADisplayLink(target: self, selector: #selector(displayLinkDidFire))
+        displayLink?.preferredFramesPerSecond = 6
+        displayLink?.add(to: .main, forMode: .commonModes)
+    }
+    func stopDisplayLink() {
+        displayLink?.invalidate()
+        displayLink = nil
+    }
+    @objc func displayLinkDidFire(displayLink: CADisplayLink) {
+        guard let tile = control else { return }
+        var elapsed = CACurrentMediaTime() - startTime
+        if elapsed > tile.animationDuration {
+            stopDisplayLink()
+            elapsed = tile.animationDuration // clamp the elapsed time to the anim length
+        }
+        let currentValue = tile.oldValue + CGFloat(elapsed) * stepSize
+        handleCurrentValue(tile: tile, value: currentValue)
+    }
+    func handleCurrentValue(tile: Tile, value: CGFloat) {
+        maxValueLabel.backgroundColor = value > tile.maxValue ? tile.barColor : tile.thresholdColor        
+    }
+    
     
     func animateBar(duration: TimeInterval, tile: Tile) {
         bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: Helper.clamp(min: 0, max: size, value:(tile.oldValue / tile.range) * size), height: size * 0.035),

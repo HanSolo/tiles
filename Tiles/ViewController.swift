@@ -86,7 +86,7 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         let screenSize  :CGRect       = UIScreen.main.bounds
         let screenWidth :CGFloat      = screenSize.width
-        let screenHeight:CGFloat      = screenSize.height
+        //let screenHeight:CGFloat      = screenSize.height
         let margin      : CGFloat     = 5.0
         let width       : CGFloat     = (screenWidth - 3 * margin) / 2.0
         let height      : CGFloat     = width

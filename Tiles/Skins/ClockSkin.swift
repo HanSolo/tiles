@@ -9,13 +9,13 @@
 import UIKit
 
 class ClockSkin: Skin {
-    let timeLabel     = UILabel()
-    let dateLabel     = UILabel()
-    let dayLabel      = UILabel()
-    var timer         = Timer()
-    let timeFormatter = DateFormatter()
-    let dateFormatter = DateFormatter()
-    let dayFormatter  = DateFormatter()
+    private let timeLabel     = UILabel()
+    private let dateLabel     = UILabel()
+    private let dayLabel      = UILabel()
+    private var timer         = Timer()
+    private let timeFormatter = DateFormatter()
+    private let dateFormatter = DateFormatter()
+    private let dayFormatter  = DateFormatter()
     
     
     // ******************** Constructors **************

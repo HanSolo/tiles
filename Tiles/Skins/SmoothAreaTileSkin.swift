@@ -9,18 +9,18 @@
 import UIKit
 
 class SmoothAreaTileSkin: Skin {
-    let valueLabel = AnimLabel()
+    private let valueLabel = AnimLabel()
     
-    var dataSize  : Int     = 0
-    var maxValue  : CGFloat = 0
-    var hStepSize : CGFloat = 0
-    var vStepSize : CGFloat = 0
+    private var dataSize  : Int     = 0
+    private var maxValue  : CGFloat = 0
+    private var hStepSize : CGFloat = 0
+    private var vStepSize : CGFloat = 0
     
-    let fillLayer     = CAShapeLayer()
-    var fillPath      = UIBezierPath()
-    let strokeLayer   = CAShapeLayer()
-    var strokePath    = UIBezierPath()
-    //let gradientLayer = CAGradientLayer()
+    private let fillLayer     = CAShapeLayer()
+    private var fillPath      = UIBezierPath()
+    private let strokeLayer   = CAShapeLayer()
+    private var strokePath    = UIBezierPath()
+    //private let gradientLayer = CAGradientLayer()
     
     
     // ******************** Constructors ********************

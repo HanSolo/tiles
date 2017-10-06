@@ -9,7 +9,8 @@
 import UIKit
 
 class TextSkin: Skin {
-    let text = UITextView()
+    private let text = UITextView()
+    
     
     // ******************** Constructors **************
     override init() {
