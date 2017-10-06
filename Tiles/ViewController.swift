@@ -84,10 +84,13 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        let margin: CGFloat = 5.0
-        let width : CGFloat = 200
-        let height: CGFloat = 200
-        let safeArea        = view.safeAreaInsets
+        let screenSize  :CGRect       = UIScreen.main.bounds
+        let screenWidth :CGFloat      = screenSize.width
+        let screenHeight:CGFloat      = screenSize.height
+        let margin      : CGFloat     = 5.0
+        let width       : CGFloat     = (screenWidth - 3 * margin) / 2.0
+        let height      : CGFloat     = width
+        let safeArea    :UIEdgeInsets = view.safeAreaInsets
         
         circularProgressTile.frame = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
         gaugeTile.frame            = CGRect(x: margin, y: margin + safeArea.top + height + margin, width: width, height: height)
