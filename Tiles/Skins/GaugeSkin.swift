@@ -16,9 +16,8 @@ class GaugeSkin: Skin {
     let minValueLabel  = UILabel()
     let maxValueLabel  = UILabel()
     let thresholdLabel = UILabel()
-    var pointer        = CALayer()
+    var pointerLayer   = CALayer()
     var pointerView    = UIView()
-    
     
     
     // ******************** Constructors **************
@@ -44,12 +43,12 @@ class GaugeSkin: Skin {
             tile.addSubview(maxValueLabel)
             tile.addSubview(thresholdLabel)
             
-            pointer.contentsScale = UIScreen.main.scale
-            pointer.anchorPoint = CGPoint(x: 0.5, y: 0.765)
+            pointerLayer.contentsScale = UIScreen.main.scale
+            pointerLayer.anchorPoint   = CGPoint(x: 0.5, y: 0.765)
             tile.addSubview(pointerView)
             
             pointerView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.765)
-            pointerView.layer.addSublayer(pointer)
+            pointerView.layer.addSublayer(pointerLayer)
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         } else if (cmd == Helper.RECALC) {
@@ -73,9 +72,9 @@ class GaugeSkin: Skin {
     override func layoutSublayers() {
         super.layoutSublayers()
         
-        pointerView.frame = bounds
-        pointer.frame     = bounds
-        pointer.contents  = drawPointer(in: bounds)?.cgImage
+        pointerView.frame     = bounds
+        pointerLayer.frame    = bounds
+        pointerLayer.contents = drawPointer(in: bounds)?.cgImage
     }
     
     
@@ -146,15 +145,33 @@ class GaugeSkin: Skin {
         let thresholdTrack = UIBezierPath()
         thresholdTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
                               radius    : radius,
-                              startAngle: 0.0, endAngle: -thresholdAngle,
+                              startAngle: 0.0,
+                              endAngle  : -thresholdAngle,
                               clockwise : false)
         ctx.setLineWidth(size * 0.045)
         ctx.addPath(thresholdTrack.cgPath)
-        ctx.setStrokeColor(Helper.BLUE.cgColor)
+        ctx.setStrokeColor(tile.barColor.cgColor)
         ctx.strokePath()
         
         let formatString          = "%.\(tile.decimals)f"
         let tickLabelFormatString = "%.\(tile.tickLabelDecimals)f"
+        
+        // Sections
+        if (tile.sectionsVisible) {
+            for section in tile.sections {
+                let startAngle = (Helper.clamp(min: tile.minValue, max: tile.maxValue, value: section.start)) * angleStep - .pi
+                let endAngle   = (Helper.clamp(min: tile.minValue, max: tile.maxValue, value: section.stop)) * angleStep - .pi
+                let sectionTrack = UIBezierPath()
+                sectionTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
+                                    radius    : radius,
+                                    startAngle: startAngle,
+                                    endAngle  : endAngle,
+                                    clockwise : true)
+                ctx.addPath(sectionTrack.cgPath)
+                ctx.setStrokeColor(section.color.cgColor)
+                ctx.strokePath()
+            }
+        }
         
         // Value and Unit text
         valueLabel.frame           = CGRect(x: size * 0.05, y: centerY - size * 0.35, width: size * 0.9, height:size * 0.288)

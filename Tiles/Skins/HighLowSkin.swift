@@ -14,16 +14,19 @@ class HighLowSkin: Skin {
         case DECREASE
         case CONSTANT
     }
-    let valueLabel       = AnimLabel()
+    let valueLabel      = AnimLabel()
     let descriptionLabel = UILabel()
-    let referenceLabel   = AnimLabel()
-    var state            = State.CONSTANT { didSet { self.oldState = oldValue } }
-    var oldState         = State.CONSTANT
-    var percentageFont   = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.18)
-    var unitFont         = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.12)
-    var mediumFont       = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.1)
-    var bigFont          = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.24)
-    var triangleLayer    = CAShapeLayer()
+    let referenceLabel  = AnimLabel()
+    var state               = State.CONSTANT { didSet { self.oldState = oldValue } }
+    var oldState            = State.CONSTANT
+    var percentageFont    = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.18)
+    var unitFont          = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.12)
+    var mediumFont        = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.1)
+    var bigFont           = UIFont.init(name: "Lato-Regular", size: Helper.DEFAULT_SIZE * 0.24)
+    var triangleLayer              = CAShapeLayer()
+    var deviation         :CGFloat = 0.0
+    var oldDeviation      :CGFloat = 0.0
+    var oldValue          :CGFloat = 0.0
     
     
     // ******************** Constructors **************
@@ -48,6 +51,7 @@ class HighLowSkin: Skin {
         guard let tile = control else { return }
         
         if (cmd == Helper.INIT) {
+            oldValue = tile.oldValue
             tile.addSubview(valueLabel)
             tile.addSubview(referenceLabel)
             tile.addSubview(descriptionLabel)
@@ -59,17 +63,24 @@ class HighLowSkin: Skin {
         guard let tile = control else { return }
         
         if (prop == "value") {
-            updateState(value: tile.value, referenceValue: tile.referenceValue, tile:tile)
+            oldDeviation = deviation
+            deviation    = calculateDeviation(value: tile.value)
+            updateState(deviation: deviation, tile:tile)
             valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
-            referenceLabel.countFrom(tile.referenceValue, to: tile.referenceValue, withDuration: 0)
+            referenceLabel.countFrom(oldDeviation, to: deviation, withDuration: tile.animationDuration)
         }
     }
+
+    func calculateDeviation(value : CGFloat) -> CGFloat {
+        let deviation = oldValue == 0 ? value : -((oldValue - value) / oldValue) * 100.0
+        oldValue = value
+        return deviation
+    }
     
-    
-    func updateState(value : CGFloat, referenceValue : CGFloat, tile : Tile) {
-        if (value > referenceValue) {
+    func updateState(deviation : CGFloat, tile : Tile) {
+        if (deviation > 0) {
             state = .INCREASE
-        } else if (value < referenceValue) {
+        } else if (deviation < 0) {
             state = .DECREASE
         } else {
             state = .CONSTANT
@@ -196,14 +207,14 @@ class HighLowSkin: Skin {
                                  valueFont   : percentageFont!,
                                  formatString: tickLabelFormatString,
                                  valueColor  : getStateColor(),
-                                 unit        : tile.unit,
+                                 unit        : "%",
                                  unitFont    : unitFont!,
                                  unitColor   : getStateColor())
         referenceLabel.textAlignment   = .left
         referenceLabel.numberOfLines   = 1
         referenceLabel.backgroundColor = UIColor.clear
         referenceLabel.setNeedsDisplay()
-        referenceLabel.countFrom(tile.referenceValue, to: tile.referenceValue, withDuration: tile.animationDuration)
+        referenceLabel.countFrom(oldDeviation, to: calculateDeviation(value: tile.value), withDuration: tile.animationDuration)
         
         // Triangle
         let triangle = UIBezierPath()

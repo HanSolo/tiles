@@ -47,11 +47,14 @@ class ViewController: UIViewController {
         circularProgressTile.unit     = "V"
         circularProgressTile.decimals = 1
         
+        let section0 = Section(start: 20, stop: 50, color: Helper.RED)
+        
         gaugeTile.minValue  = 0
         gaugeTile.maxValue  = 100
         gaugeTile.threshold = 75
         gaugeTile.title     = "GaugeSkin"
         gaugeTile.unit      = "V"
+        gaugeTile.sections  = [section0]
         
         percentageTile.title    = "PercentageSkin"
         percentageTile.descr    = "Test"

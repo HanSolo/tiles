@@ -90,6 +90,7 @@ class Tile: UIControl {
             skin.update(cmd: Helper.SECTIONS)
         }
     }
+    var sectionsVisible        : Bool                = true             { didSet { skin.update(cmd: Helper.UPDATE) }}
     var titleAlignment         : NSTextAlignment     = .left            { didSet { titleLabel.textAlignment = titleAlignment }}
     var textAlignment          : NSTextAlignment     = .left            { didSet { textLabel.textAlignment = textAlignment   }}
     
