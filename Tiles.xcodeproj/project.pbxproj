@@ -30,7 +30,6 @@
 		4F4D11361F853E16004070B5 /* SectionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D11351F853E16004070B5 /* SectionEvent.swift */; };
 		4F4D11381F853E27004070B5 /* SectionEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D11371F853E27004070B5 /* SectionEventListener.swift */; };
 		4F4D113A1F853E36004070B5 /* SectionEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D11391F853E36004070B5 /* SectionEventType.swift */; };
-		4F576F4D1F865419000293BC /* SparklineSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F576F4C1F865419000293BC /* SparklineSkin.swift */; };
 		4F597BB91F80AABE00A251EF /* PercentageSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F597BB81F80AABE00A251EF /* PercentageSkin.swift */; };
 		4F821CD81F793E5E00713915 /* Lato-Reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD61F793E5D00713915 /* Lato-Reg.ttf */; };
 		4F821CD91F793E5E00713915 /* Lato-Bol.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD71F793E5D00713915 /* Lato-Bol.ttf */; };
@@ -69,7 +68,6 @@
 		4F4D11351F853E16004070B5 /* SectionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionEvent.swift; sourceTree = "<group>"; };
 		4F4D11371F853E27004070B5 /* SectionEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionEventListener.swift; sourceTree = "<group>"; };
 		4F4D11391F853E36004070B5 /* SectionEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionEventType.swift; sourceTree = "<group>"; };
-		4F576F4C1F865419000293BC /* SparklineSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparklineSkin.swift; sourceTree = "<group>"; };
 		4F597BB81F80AABE00A251EF /* PercentageSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PercentageSkin.swift; path = Tiles/Skins/PercentageSkin.swift; sourceTree = SOURCE_ROOT; };
 		4F821CD61F793E5D00713915 /* Lato-Reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Reg.ttf"; path = "Tiles/Resources/Lato-Reg.ttf"; sourceTree = "<group>"; };
 		4F821CD71F793E5D00713915 /* Lato-Bol.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bol.ttf"; path = "Tiles/Resources/Lato-Bol.ttf"; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 				4F4D112D1F8500ED004070B5 /* HighLowSkin.swift */,
 				4F4D112F1F8536CB004070B5 /* NumberSkin.swift */,
 				4F4D11311F853726004070B5 /* TextSkin.swift */,
-				4F576F4C1F865419000293BC /* SparklineSkin.swift */,
 			);
 			path = Skins;
 			sourceTree = "<group>";
@@ -303,7 +300,6 @@
 				4FFEC6091F7E4D6F009F92C8 /* MapSkin.swift in Sources */,
 				4F2E53DB1F79021C009FD3B7 /* AppDelegate.swift in Sources */,
 				4FFCA4F11F7E150F00491D7D /* AnimLabel.swift in Sources */,
-				4F576F4D1F865419000293BC /* SparklineSkin.swift in Sources */,
 				4F4D11341F853994004070B5 /* Section.swift in Sources */,
 				4F821CDB1F79569000713915 /* Helper.swift in Sources */,
 				4F4D112E1F8500ED004070B5 /* HighLowSkin.swift in Sources */,
