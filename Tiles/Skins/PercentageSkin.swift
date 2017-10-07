@@ -109,7 +109,6 @@ class PercentageSkin: Skin {
         maxValueLabel.backgroundColor = value > tile.maxValue ? tile.barColor : tile.thresholdColor        
     }
     
-    
     func animateBar(duration: TimeInterval, tile: Tile) {
         bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: Helper.clamp(min: 0, max: size, value:(tile.oldValue / tile.range) * size), height: size * 0.035),
                            byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
