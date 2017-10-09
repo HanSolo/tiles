@@ -23,19 +23,18 @@ class Tile: UIControl {
         case TEXT
         case TIME_CONTROL
         case SWITCH
+        case DONUT_CHART
     }
-    
-    let events       = EventBus()
     
     var skin         :Skin = TileSkin()
     let titleLabel   = UILabel()
     let textLabel    = UILabel()
     
-    var size                   : CGFloat               = Helper.DEFAULT_SIZE
     var animationDuration      : Double                = 1.5
     var bkgColor               : UIColor               = Helper.BKG_COLOR
     var fgdColor               : UIColor               = Helper.FGD_COLOR
     var title                  : String                = "Title"              { didSet { skin.update(cmd: Helper.REDRAW) }}
+    var titleVisible           : Bool                  = true                 { didSet { skin.update(cmd: Helper.REDRAW) }}
     var text                   : String                = "Text"               { didSet { skin.update(cmd: Helper.REDRAW) }}
     var textVisible            : Bool                  = true                 { didSet { skin.update(cmd: Helper.REDRAW) }}
     var unit                   : String                = ""                   { didSet { skin.update(cmd: Helper.REDRAW) }}
@@ -69,6 +68,7 @@ class Tile: UIControl {
             //fireTileEvent(event: TileEvent(type: TileEventType.VALUE(value: value)))
         }
     }
+    var valueVisible           : Bool                  = true             { didSet { skin.update(cmd: Helper.REDRAW) }}
     var oldValue               : CGFloat               = 0.0
     var referenceValue         : CGFloat               = 0.0
     var autoReferenceVAlue     : Bool                  = true
@@ -114,8 +114,8 @@ class Tile: UIControl {
         }        
     }
     
-    var tileEventListeners     : [TileEventListener]   = []
-    var switchEventListeners   : [SwitchEventListener] = []
+    private var tileEventListeners   : [TileEventListener]   = []
+    private var switchEventListeners : [SwitchEventListener] = []
     
     
     
@@ -134,6 +134,7 @@ class Tile: UIControl {
             case SkinType.TEXT             : skin = TextSkin(); break
             case SkinType.TIME_CONTROL     : skin = TimerControlSkin(); break
             case SkinType.SWITCH           : skin = SwitchSkin(); break
+            case SkinType.DONUT_CHART      : skin = DonutChartSkin(); break
         default                            : skin = TileSkin(); break
         }
         
@@ -185,12 +186,12 @@ class Tile: UIControl {
     // ******************** Event Handling *************
     func addTileEventListener(listener: TileEventListener) {
         if (!tileEventListeners.isEmpty) {
-            for i in 0...tileEventListeners.count { if (tileEventListeners[i] === listener) { return } }
+            for i in 0..<tileEventListeners.count { if (tileEventListeners[i] === listener) { return } }
         }
         tileEventListeners.append(listener)
     }
     func removeTileEventListener(listener: TileEventListener) {
-        for i in 0...tileEventListeners.count {
+        for i in 0..<tileEventListeners.count {
             if tileEventListeners[i] === listener {
                 tileEventListeners.remove(at: i)
                 return
@@ -203,12 +204,12 @@ class Tile: UIControl {
     
     func addSwitchEventListener(listener: SwitchEventListener) {
         if (!switchEventListeners.isEmpty) {
-            for i in 0...switchEventListeners.count { if (switchEventListeners[i] === listener) { return } }
+            for i in 0..<switchEventListeners.count { if (switchEventListeners[i] === listener) { return } }
         }
         switchEventListeners.append(listener)
     }
     func removeSwitchEventListener(listener: SwitchEventListener) {
-        for i in 0...switchEventListeners.count {
+        for i in 0..<switchEventListeners.count {
             if switchEventListeners[i] === listener {
                 switchEventListeners.remove(at: i)
                 return
@@ -224,8 +225,6 @@ class Tile: UIControl {
     func redraw() {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        
-        size = frame.width < frame.height ? frame.width : frame.height
         
         skin.frame = bounds.insetBy(dx: 0.0, dy: 0.0)
         skin.setNeedsDisplay()

@@ -9,6 +9,6 @@
 import UIKit
 
 protocol TimeSectionEventListener: class {
-    
+
     func onTimeSectionEvent(event : TimeSectionEvent)
 }

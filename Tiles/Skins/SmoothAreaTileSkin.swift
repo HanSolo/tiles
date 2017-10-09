@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SmoothAreaTileSkin: Skin {
+class SmoothAreaTileSkin: Skin, ChartDataEventListener {
     private let valueLabel = AnimLabel()
     
     private var dataSize  : Int     = 0
@@ -63,9 +63,8 @@ class SmoothAreaTileSkin: Skin {
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         } else if (cmd == Helper.UPDATE) {
-            tile.chartDataList.forEach { chartData in chartData.eventBus.unsubscribe(eventNameToRemoveOrNil: Helper.UPDATE) }
             tile.chartDataList.forEach { chartData in
-                chartData.eventBus.subscribeTo(eventName: Helper.UPDATE, action: self.animateChart)
+                chartData.addChartDataEventListener(listener: self)
             }
             setNeedsDisplay()
         }
@@ -76,6 +75,10 @@ class SmoothAreaTileSkin: Skin {
         if (prop == "value") {
             valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
         }
+    }
+    
+    func onChartDataEvent(event: ChartDataEvent) {
+        animateChart()
     }
     
     func handleSingleChartData(chartData : Any?) {

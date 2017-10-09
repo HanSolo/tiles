@@ -9,14 +9,15 @@
 import UIKit
 
 class ChartData {
-    var eventBus            = EventBus()
-    var name      : String  { didSet { eventBus.fireEvent(eventName: Helper.UPDATE, information: self) } }
-    var color     : UIColor { didSet { eventBus.fireEvent(eventName: Helper.UPDATE, information: self) } }
-    var timestamp : Date    { didSet { eventBus.fireEvent(eventName: Helper.UPDATE, information: self) } }
-    var value     : CGFloat { didSet { self.oldValue = oldValue; eventBus.fireEvent(eventName: Helper.UPDATE, information: self) } }
-    var oldValue  : CGFloat
+    var         name                    : String  { didSet { fireChartDataEvent(event: ChartDataEvent(data: self)) } }
+    var         color                   : UIColor { didSet { fireChartDataEvent(event: ChartDataEvent(data: self)) } }
+    var         timestamp               : Date    { didSet { fireChartDataEvent(event: ChartDataEvent(data: self)) } }
+    var         value                   : CGFloat { didSet { self.oldValue = oldValue; fireChartDataEvent(event: ChartDataEvent(data: self)) } }
+    var         oldValue                : CGFloat
+    private var chartDataEventListeners : [ChartDataEventListener] = []
     
     
+    // ******************** Constructor ***********************
     convenience init() {
         self.init(name: "", color: Helper.BLUE, timestamp: Date(), value: 0.0)
     }
@@ -41,5 +42,25 @@ class ChartData {
         self.timestamp = timestamp
         self.value     = value
         self.oldValue  = value
+    }
+    
+    
+    // ******************** Event Handling *************
+    func addChartDataEventListener(listener: ChartDataEventListener) {
+        if (!chartDataEventListeners.isEmpty) {
+            for i in 0..<chartDataEventListeners.count { if (chartDataEventListeners[i] === listener) { return } }
+        }
+        chartDataEventListeners.append(listener)
+    }
+    func removeChartDataEventListener(listener: ChartDataEventListener) {
+        for i in 0...chartDataEventListeners.count {
+            if chartDataEventListeners[i] === listener {
+                chartDataEventListeners.remove(at: i)
+                return
+            }
+        }
+    }
+    func fireChartDataEvent(event : ChartDataEvent) {
+        chartDataEventListeners.forEach { listener in listener.onChartDataEvent(event: event) }
     }
 }

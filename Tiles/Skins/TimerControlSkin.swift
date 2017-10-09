@@ -57,8 +57,9 @@ class TimerControlSkin: Skin {
             //tile.sendSubview(toBack: amPmText)
             //tile.sendSubview(toBack: dateText)
             
-            tickmarkLayer.contentsScale = UIScreen.main.scale
-            tickmarkLayer.anchorPoint   = CGPoint(x: 0.5, y: 0.5)
+            tickmarkLayer.contentsScale   = UIScreen.main.scale
+            tickmarkLayer.anchorPoint     = CGPoint(x: 0.5, y: 0.5)
+            tickmarkLayer.shouldRasterize = true // caching to bitmap (only for layers that don't need frequent redraw)
             tile.addSubview(tickmarkView)
             
             tickmarkView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
