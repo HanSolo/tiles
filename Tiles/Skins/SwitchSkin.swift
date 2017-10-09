@@ -46,15 +46,11 @@ class SwitchSkin: Skin, CAAnimationDelegate {
         guard let tile = control else { return }
         if (prop == "switch") {
             animateThumb(duration: 0.2, tile:tile)
-        } else if (prop == "touch") {
+        } else if (prop == Helper.TOUCH_BEGAN) {
             if (switchBorder.contains(value as! CGPoint)) { tile.active = !tile.active }
         }
     }
-    
-    override func layoutSublayers() {
-        super.layoutSublayers()
-    }
-    
+         
     func animateThumb(duration: TimeInterval, tile: Tile) {
         let thumbAnimation                   = CABasicAnimation(keyPath: "position")
         thumbAnimation.fromValue             = CGPoint(x: tile.active ? 0 : size * 0.23, y: 0)
@@ -79,18 +75,6 @@ class SwitchSkin: Skin, CAAnimationDelegate {
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         
     }
-    
-    
-    // ******************** Event Handling ************
-    /*
-     override func onTileEvent(event: TileEvent) {
-     switch(event.type) {
-     case .VALUE(let value): break
-     case .REDRAW          : break
-     case .RECALC          : break
-     }
-     }
-     */
     
     
     // ******************** Redraw ********************

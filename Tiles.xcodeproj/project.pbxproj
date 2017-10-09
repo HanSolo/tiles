@@ -46,6 +46,7 @@
 		4FA2024F1F8775DE00CF29B7 /* TimeSectionEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA2024E1F8775DE00CF29B7 /* TimeSectionEventType.swift */; };
 		4FA202511F879A1500CF29B7 /* TimerControlSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA202501F879A1500CF29B7 /* TimerControlSkin.swift */; };
 		4FE89D581F8B7D21009966FA /* UIFont+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE89D571F8B7D21009966FA /* UIFont+Size.swift */; };
+		4FE89D5A1F8B8358009966FA /* PlusMinusSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE89D591F8B8358009966FA /* PlusMinusSkin.swift */; };
 		4FF6CF2E1F89EB8900B43387 /* DonutChartSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6CF2D1F89EB8900B43387 /* DonutChartSkin.swift */; };
 		4FF6CF301F89ECB800B43387 /* ChartDataEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6CF2F1F89ECB800B43387 /* ChartDataEvent.swift */; };
 		4FF6CF321F89ECC900B43387 /* ChartDataEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6CF311F89ECC900B43387 /* ChartDataEventListener.swift */; };
@@ -97,6 +98,7 @@
 		4FA2024E1F8775DE00CF29B7 /* TimeSectionEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSectionEventType.swift; sourceTree = "<group>"; };
 		4FA202501F879A1500CF29B7 /* TimerControlSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerControlSkin.swift; sourceTree = "<group>"; };
 		4FE89D571F8B7D21009966FA /* UIFont+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Size.swift"; sourceTree = "<group>"; };
+		4FE89D591F8B8358009966FA /* PlusMinusSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMinusSkin.swift; sourceTree = "<group>"; };
 		4FF6CF2D1F89EB8900B43387 /* DonutChartSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutChartSkin.swift; sourceTree = "<group>"; };
 		4FF6CF2F1F89ECB800B43387 /* ChartDataEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataEvent.swift; sourceTree = "<group>"; };
 		4FF6CF311F89ECC900B43387 /* ChartDataEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataEventListener.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				4FA202501F879A1500CF29B7 /* TimerControlSkin.swift */,
 				4F4D408F1F881A230031B548 /* SwitchSkin.swift */,
 				4FF6CF2D1F89EB8900B43387 /* DonutChartSkin.swift */,
+				4FE89D591F8B8358009966FA /* PlusMinusSkin.swift */,
 			);
 			path = Skins;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				4F0174B01F7E41C600FF3ADE /* TileSkin.swift in Sources */,
 				4F16E3671F7CF123005DAAE1 /* Tile.swift in Sources */,
 				4F4D113A1F853E36004070B5 /* SectionEventType.swift in Sources */,
+				4FE89D5A1F8B8358009966FA /* PlusMinusSkin.swift in Sources */,
 				4F4D40961F881A9D0031B548 /* SwitchEventType.swift in Sources */,
 				4FA2024B1F8775B100CF29B7 /* TimeSectionEvent.swift in Sources */,
 				4F4D11321F853726004070B5 /* TextSkin.swift in Sources */,

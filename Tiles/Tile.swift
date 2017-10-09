@@ -24,6 +24,7 @@ class Tile: UIControl {
         case TIME_CONTROL
         case SWITCH
         case DONUT_CHART
+        case PLUS_MINUS
     }
     
     var skin         :Skin = TileSkin()
@@ -71,7 +72,8 @@ class Tile: UIControl {
     var valueVisible           : Bool                  = true             { didSet { skin.update(cmd: Helper.REDRAW) }}
     var oldValue               : CGFloat               = 0.0
     var referenceValue         : CGFloat               = 0.0
-    var autoReferenceVAlue     : Bool                  = true
+    var autoReferenceValue     : Bool                  = true
+    var increment              : CGFloat               = 1.0
     var decimals               : Int                   = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
     var tickLabelDecimals      : Int                   = 0                { didSet { skin.update(cmd: Helper.REDRAW) }}
     var location               : Location              = Location()       { didSet { skin.update(cmd: Helper.REDRAW) }}
@@ -135,6 +137,7 @@ class Tile: UIControl {
             case SkinType.TIME_CONTROL     : skin = TimerControlSkin(); break
             case SkinType.SWITCH           : skin = SwitchSkin(); break
             case SkinType.DONUT_CHART      : skin = DonutChartSkin(); break
+            case SkinType.PLUS_MINUS       : skin = PlusMinusSkin(); break
         default                            : skin = TileSkin(); break
         }
         
@@ -179,7 +182,12 @@ class Tile: UIControl {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         let touchPoint = touches.first?.location(in: self)
-        skin.update(prop: "touch", value: touchPoint)
+        skin.update(prop: Helper.TOUCH_BEGAN, value: touchPoint)
+    }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        let touchPoint = touches.first?.location(in: self)
+        skin.update(prop: Helper.TOUCH_ENDED, value: touchPoint)
     }
     
     

@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     //let highLowTile          = Tile(frame: CGRect.zero, skinType: Tile.SkinType.HIGH_LOW)
     //let timeControlTile      = Tile(frame: CGRect.zero, skinType: Tile.SkinType.TIME_CONTROL)
     //let switchTile           = Tile(frame: CGRect.zero, skinType: Tile.SkinType.SWITCH)
-    let donutChartTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.DONUT_CHART)
+    //let donutChartTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.DONUT_CHART)
+    let plusMinusTile        = Tile(frame: CGRect.zero, skinType: Tile.SkinType.PLUS_MINUS)
     //let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
     
     let chartData0           = ChartData(name: "0", color: Helper.BLUE, timestamp: Date(), value: CGFloat(drand48() * 10.0))
@@ -26,10 +27,10 @@ class ViewController: UIViewController {
     let chartData3           = ChartData(name: "3", color: Helper.ORANGE, timestamp: Date(), value: CGFloat(drand48() * 10.0))
     let chartData4           = ChartData(name: "4", color: Helper.YELLOW, timestamp: Date(), value: CGFloat(drand48() * 10.0))
     
-    let donutData0           = ChartData(name: "0", color: Helper.GREEN, value: CGFloat(25.0))
-    let donutData1           = ChartData(name: "1", color: Helper.BLUE, value: CGFloat(25.0))
-    let donutData2           = ChartData(name: "2", color: Helper.RED, value: CGFloat(25.0))
-    let donutData3           = ChartData(name: "3", color: Helper.YELLOW, value: CGFloat(25.0))
+    //let donutData0           = ChartData(name: "0", color: Helper.GREEN, value: CGFloat(25.0))
+    //let donutData1           = ChartData(name: "1", color: Helper.BLUE, value: CGFloat(25.0))
+    //let donutData2           = ChartData(name: "2", color: Helper.RED, value: CGFloat(25.0))
+    //let donutData3           = ChartData(name: "3", color: Helper.YELLOW, value: CGFloat(25.0))
     
     var timer                = Timer()
    
@@ -47,7 +48,8 @@ class ViewController: UIViewController {
         //view.addSubview(highLowTile)
         //view.addSubview(timeControlTile)
         //view.addSubview(switchTile)
-        view.addSubview(donutChartTile)
+        //view.addSubview(donutChartTile)
+        view.addSubview(plusMinusTile)
         //view.addSubview(mapTile)
     }
     
@@ -103,8 +105,8 @@ class ViewController: UIViewController {
         //switchTile.title = "SwitchSkin"
         //switchTile.addSwitchEventListener(listener: switchEventListener)
         
-        donutChartTile.chartDataList.append(contentsOf: [ donutData0, donutData1, donutData2, donutData3 ])
-        donutChartTile.textVisible = false
+        //donutChartTile.chartDataList.append(contentsOf: [ donutData0, donutData1, donutData2, donutData3 ])
+        //donutChartTile.textVisible = false
         
         //mapTile.title    = "MapSkin"
         //mapTile.location = Location(latitude: 51.9065938, longitude: 7.6352688)
@@ -128,7 +130,8 @@ class ViewController: UIViewController {
         clockTile.frame            = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
         //highLowTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
         //timeControlTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
-        donutChartTile.frame       = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
+        //donutChartTile.frame       = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
+        plusMinusTile.frame        = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
         //switchTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
         //mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
     }
@@ -148,10 +151,10 @@ class ViewController: UIViewController {
         chartData3.value           = chartData4.value
         chartData4.value           = CGFloat(drand48() * 10.0)
         
-        donutData0.value           = CGFloat(drand48() * 25)
-        donutData1.value           = CGFloat(drand48() * 25)
-        donutData2.value           = CGFloat(drand48() * 25)
-        donutData3.value           = CGFloat(drand48() * 25)
+        //donutData0.value           = CGFloat(drand48() * 25)
+        //donutData1.value           = CGFloat(drand48() * 25)
+        //donutData2.value           = CGFloat(drand48() * 25)
+        //donutData3.value           = CGFloat(drand48() * 25)
         
         //highLowTile.value          = CGFloat(drand48() * 10.0)
         

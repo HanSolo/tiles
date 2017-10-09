@@ -34,6 +34,8 @@ class Helper: NSObject {
     static let UNCHANGED     = String("unchanged")
     static let UPDATE        = String("update")
     static let SECTIONS      = String("sections")
+    static let TOUCH_BEGAN   = String("touchBegan")
+    static let TOUCH_ENDED   = String("touchEnded")
     
     static func clamp(min: Double, max: Double, value: Double) -> Double {
         if (value < min) { return min }
