@@ -29,10 +29,10 @@ class DonutChartSkin: Skin, ChartDataEventListener {
         guard let tile = control else { return }
         
         if (cmd == Helper.INIT) {
-            
             chartLayer                = ChartLayer(tile: tile)
             chartLayer!.contentsScale = UIScreen.main.scale
             tile.layer.addSublayer(chartLayer!)
+            chartLayer!.setNeedsDisplay()
         } else if (cmd == Helper.REDRAW) {
             setNeedsDisplay()
         } else if (cmd == Helper.UPDATE) {

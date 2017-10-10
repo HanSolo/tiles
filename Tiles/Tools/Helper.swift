@@ -9,6 +9,7 @@ import UIKit
 
 
 class Helper: NSObject {
+    static let EPSILON       = CGFloat(1E-6)
     
     static let DEFAULT_SIZE  = CGFloat(200.0)
     
@@ -36,19 +37,18 @@ class Helper: NSObject {
     static let SECTIONS      = String("sections")
     static let TOUCH_BEGAN   = String("touchBegan")
     static let TOUCH_ENDED   = String("touchEnded")
+    static let AVERAGING     = String("averaging")
     
     static func clamp(min: Double, max: Double, value: Double) -> Double {
         if (value < min) { return min }
         if (value > max) { return max }
         return value
     }
-    
     static func clamp(min: CGFloat, max: CGFloat, value: CGFloat) -> CGFloat {
         if (value < min) { return min }
         if (value > max) { return max }
         return value
     }
-    
     static func clamp(min: Int, max: Int, value: Int) -> Int {
         if (value < min) { return min }
         if (value > max) { return max }
@@ -67,5 +67,15 @@ class Helper: NSObject {
     }
     static func toDegrees(rad: CGFloat) -> CGFloat {
         return (rad * 180.0 / .pi)
+    }
+    
+    static func equals(a: CGFloat, b: CGFloat) -> Bool {
+        return a == b || abs(a - b) < EPSILON
+    }
+    static func biggerThan(a: CGFloat, b: CGFloat) -> Bool {
+        return (a - b) > EPSILON
+    }
+    static func lessThan(a: CGFloat, b: CGFloat) -> Bool {
+        return (b - a) > EPSILON
     }
 }

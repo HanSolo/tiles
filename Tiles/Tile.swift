@@ -25,6 +25,7 @@ class Tile: UIControl {
         case SWITCH
         case DONUT_CHART
         case PLUS_MINUS
+        case SPARKLINE
     }
     
     var skin         :Skin = TileSkin()
@@ -65,6 +66,7 @@ class Tile: UIControl {
             } else {
                 skin.update(cmd: Helper.UNCHANGED)
             }
+            if(averagingEnabled) { movingAverage.addData(data: TimeData(value: value)) }
             skin.update(prop: "value", value: value)
             //fireTileEvent(event: TileEvent(type: TileEventType.VALUE(value: value)))
         }
@@ -115,6 +117,14 @@ class Tile: UIControl {
             fireSwitchEvent(event: SwitchEvent(src: self, type: active ? SwitchEventType.ACTIVE : SwitchEventType.INACTIVE))
         }        
     }
+    var averagingPeriod        : Int                   = 10               { didSet { skin.update(cmd: Helper.AVERAGING) }}
+    var averagingEnabled       : Bool                  = false            { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var averageVisible         : Bool                  = false            { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var chartGridColor         : UIColor               = Helper.GRAY      { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var smoothing              : Bool                  = false            { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var movingAverage                                  = MovingAverage()
+    var strokeWithGradient     : Bool                  = false            { didSet { skin.update(cmd: Helper.UPDATE) }}
+    var gradientStops          : [Stop]                = []               { didSet { skin.update(cmd: Helper.UPDATE) }}
     
     private var tileEventListeners   : [TileEventListener]   = []
     private var switchEventListeners : [SwitchEventListener] = []
@@ -138,6 +148,7 @@ class Tile: UIControl {
             case SkinType.SWITCH           : skin = SwitchSkin(); break
             case SkinType.DONUT_CHART      : skin = DonutChartSkin(); break
             case SkinType.PLUS_MINUS       : skin = PlusMinusSkin(); break
+            case SkinType.SPARKLINE        : skin = SparkLineSkin(); break
         default                            : skin = TileSkin(); break
         }
         

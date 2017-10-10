@@ -33,11 +33,18 @@
 		4F4D40921F881A770031B548 /* SwitchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D40911F881A770031B548 /* SwitchEvent.swift */; };
 		4F4D40941F881A8C0031B548 /* SwitchEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D40931F881A8C0031B548 /* SwitchEventListener.swift */; };
 		4F4D40961F881A9D0031B548 /* SwitchEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4D40951F881A9D0031B548 /* SwitchEventType.swift */; };
+		4F5147251F8C08D200C333BD /* NiceScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5147241F8C08D200C333BD /* NiceScale.swift */; };
 		4F597BB91F80AABE00A251EF /* PercentageSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F597BB81F80AABE00A251EF /* PercentageSkin.swift */; };
 		4F6F73EF1F87CE2100960588 /* Date+EasyInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6F73EE1F87CE2100960588 /* Date+EasyInitializer.swift */; };
 		4F821CD81F793E5E00713915 /* Lato-Reg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD61F793E5D00713915 /* Lato-Reg.ttf */; };
 		4F821CD91F793E5E00713915 /* Lato-Bol.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F821CD71F793E5D00713915 /* Lato-Bol.ttf */; };
 		4F821CDB1F79569000713915 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F821CDA1F79569000713915 /* Helper.swift */; };
+		4F9370781F8C9E2C007C19DC /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9370771F8C9E2C007C19DC /* Line.swift */; };
+		4F93707A1F8CBBCF007C19DC /* Stop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9370791F8CBBCF007C19DC /* Stop.swift */; };
+		4F93707C1F8CBC70007C19DC /* GradientLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F93707B1F8CBC70007C19DC /* GradientLookup.swift */; };
+		4F93707E1F8CBF98007C19DC /* Dictionary+CustomConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F93707D1F8CBF98007C19DC /* Dictionary+CustomConstructor.swift */; };
+		4F9370801F8CC254007C19DC /* UIColor+RGBComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F93707F1F8CC254007C19DC /* UIColor+RGBComponents.swift */; };
+		4F9370841F8CC421007C19DC /* LinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9370831F8CC421007C19DC /* LinearGradient.swift */; };
 		4F98D1121F7F511200F1DA1D /* CircularProgressSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F98D1111F7F511200F1DA1D /* CircularProgressSkin.swift */; };
 		4F98D1151F7F68B200F1DA1D /* UIColor+BrighterDarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F98D1141F7F68B200F1DA1D /* UIColor+BrighterDarker.swift */; };
 		4FA202491F87757200CF29B7 /* TimeSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA202481F87757200CF29B7 /* TimeSection.swift */; };
@@ -47,6 +54,12 @@
 		4FA202511F879A1500CF29B7 /* TimerControlSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA202501F879A1500CF29B7 /* TimerControlSkin.swift */; };
 		4FE89D581F8B7D21009966FA /* UIFont+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE89D571F8B7D21009966FA /* UIFont+Size.swift */; };
 		4FE89D5A1F8B8358009966FA /* PlusMinusSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE89D591F8B8358009966FA /* PlusMinusSkin.swift */; };
+		4FF4A2B31F8BBA770070549F /* SparkLineSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4A2B21F8BBA770070549F /* SparkLineSkin.swift */; };
+		4FF4A2B51F8BC1910070549F /* Array+Rotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4A2B41F8BC1910070549F /* Array+Rotate.swift */; };
+		4FF4A2B71F8BC2450070549F /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4A2B61F8BC2450070549F /* Statistics.swift */; };
+		4FF4A2B91F8BC59C0070549F /* MovingAverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4A2B81F8BC59C0070549F /* MovingAverage.swift */; };
+		4FF4A2BB1F8BC5F00070549F /* TimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4A2BA1F8BC5F00070549F /* TimeData.swift */; };
+		4FF4A2BD1F8BC7E80070549F /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF4A2BC1F8BC7E80070549F /* Queue.swift */; };
 		4FF6CF2E1F89EB8900B43387 /* DonutChartSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6CF2D1F89EB8900B43387 /* DonutChartSkin.swift */; };
 		4FF6CF301F89ECB800B43387 /* ChartDataEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6CF2F1F89ECB800B43387 /* ChartDataEvent.swift */; };
 		4FF6CF321F89ECC900B43387 /* ChartDataEventListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6CF311F89ECC900B43387 /* ChartDataEventListener.swift */; };
@@ -85,11 +98,18 @@
 		4F4D40911F881A770031B548 /* SwitchEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchEvent.swift; sourceTree = "<group>"; };
 		4F4D40931F881A8C0031B548 /* SwitchEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchEventListener.swift; sourceTree = "<group>"; };
 		4F4D40951F881A9D0031B548 /* SwitchEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchEventType.swift; sourceTree = "<group>"; };
+		4F5147241F8C08D200C333BD /* NiceScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NiceScale.swift; sourceTree = "<group>"; };
 		4F597BB81F80AABE00A251EF /* PercentageSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PercentageSkin.swift; path = Tiles/Skins/PercentageSkin.swift; sourceTree = SOURCE_ROOT; };
 		4F6F73EE1F87CE2100960588 /* Date+EasyInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+EasyInitializer.swift"; sourceTree = "<group>"; };
 		4F821CD61F793E5D00713915 /* Lato-Reg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Reg.ttf"; path = "Tiles/Resources/Lato-Reg.ttf"; sourceTree = "<group>"; };
 		4F821CD71F793E5D00713915 /* Lato-Bol.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bol.ttf"; path = "Tiles/Resources/Lato-Bol.ttf"; sourceTree = "<group>"; };
 		4F821CDA1F79569000713915 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		4F9370771F8C9E2C007C19DC /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		4F9370791F8CBBCF007C19DC /* Stop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stop.swift; sourceTree = "<group>"; };
+		4F93707B1F8CBC70007C19DC /* GradientLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLookup.swift; sourceTree = "<group>"; };
+		4F93707D1F8CBF98007C19DC /* Dictionary+CustomConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+CustomConstructor.swift"; sourceTree = "<group>"; };
+		4F93707F1F8CC254007C19DC /* UIColor+RGBComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+RGBComponents.swift"; sourceTree = "<group>"; };
+		4F9370831F8CC421007C19DC /* LinearGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearGradient.swift; sourceTree = "<group>"; };
 		4F98D1111F7F511200F1DA1D /* CircularProgressSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressSkin.swift; sourceTree = "<group>"; };
 		4F98D1141F7F68B200F1DA1D /* UIColor+BrighterDarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+BrighterDarker.swift"; sourceTree = "<group>"; };
 		4FA202481F87757200CF29B7 /* TimeSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSection.swift; sourceTree = "<group>"; };
@@ -99,6 +119,12 @@
 		4FA202501F879A1500CF29B7 /* TimerControlSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerControlSkin.swift; sourceTree = "<group>"; };
 		4FE89D571F8B7D21009966FA /* UIFont+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Size.swift"; sourceTree = "<group>"; };
 		4FE89D591F8B8358009966FA /* PlusMinusSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusMinusSkin.swift; sourceTree = "<group>"; };
+		4FF4A2B21F8BBA770070549F /* SparkLineSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkLineSkin.swift; sourceTree = "<group>"; };
+		4FF4A2B41F8BC1910070549F /* Array+Rotate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Rotate.swift"; sourceTree = "<group>"; };
+		4FF4A2B61F8BC2450070549F /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		4FF4A2B81F8BC59C0070549F /* MovingAverage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingAverage.swift; sourceTree = "<group>"; };
+		4FF4A2BA1F8BC5F00070549F /* TimeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeData.swift; sourceTree = "<group>"; };
+		4FF4A2BC1F8BC7E80070549F /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		4FF6CF2D1F89EB8900B43387 /* DonutChartSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutChartSkin.swift; sourceTree = "<group>"; };
 		4FF6CF2F1F89ECB800B43387 /* ChartDataEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataEvent.swift; sourceTree = "<group>"; };
 		4FF6CF311F89ECC900B43387 /* ChartDataEventListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataEventListener.swift; sourceTree = "<group>"; };
@@ -123,6 +149,7 @@
 		4F0C9ADE1F82167C005F5195 /* Chart */ = {
 			isa = PBXGroup;
 			children = (
+				4FF4A2BA1F8BC5F00070549F /* TimeData.swift */,
 				4F0C9ADF1F82168A005F5195 /* ChartData.swift */,
 			);
 			path = Chart;
@@ -208,6 +235,7 @@
 				4F4D408F1F881A230031B548 /* SwitchSkin.swift */,
 				4FF6CF2D1F89EB8900B43387 /* DonutChartSkin.swift */,
 				4FE89D591F8B8358009966FA /* PlusMinusSkin.swift */,
+				4FF4A2B21F8BBA770070549F /* SparkLineSkin.swift */,
 			);
 			path = Skins;
 			sourceTree = "<group>";
@@ -218,6 +246,9 @@
 				4F98D1141F7F68B200F1DA1D /* UIColor+BrighterDarker.swift */,
 				4F6F73EE1F87CE2100960588 /* Date+EasyInitializer.swift */,
 				4FE89D571F8B7D21009966FA /* UIFont+Size.swift */,
+				4FF4A2B41F8BC1910070549F /* Array+Rotate.swift */,
+				4F93707D1F8CBF98007C19DC /* Dictionary+CustomConstructor.swift */,
+				4F93707F1F8CC254007C19DC /* UIColor+RGBComponents.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -227,6 +258,14 @@
 			children = (
 				4F821CDA1F79569000713915 /* Helper.swift */,
 				4FFEC60B1F7E4F5C009F92C8 /* Location.swift */,
+				4FF4A2B61F8BC2450070549F /* Statistics.swift */,
+				4FF4A2B81F8BC59C0070549F /* MovingAverage.swift */,
+				4FF4A2BC1F8BC7E80070549F /* Queue.swift */,
+				4F5147241F8C08D200C333BD /* NiceScale.swift */,
+				4F9370771F8C9E2C007C19DC /* Line.swift */,
+				4F9370791F8CBBCF007C19DC /* Stop.swift */,
+				4F93707B1F8CBC70007C19DC /* GradientLookup.swift */,
+				4F9370831F8CC421007C19DC /* LinearGradient.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -318,11 +357,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FF4A2B51F8BC1910070549F /* Array+Rotate.swift in Sources */,
+				4F5147251F8C08D200C333BD /* NiceScale.swift in Sources */,
 				4F597BB91F80AABE00A251EF /* PercentageSkin.swift in Sources */,
+				4F93707C1F8CBC70007C19DC /* GradientLookup.swift in Sources */,
+				4FF4A2B71F8BC2450070549F /* Statistics.swift in Sources */,
 				4F0C9AE01F82168A005F5195 /* ChartData.swift in Sources */,
+				4FF4A2BB1F8BC5F00070549F /* TimeData.swift in Sources */,
+				4F9370841F8CC421007C19DC /* LinearGradient.swift in Sources */,
 				4F16E3731F7D32DD005DAAE1 /* GaugeSkin.swift in Sources */,
+				4F93707A1F8CBBCF007C19DC /* Stop.swift in Sources */,
 				4F4D11301F8536CB004070B5 /* NumberSkin.swift in Sources */,
 				4FA202491F87757200CF29B7 /* TimeSection.swift in Sources */,
+				4F9370801F8CC254007C19DC /* UIColor+RGBComponents.swift in Sources */,
 				4FA2024F1F8775DE00CF29B7 /* TimeSectionEventType.swift in Sources */,
 				4F4D40941F881A8C0031B548 /* SwitchEventListener.swift in Sources */,
 				4F2E53DD1F79021C009FD3B7 /* ViewController.swift in Sources */,
@@ -340,12 +387,16 @@
 				4FF6CF321F89ECC900B43387 /* ChartDataEventListener.swift in Sources */,
 				4F4D11361F853E16004070B5 /* SectionEvent.swift in Sources */,
 				4F98D1151F7F68B200F1DA1D /* UIColor+BrighterDarker.swift in Sources */,
+				4F9370781F8C9E2C007C19DC /* Line.swift in Sources */,
 				4F98D1121F7F511200F1DA1D /* CircularProgressSkin.swift in Sources */,
+				4FF4A2B91F8BC59C0070549F /* MovingAverage.swift in Sources */,
+				4F93707E1F8CBF98007C19DC /* Dictionary+CustomConstructor.swift in Sources */,
 				4F4D112C1F84F13A004070B5 /* ClockSkin.swift in Sources */,
 				4F0174B01F7E41C600FF3ADE /* TileSkin.swift in Sources */,
 				4F16E3671F7CF123005DAAE1 /* Tile.swift in Sources */,
 				4F4D113A1F853E36004070B5 /* SectionEventType.swift in Sources */,
 				4FE89D5A1F8B8358009966FA /* PlusMinusSkin.swift in Sources */,
+				4FF4A2B31F8BBA770070549F /* SparkLineSkin.swift in Sources */,
 				4F4D40961F881A9D0031B548 /* SwitchEventType.swift in Sources */,
 				4FA2024B1F8775B100CF29B7 /* TimeSectionEvent.swift in Sources */,
 				4F4D11321F853726004070B5 /* TextSkin.swift in Sources */,
@@ -358,6 +409,7 @@
 				4F4D40901F881A230031B548 /* SwitchSkin.swift in Sources */,
 				4F4D11341F853994004070B5 /* Section.swift in Sources */,
 				4F821CDB1F79569000713915 /* Helper.swift in Sources */,
+				4FF4A2BD1F8BC7E80070549F /* Queue.swift in Sources */,
 				4F4D112E1F8500ED004070B5 /* HighLowSkin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
