@@ -140,7 +140,7 @@ class TimerControlSkin: Skin {
             drawText(label   : tile.textLabel,
                      font    : smallFont!,
                      text    : tile.text,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: height - size * 0.11, width: width - size * 0.1, height: size * 0.08),
                      fgdColor: tile.fgdColor,
                      bkgColor: tile.bkgColor,
                      radius  : 0,
@@ -280,7 +280,9 @@ class TimerControlSkin: Skin {
         guard let ctx  = UIGraphicsGetCurrentContext() else { return nil }
         
         let size   : CGFloat = rect.size.width < rect.size.height ? rect.size.width : rect.size.height
-        let center = CGPoint(x: size * 0.5, y: size * 0.5)
+        let width  = rect.size.width
+        let height = rect.size.height
+        let center = CGPoint(x: width * 0.5, y: height * 0.5)
 
         clockSize = size * 0.75
 

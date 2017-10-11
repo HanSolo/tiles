@@ -153,7 +153,7 @@ class HighLowSkin: Skin {
             drawText(label   : tile.textLabel,
                      font    : smallFont!,
                      text    : tile.text,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: height - size * 0.11, width: width - size * 0.1, height: size * 0.08),
                      fgdColor: tile.fgdColor,
                      bkgColor: tile.bkgColor,
                      radius  : 0,
@@ -230,7 +230,7 @@ class HighLowSkin: Skin {
         triangleLayer.path      = triangle.cgPath
         triangleLayer.fillColor = getStateColor().cgColor
         triangleLayer.frame     = triangle.bounds
-        triangleLayer.position  = CGPoint(x: size * 0.1, y: size * 0.75)
+        triangleLayer.position  = CGPoint(x: width * 0.1, y: height - size * 0.25)
         
         UIGraphicsPopContext()
     }

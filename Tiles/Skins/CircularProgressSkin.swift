@@ -115,21 +115,22 @@ class CircularProgressSkin: Skin {
             drawText(label   : tile.textLabel,
                      font    : smallFont!,
                      text    : tile.text,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: height - size * 0.11, width: width - size * 0.1, height: size * 0.06),
                      fgdColor: tile.fgdColor,
                      bkgColor: tile.bkgColor,
                      radius  : 0,
                      align   : tile.textAlignment)
         } else {
-            tile.textLabel.textColor = UIColor.clear
+            tile.textLabel.textColor       = UIColor.clear
+            tile.textLabel.backgroundColor = UIColor.clear
         }
         
         let chartWidth  = width * 0.9
-        let chartHeight = tile.textVisible ? (size * 0.72) : (size * 0.795)
+        let chartHeight = tile.textVisible ? (height * 0.72) : (height * 0.795)
         chartSize       = chartWidth < chartHeight ? chartWidth : chartHeight
-        y = size * 0.15 + (size * (tile.textVisible ? 0.75 : 0.85) - chartSize) * 0.5
+        y = height * 0.15 + (height * (tile.textVisible ? 0.75 : 0.85) - chartSize) * 0.5
         
-        let barBackground = UIBezierPath(arcCenter : CGPoint(x: centerX, y: y + chartSize * 0.5),
+        let barBackground = UIBezierPath(arcCenter : CGPoint(x: centerX, y: tile.textVisible ? centerY : centerY + tile.textLabel.bounds.height),
                                          radius    : chartSize * 0.4135,
                                          startAngle: 0,
                                          endAngle  : .pi * 2.0,
@@ -138,11 +139,12 @@ class CircularProgressSkin: Skin {
         tile.barBackgroundColor.brighter(by: 7)?.setStroke()
         barBackground.stroke()
         
-        bar = UIBezierPath(arcCenter : CGPoint(x: centerX, y: y + chartSize * 0.5),
+        bar = UIBezierPath(arcCenter : CGPoint(x: centerX, y: tile.textVisible ? centerY : centerY + tile.textLabel.bounds.height),
                            radius    : chartSize * 0.4135,
                            startAngle: -startAngle,
                            endAngle  : -startAngle + .pi * 2.0,
                            clockwise : true)
+        
         barLayer.path        = bar.cgPath
         barLayer.strokeColor = tile.barColor.cgColor
         barLayer.lineWidth   = chartSize * 0.1
@@ -168,7 +170,7 @@ class CircularProgressSkin: Skin {
         percentageValueLabel.textAlignment   = .center
         percentageValueLabel.numberOfLines   = 1
         percentageValueLabel.backgroundColor = UIColor.clear
-        percentageValueLabel.center          = CGPoint(x: size * 0.5, y: y + chartSize * 0.5)
+        percentageValueLabel.center          = CGPoint(x: centerX, y: tile.textVisible ? centerY : centerY + tile.textLabel.bounds.height)
         percentageValueLabel.setNeedsDisplay()
         percentageValueLabel.countFrom((tile.oldValue / tile.range * 100.0), to: (tile.value / tile.range * 100.0), withDuration: tile.animationDuration)
         
@@ -183,8 +185,8 @@ class CircularProgressSkin: Skin {
         valueLabel.textAlignment   = .center
         valueLabel.numberOfLines   = 1
         valueLabel.backgroundColor = UIColor.clear
-        valueLabel.center          = CGPoint(x: size * 0.5,
-                                             y: tile.graphicContainerVisible ? (y + chartSize * 0.5 - chartSize * 0.22) : (y + chartSize * 0.5 + chartSize * 0.22))
+        valueLabel.center          = CGPoint(x: centerX,
+                                             y: tile.graphicContainerVisible ? percentageValueLabel.center.y - chartSize * 0.22 : percentageValueLabel.center.y + chartSize * 0.22)        
         valueLabel.setNeedsDisplay()
         valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
         

@@ -46,7 +46,6 @@ class GaugeSkin: Skin {
             tile.addSubview(thresholdLabel)
             
             pointerLayer.contentsScale = UIScreen.main.scale
-            pointerLayer.anchorPoint   = CGPoint(x: 0.5, y: 0.765)
             tile.addSubview(pointerView)
             
             pointerView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.765)
@@ -107,7 +106,7 @@ class GaugeSkin: Skin {
     }
     
     override func layoutSublayers() {
-        super.layoutSublayers()        
+        super.layoutSublayers()
         pointerView.frame     = bounds
         pointerLayer.frame    = bounds
         pointerLayer.contents = drawPointer(in: bounds)?.cgImage
@@ -154,7 +153,7 @@ class GaugeSkin: Skin {
             drawText(label   : tile.textLabel,
                      font    : smallFont!,
                      text    : tile.text,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: height - size * 0.11, width: width - size * 0.1, height: size * 0.08),
                      fgdColor: tile.fgdColor,
                      bkgColor: tile.bkgColor,
                      radius  : 0,
@@ -166,7 +165,7 @@ class GaugeSkin: Skin {
         // Track
         let radius = size * 0.3
         let track  = UIBezierPath()
-        track.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
+        track.addArc(withCenter: CGPoint(x: centerX, y: centerY + height * 0.26),
                      radius    : radius,
                      startAngle: 0.0,
                      endAngle  : CGFloat(Double.pi),
@@ -179,7 +178,7 @@ class GaugeSkin: Skin {
         // Threshold Area
         let thresholdAngle = (tile.maxValue - tile.threshold) * angleStep
         let thresholdTrack = UIBezierPath()
-        thresholdTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
+        thresholdTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + height * 0.26),
                               radius    : radius,
                               startAngle: 0.0,
                               endAngle  : -thresholdAngle,
@@ -198,7 +197,7 @@ class GaugeSkin: Skin {
                 let startAngle = (Helper.clamp(min: tile.minValue, max: tile.maxValue, value: section.start)) * angleStep - .pi
                 let endAngle   = (Helper.clamp(min: tile.minValue, max: tile.maxValue, value: section.stop)) * angleStep - .pi
                 let sectionTrack = UIBezierPath()
-                sectionTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + size * 0.26),
+                sectionTrack.addArc(withCenter: CGPoint(x: centerX, y: centerY + height * 0.26),
                                     radius    : radius,
                                     startAngle: startAngle,
                                     endAngle  : endAngle,
@@ -210,7 +209,7 @@ class GaugeSkin: Skin {
         }
         
         // Value and Unit text
-        valueLabel.frame           = CGRect(x: size * 0.05, y: centerY - size * 0.35, width: size * 0.9, height:size * 0.288)
+        valueLabel.frame           = CGRect(x: size * 0.05, y: centerY - height * 0.35, width: size * 0.9, height:size * 0.288)
         valueLabel.textAlignment   = .center
         setAttributedFormatBlock (label       : valueLabel,
                                   valueFont   : bigFont!,
@@ -233,7 +232,7 @@ class GaugeSkin: Skin {
                            radius  : 0,
                            format  : tickLabelFormatString,
                            align   : NSTextAlignment.center,
-                           center  : CGPoint(x: centerX - size * 0.3, y: centerY + size * 0.325))
+                           center  : CGPoint(x: centerX - size * 0.3, y: centerY + height * 0.325))
         
         // Max Value Text
         drawTextWithFormat(label   : maxValueLabel,
@@ -244,7 +243,7 @@ class GaugeSkin: Skin {
                            radius  : 0,
                            format  : tickLabelFormatString,
                            align   : NSTextAlignment.center,
-                           center  : CGPoint(x: centerX + size * 0.3, y: centerY + size * 0.325))
+                           center  : CGPoint(x: centerX + size * 0.3, y: centerY + height * 0.325))
         
         // Threshold Text
         thresholdLabel.textAlignment       = .center
@@ -255,7 +254,7 @@ class GaugeSkin: Skin {
                                                     y     : 0.5,
                                                     width : (thresholdLabel.frame.width + size * 0.05),
                                                     height: size * 0.09)
-        thresholdLabel.center              = CGPoint(x: size * 0.5, y: centerY + size * 0.35 + size * 0.045)
+        thresholdLabel.center              = CGPoint(x: width * 0.5, y: centerY + height * 0.395)
         thresholdLabel.textColor           = tile.bkgColor
         thresholdLabel.backgroundColor     = tile.value > tile.threshold ? tile.thresholdColor : Helper.GRAY
         thresholdLabel.layer.masksToBounds = true
@@ -270,23 +269,20 @@ class GaugeSkin: Skin {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
         guard let ctx = UIGraphicsGetCurrentContext() else { return nil }
         
-        let size   : CGFloat = rect.size.width < rect.size.height ? rect.size.width : rect.size.height
-        let center : CGFloat = size * 0.5
+        let width   = self.frame.width
+        let height  = self.frame.height
+        let size    = width < height ? width : height
+        let centerX = width * 0.5
+        let centerY = height * 0.5
         
         // NeedleRect
         ctx.saveGState()
-        let needleRect       = UIBezierPath(rect: CGRect(x: 0 , y: -size * 0.025, width: size * 0.035, height: size * 0.06))
-        let needleRectBounds = needleRect.cgPath.boundingBox
         
-        let translateRectTo  = CGPoint(x: (size - needleRectBounds.width) * 0.5, y: center - size * 0.0425)
+        let needleRect       = UIBezierPath(rect: CGRect(x: 0 , y: 0, width: size * 0.06, height: size * 0.05))
+        let translateRectTo  = CGPoint(x: centerX - size * 0.33, y: centerY + height * 0.26 - needleRect.bounds.height * 0.5)
         ctx.translateBy(x: translateRectTo.x, y: translateRectTo.y)
         
-        let rotateRectAround = CGPoint(x: needleRectBounds.width * 0.5, y: size * 0.30625)
-        ctx.translateBy(x: rotateRectAround.x, y: rotateRectAround.y)
-        ctx.rotate(by: -.pi * 0.5)
-        ctx.translateBy(x: -rotateRectAround.x, y: -rotateRectAround.y)
-        
-        ctx.setFillColor(Helper.BKG_COLOR.cgColor)
+        ctx.setFillColor(Helper.BKG_COLOR.cgColor)        
         ctx.addPath(needleRect.cgPath)
         ctx.fillPath()
         
@@ -340,7 +336,7 @@ class GaugeSkin: Skin {
         needle.close()
         
         // Translate ctx to needle position
-        let translateNeedleTo  = CGPoint(x: (size - needleWidth) * 0.5, y: center - size * 0.0425)
+        let translateNeedleTo = CGPoint(x: (width - needleWidth) * 0.5, y: (centerY + height * 0.26) - needleHeight + needleWidth * 0.5 )
         ctx.translateBy(x: translateNeedleTo.x, y: translateNeedleTo.y)
         
         // Rotate ctx according to zero
@@ -349,6 +345,7 @@ class GaugeSkin: Skin {
         ctx.rotate(by: -.pi * 0.5)
         ctx.translateBy(x: -rotateNeedleAround.x, y: -rotateNeedleAround.y)
         
+ 
         ctx.setFillColor(Helper.FGD_COLOR.cgColor)
         ctx.addPath(needle.cgPath)
         ctx.fillPath()

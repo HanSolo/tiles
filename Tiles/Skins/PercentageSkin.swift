@@ -110,10 +110,12 @@ class PercentageSkin: Skin {
     }
     
     func animateBar(duration: TimeInterval, tile: Tile) {
-        bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: Helper.clamp(min: 0, max: size, value:(tile.oldValue / tile.range) * size), height: size * 0.035),
+        bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035,
+                                                     width: Helper.clamp(min: 0, max: size, value:(tile.oldValue / tile.range) * size), height: size * 0.035),
                            byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
                            cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
-        let toPath = UIBezierPath(roundedRect      : CGRect(x: 0, y: size - size * 0.035, width: Helper.clamp(min: 0, max: size, value:(tile.value / tile.range) * size), height: size * 0.035),
+        let toPath = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035,
+                                                            width: Helper.clamp(min: 0, max: size, value:(tile.value / tile.range) * size), height: size * 0.035),
                                   byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
                                   cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
         let animation                   = CABasicAnimation(keyPath: "path")
@@ -163,7 +165,7 @@ class PercentageSkin: Skin {
             drawText(label   : tile.textLabel,
                      font    : smallFont!,
                      text    : tile.text,
-                     frame   : CGRect(x: size * 0.05, y: size * 0.89, width: width - size * 0.1, height: size * 0.08),
+                     frame   : CGRect(x: size * 0.05, y: height - size * 0.11, width: width - size * 0.1, height: size * 0.08),
                      fgdColor: tile.fgdColor,
                      bkgColor: tile.bkgColor,
                      radius  : 0,
@@ -172,13 +174,13 @@ class PercentageSkin: Skin {
             tile.textLabel.textColor = UIColor.clear
         }
         
-        let barBackground = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035, width: size, height: size * 0.035),
+        let barBackground = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035, width: width, height: size * 0.035),
                                          byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
                                          cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
         tile.barBackgroundColor.brighter(by: 7)?.setFill()
         barBackground.fill()
         
-        bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035, width: (tile.value / tile.range) * size, height: size * 0.035),
+        bar = UIBezierPath(roundedRect      : CGRect(x: 0, y: height - size * 0.035, width: (tile.value / tile.range) * width, height: size * 0.035),
                            byRoundingCorners: [UIRectCorner.bottomLeft, UIRectCorner.bottomRight],
                            cornerRadii      : CGSize(width: size * 0.05, height: size * 0.05))
         barLayer.fillColor = tile.barColor.cgColor

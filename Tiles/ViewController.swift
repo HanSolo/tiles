@@ -13,12 +13,12 @@ class ViewController: UIViewController {
     let gaugeTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.GAUGE)
     let percentageTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.PERCENTAGE)
     let smoothAreaTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.SMOOTH_AREA)
-    let clockTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CLOCK)
+    //let clockTile            = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CLOCK)
     //let highLowTile          = Tile(frame: CGRect.zero, skinType: Tile.SkinType.HIGH_LOW)
     //let timeControlTile      = Tile(frame: CGRect.zero, skinType: Tile.SkinType.TIME_CONTROL)
     //let switchTile           = Tile(frame: CGRect.zero, skinType: Tile.SkinType.SWITCH)
     //let donutChartTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.DONUT_CHART)
-    //let plusMinusTile        = Tile(frame: CGRect.zero, skinType: Tile.SkinType.PLUS_MINUS)
+    let plusMinusTile        = Tile(frame: CGRect.zero, skinType: Tile.SkinType.PLUS_MINUS)
     //let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
     let sparkLineTile        = Tile(frame: CGRect.zero, skinType: Tile.SkinType.SPARKLINE)
     
@@ -45,12 +45,12 @@ class ViewController: UIViewController {
         view.addSubview(gaugeTile)
         view.addSubview(percentageTile)
         view.addSubview(smoothAreaTile)
-        view.addSubview(clockTile)
+        //view.addSubview(clockTile)
         //view.addSubview(highLowTile)
         //view.addSubview(timeControlTile)
         //view.addSubview(switchTile)
         //view.addSubview(donutChartTile)
-        //view.addSubview(plusMinusTile)
+        view.addSubview(plusMinusTile)
         //view.addSubview(mapTile)
         view.addSubview(sparkLineTile)
     }
@@ -61,15 +61,16 @@ class ViewController: UIViewController {
         circularProgressTile.maxValue = 200
         circularProgressTile.unit     = "V"
         circularProgressTile.decimals = 1
+        //circularProgressTile.textVisible = false
         
         let section0 = Section(start: 20, stop: 50, color: Helper.RED)
         
-        gaugeTile.minValue  = 0
-        gaugeTile.maxValue  = 100
-        gaugeTile.threshold = 75
-        gaugeTile.title     = "GaugeSkin"
-        gaugeTile.unit      = "V"
-        gaugeTile.sections  = [section0]
+        gaugeTile.minValue    = 0
+        gaugeTile.maxValue    = 100
+        gaugeTile.threshold   = 75
+        gaugeTile.title       = "GaugeSkin"
+        gaugeTile.unit        = "V"
+        gaugeTile.sections    = [section0]
         
         percentageTile.title    = "PercentageSkin"
         percentageTile.descr    = "Test"
@@ -82,7 +83,7 @@ class ViewController: UIViewController {
         smoothAreaTile.unit  = "V"        
         smoothAreaTile.chartDataList.append(contentsOf: [ chartData0, chartData1, chartData2, chartData3, chartData4 ])
         
-        clockTile.title = "ClockSkin"
+        //clockTile.title = "ClockSkin"
 
         sparkLineTile.smoothing   = false
         sparkLineTile.textVisible = false
@@ -97,6 +98,7 @@ class ViewController: UIViewController {
         highLowTile.tickLabelDecimals = 1
         */
 
+        
         /*
         timeControlTile.title = "TimeControl"
         let startDate    = Date(day: 6, month: 10, year: 2017, hour: 22, minute: 0, second: 0)
@@ -122,22 +124,22 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         let screenSize  :CGRect       = UIScreen.main.bounds
         let screenWidth :CGFloat      = screenSize.width
-        //let screenHeight:CGFloat      = screenSize.height
+        let screenHeight:CGFloat      = screenSize.height
         let margin      : CGFloat     = 5.0
         let width       : CGFloat     = (screenWidth - 3 * margin) / 2.0
-        let height      : CGFloat     = width
+        let height      : CGFloat     = (screenHeight - 8 * margin) / 3.0
         let safeArea    :UIEdgeInsets = view.safeAreaInsets
         
         circularProgressTile.frame = CGRect(x: margin, y: margin + safeArea.top, width: width, height: height)
         gaugeTile.frame            = CGRect(x: margin, y: margin + safeArea.top + height + margin, width: width, height: height)
         percentageTile.frame       = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
         smoothAreaTile.frame       = CGRect(x: margin + width + margin, y: margin + safeArea.top, width: width, height: height)
-        clockTile.frame            = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
-        //highLowTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
-        //timeControlTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
-        //donutChartTile.frame       = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
-        //plusMinusTile.frame        = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
-        //switchTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
+        //clockTile.frame            = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
+        //highLowTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
+        //timeControlTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
+        //donutChartTile.frame       = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
+        plusMinusTile.frame        = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
+        //switchTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
         //mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
         sparkLineTile.frame        = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
     }
