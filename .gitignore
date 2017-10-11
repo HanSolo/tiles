@@ -1,12 +1,33 @@
-/.DS_Store
+## OS X Finder
 .DS_Store
-/Tiles.xcodeproj/project.xcworkspace/xcuserdata/hansolo.xcuserdatad/UserInterfaceState.xcuserstate
-/.idea/dictionaries
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/modules.xml
-/.idea/Tiles.iml
-/.idea/vcs.xml
-/.idea/workspace.xml
-/.idea/xcode.xml
-/Tiles.xcodeproj/xcuserdata/hansolo.xcuserdatad/xcschemes/Tiles.xcscheme
-/Tiles.xcodeproj/project.xcworkspace/xcuserdata/hansolo.xcuserdatad/xcschemes
+
+## Build generated
+build/
+DerivedData
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+
+# Swift Package Manager
+.build/
+
+# Carthage
+Carthage/Build
