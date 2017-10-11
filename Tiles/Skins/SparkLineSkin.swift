@@ -50,7 +50,7 @@ class SparkLineSkin: Skin, ChartDataEventListener {
     override func update<T>(prop: String, value: T) {
         guard let tile = control else { return }
         if (prop == "value") {
-            valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
+            valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: 0)
             
             if (!tile.averagingEnabled) { tile.averagingEnabled = true }
             let clampedValue = Helper.clamp(min: tile.minValue, max: tile.maxValue, value: value as! CGFloat)
@@ -133,7 +133,7 @@ class SparkLineSkin: Skin, ChartDataEventListener {
         valueLabel.numberOfLines   = 1
         valueLabel.backgroundColor = UIColor.clear
         valueLabel.setNeedsDisplay()
-        valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: tile.animationDuration)
+        valueLabel.countFrom(tile.oldValue, to: tile.value, withDuration: 0)
         
         UIGraphicsPopContext()
     }
@@ -219,29 +219,24 @@ class SparkLineSkin: Skin, ChartDataEventListener {
             
             niceScaleY.setMinMax(min: low, max: high)
             var lineCountY       = 0
+            let tickSpacingY     = niceScaleY.tickSpacing
             var tickLabelOffsetY = CGFloat(1)
-            let tickSpacingY     = niceScaleY.getTickSpacing()
-            let tickStepY        = tickSpacingY * stepY
-            var tickStartY       = maxY - (tickSpacingY - CGFloat(low)) * stepY
-            if (tickSpacingY < CGFloat(low)) {
-                tickLabelOffsetY = (CGFloat(low) / tickSpacingY) + 1
-                tickStartY       = maxY - (tickLabelOffsetY * tickSpacingY - CGFloat(low)) * stepY
+            let tickStepY        = tickSpacingY! * stepY
+            var tickStartY       = maxY - (tickSpacingY! - CGFloat(low)) * stepY
+            if (tickSpacingY! < CGFloat(low)) {
+                tickLabelOffsetY = (CGFloat(low) / tickSpacingY!) + 1
+                tickStartY       = maxY - (tickLabelOffsetY * tickSpacingY! - CGFloat(low)) * stepY
             }
             
-            horizontalLineOffset = 0.0
-            if (tickLabelFontSize < 6) { horizontalLineOffset = 0.0 }
+            if (tickLabelFontSize < 6) {
+                horizontalLineOffset = 0.0
+            } else {
+                horizontalLineOffset = 2 * tickLabelFontSize
+            }
             
             var y = tickStartY
             while round(y) > minY {
-                /*
-                Text label = tickLabelsY.get(lineCountY);
-                label.setText(String.format(locale, "%.0f", (tickSpacingY * (lineCountY + tickLabelOffsetY))));
-                label.setY(y + graphBounds.getHeight() * 0.03);
-                label.setFill(tickLineColor);
-                horizontalLineOffset = max(label.getLayoutBounds().getWidth(), horizontalLineOffset);
-                */
-                
-                let line = Line(x1: minX, y1: y, x2: maxX - CGFloat(tickLabelFontSize < 6 ? 0.0 : horizontalLineOffset), y2: y)
+                let line = Line(x1: minX, y1: y, x2: maxX - CGFloat(horizontalLineOffset), y2: y)
                 line.strokeColor                = tickLineColor
                 line.dashArray                  = [1.0, 2.0]
                 horizontalTickLines[lineCountY] = line
@@ -250,8 +245,6 @@ class SparkLineSkin: Skin, ChartDataEventListener {
                 lineCountY = Helper.clamp(min: 0, max: 4, value: lineCountY);
                 y -= tickStepY
             }
-            
-            //tickLabelsY.forEach { label in label.x = maxX - label.bounds.width }
             
             if (!dataList.isEmpty) {
                 if (tile.smoothing && dataList.count >= 4) {
@@ -359,7 +352,6 @@ class SparkLineSkin: Skin, ChartDataEventListener {
             
             let minX  = graphBounds.minX
             let maxX  = graphBounds.maxX
-            let minY  = graphBounds.minY
             let maxY  = graphBounds.maxY
             let stepX = graphBounds.width / CGFloat(noOfDataPoints - 1)
             let stepY = graphBounds.height / CGFloat(range)
@@ -444,23 +436,27 @@ class SparkLineSkin: Skin, ChartDataEventListener {
             let height        = tile.frame.height
             let offsetY       = size * 0.45
     
-            tickLabelFontSize = size * 0.1
+            tickLabelFontSize = (height - (size * 0.61)) * 0.1
             let tickLabelFont = UIFont.init(name: "Lato-Regular", size: tickLabelFontSize)
+            let smallFont     = UIFont.init(name: "Lato-Regular", size: size * 0.06)
             
             graphBounds = CGRect(x: size * 0.05, y: size * 0.05, width: width - size * 0.1, height: height - size * 0.61)
             
             ctx.saveGState()
             ctx.setLineWidth(0.5)
-            ctx.translateBy(x: 0, y: offsetY)
+            ctx.translateBy(x: 0, y: offsetY + size * 0.07)
             ctx.setStrokeColor(horizontalTickLines[0].strokeColor.cgColor)
             ctx.setLineDash(phase: 0, lengths: horizontalTickLines[0].dashArray)
-            for line in horizontalTickLines {
-                ctx.move(to: line.from)
-                ctx.addLine(to: line.to)
+            let tickLabelStep = niceScaleY.tickSpacing
+            for i in 1..<horizontalTickLines.count {
+                ctx.move(to: horizontalTickLines[i].from)
+                ctx.addLine(to: horizontalTickLines[i].to)
                 ctx.strokePath()
+                let tickLabel = createText(text: String(format: "%.0f", tickLabelStep! * CGFloat(i)), font: tickLabelFont!, color: horizontalTickLines[i].strokeColor, constrainedToWidth: Double(width - size * 0.275))
+                tickLabel.0.draw(at: CGPoint(x: width - size * 0.05 - tickLabel.1.width, y: horizontalTickLines[i].from.y - tickLabel.1.height * 0.51))
+                
             }
             ctx.restoreGState()
-            
             
             let averagingPeriod = tile.averagingPeriod
             var dotRadius: CGFloat
@@ -487,14 +483,6 @@ class SparkLineSkin: Skin, ChartDataEventListener {
             ctx.setFillColor(tile.barColor.cgColor)
             ctx.fillPath()
             
-            /*
-             private var averageText              = ""
-             private var valueText                = ""
-             private var highText                 = ""
-             private var lowText                  = ""
-             private var timespanText             = ""
-             private var text                     = ""
-            */
             if (tile.textVisible) {
                 text = tile.text
             } else {
@@ -503,35 +491,34 @@ class SparkLineSkin: Skin, ChartDataEventListener {
                     text = timeFormatter.string(from: (tile.movingAverage.getLastEntry()?.timestamp)!)
                 }
             }
-            let smallFont = UIFont.init(name: "Lato-Regular", size: size * 0.06)
+            
             if (!tile.textVisible) {
-                //let averageLabel = averageText
-                //var textSize     = smallFont!.sizeOfString(string: averageText, constrainedToWidth: Double(width - size * 0.7))
-                //var x            = outerRadius * cosValue - textSize.width * 0.5
-                //var y            = -outerRadius * sinValue - textSize.height * 0.5
-                let textSize      = smallFont!.sizeOfString(string: averageText, constrainedToWidth: Double(width - size * 0.25))
-                let timespanLabel = NSMutableAttributedString(
-                    string    : timespanText,
-                    attributes: [ NSAttributedStringKey.font           : smallFont!,
-                                  NSAttributedStringKey.foregroundColor: tile.fgdColor ])
-                timespanLabel.draw(at: CGPoint(x: (width - textSize.width) * 0.5 - size * 0.05, y: height - size * 0.05 - (textSize.height * 0.5)))
+                //let averageLabel  = createText(text: averageText, withFont: smallFont!, withColor: tile.fgdColor, constrainedToWidth: Double(width - size * 0.7))
+                //averageLabel.0.draw(at: CGPoint(x: (w)))
+                
+                let highLabel = createText(text: highText, font: smallFont!, color: tile.fgdColor, constrainedToWidth: Double(width - size * 0.275))
+                highLabel.0.draw(at: CGPoint(x: size * 0.05, y: offsetY - size * 0.0125))
+                
+                let lowLabel = createText(text: lowText, font: smallFont!, color: tile.fgdColor, constrainedToWidth: Double(width - size * 0.275))
+                lowLabel.0.draw(at: CGPoint(x: size * 0.05, y: height - size * 0.05 - lowLabel.1.height * 0.5))
+                
+                let timespanLabel = createText(text: timespanText, font: smallFont!, color: tile.fgdColor, constrainedToWidth: Double(width - size * 0.25))
+                timespanLabel.0.draw(at: CGPoint(x: (width - timespanLabel.1.width) * 0.5, y: height - size * 0.05 - (timespanLabel.1.height * 0.5)))
+            
+                let textLabel = createText(text: text, font: smallFont!, color: tile.fgdColor, constrainedToWidth: Double(width - size * 0.025))
+                textLabel.0.draw(at: CGPoint(x: width - size * 0.05 - textLabel.1.width, y: height - size * 0.05 - (textLabel.1.height * 0.5)))
             }
             
             UIGraphicsPopContext()
         }
         
-        func drawTextWithFormat(label : UILabel, font: UIFont, value: CGFloat, fgdColor: UIColor, bkgColor: UIColor, radius: CGFloat, format: String, align: NSTextAlignment, center: CGPoint) {
-            label.textAlignment       = align
-            label.text                = String(format: format, value)
-            label.numberOfLines       = 1
-            label.font                = font
-            label.sizeToFit()
-            label.textColor           = fgdColor
-            label.backgroundColor     = bkgColor
-            label.layer.masksToBounds = true
-            label.layer.cornerRadius  = radius
-            label.center              = center
-            label.setNeedsDisplay()
+        func createText(text: String, font: UIFont, color: UIColor, constrainedToWidth: Double) -> (NSMutableAttributedString, CGSize) {
+            let textSize  = font.sizeOfString(string: text, constrainedToWidth: constrainedToWidth)
+            let text      = NSMutableAttributedString(
+                string    : text,
+                attributes: [ NSAttributedStringKey.font           : font,
+                              NSAttributedStringKey.foregroundColor: color ])
+            return (text, textSize)
         }
     }
 }

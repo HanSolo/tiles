@@ -9,13 +9,13 @@
 import UIKit
 
 class NiceScale {
-    private var min         : CGFloat
-    private var max         : CGFloat
-    private var maxTicks    : CGFloat = 10.0  { didSet{ calculate() } }
-    private var tickSpacing : CGFloat = 1.0
-    private var range       : CGFloat = 1.0
-    private var niceMin     : CGFloat = 0.0
-    private var niceMax     : CGFloat = 1.0
+    private var min      : CGFloat
+    private var max      : CGFloat
+    private var maxTicks : CGFloat = 10.0  { didSet{ calculate() } }
+    private var range    : CGFloat?
+    var tickSpacing      : CGFloat?
+    var niceMin          : CGFloat?
+    var niceMax          : CGFloat?
     
     
     convenience init() {
@@ -29,14 +29,14 @@ class NiceScale {
     
     func calculate() {
         range       = niceNum(range: max - min, round: false)
-        tickSpacing = niceNum(range: range / (maxTicks - 1), round: true)
-        niceMin     = floor(min / tickSpacing) * tickSpacing
-        niceMax     = ceil(max / tickSpacing) * tickSpacing
+        tickSpacing = niceNum(range: range! / (maxTicks - 1), round: true)
+        niceMin     = floor(min / tickSpacing!) * tickSpacing!
+        niceMax     = ceil(max / tickSpacing!) * tickSpacing!
     }
     
     func niceNum(range: CGFloat, round: Bool) -> CGFloat {
         var exponent     : CGFloat // exponent of RANGE
-        var fraction     : CGFloat // fractional part of RANGE
+        let fraction     : CGFloat // fractional part of RANGE
         var niceFraction : CGFloat // nice, rounded fraction
     
         exponent = floor(log10(range))
@@ -74,9 +74,9 @@ class NiceScale {
     }
     
     
-    func getTickSpacing() -> CGFloat { return tickSpacing }
+    //func getTickSpacing() -> CGFloat { return tickSpacing == nil ? 1.0 : tickSpacing! }
     
-    func getNiceMin() -> CGFloat { return niceMin }
+    //func getNiceMin() -> CGFloat { return niceMin == nil ? min : niceMin! }
     
-    func getNiceMax() -> CGFloat { return niceMax }
+    //func getNiceMax() -> CGFloat { return niceMax == nil ? max : niceMax! }
 }
