@@ -20,7 +20,8 @@ class ViewController: UIViewController {
     //let donutChartTile       = Tile(frame: CGRect.zero, skinType: Tile.SkinType.DONUT_CHART)
     let plusMinusTile        = Tile(frame: CGRect.zero, skinType: Tile.SkinType.PLUS_MINUS)
     //let mapTile              = Tile(frame: CGRect.zero, skinType: Tile.SkinType.MAP)
-    let sparkLineTile        = Tile(frame: CGRect.zero, skinType: Tile.SkinType.SPARKLINE)
+    //let sparkLineTile        = Tile(frame: CGRect.zero, skinType: Tile.SkinType.SPARKLINE)
+    let characterTile        = Tile(frame: CGRect.zero, skinType: Tile.SkinType.CHARACTER)
     
     let chartData0           = ChartData(name: "0", color: Helper.BLUE, timestamp: Date(), value: CGFloat(drand48() * 10.0))
     let chartData1           = ChartData(name: "1", color: Helper.RED, timestamp: Date(), value: CGFloat(drand48() * 10.0))
@@ -52,7 +53,8 @@ class ViewController: UIViewController {
         //view.addSubview(donutChartTile)
         view.addSubview(plusMinusTile)
         //view.addSubview(mapTile)
-        view.addSubview(sparkLineTile)
+        //view.addSubview(sparkLineTile)
+        view.addSubview(characterTile)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -85,8 +87,13 @@ class ViewController: UIViewController {
         
         //clockTile.title = "ClockSkin"
 
-        sparkLineTile.smoothing   = false
-        sparkLineTile.textVisible = false
+        //sparkLineTile.smoothing   = false
+        //sparkLineTile.textVisible = false
+        
+        characterTile.title = "Hours"
+        characterTile.descr = "12"
+        characterTile.titleAlignment = .center
+        characterTile.text = ""
         
         /*
         highLowTile.title             = "HighLowSkin"
@@ -141,7 +148,8 @@ class ViewController: UIViewController {
         plusMinusTile.frame        = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
         //switchTile.frame          = CGRect(x: margin + width + margin, y: margin + safeArea.top + height + margin, width: width, height: height)
         //mapTile.frame              = CGRect(x: margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
-        sparkLineTile.frame        = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
+        //sparkLineTile.frame        = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
+        characterTile.frame        = CGRect(x: margin + width + margin, y: margin + safeArea.top + 2 * height + 2 * margin, width: width, height: height)
     }
     
     func runTimer() {
@@ -168,7 +176,9 @@ class ViewController: UIViewController {
         
         //switchTile.switched = !switchTile.switched
         
-        sparkLineTile.value = CGFloat(drand48() * 25)        
+        //sparkLineTile.value = CGFloat(drand48() * 25)
+        
+        characterTile.descr = String(Int(drand48() * 59))
     }
     
     class SwitchListener : SwitchEventListener {

@@ -24,6 +24,7 @@
 	<array>
 		<string>Lato-Bol.ttf</string>
 		<string>Lato-Reg.ttf</string>
+		<string>Lato-Lig.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

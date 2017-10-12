@@ -26,6 +26,7 @@ class Tile: UIControl {
         case DONUT_CHART
         case PLUS_MINUS
         case SPARKLINE
+        case CHARACTER
     }
     
     var skin         :Skin = TileSkin()
@@ -149,6 +150,7 @@ class Tile: UIControl {
             case SkinType.DONUT_CHART      : skin = DonutChartSkin(); break
             case SkinType.PLUS_MINUS       : skin = PlusMinusSkin(); break
             case SkinType.SPARKLINE        : skin = SparkLineSkin(); break
+            case SkinType.CHARACTER        : skin = CharacterSkin(); break
         default                            : skin = TileSkin(); break
         }
         
