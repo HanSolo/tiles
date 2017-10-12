@@ -36,6 +36,7 @@ class Helper: NSObject {
     static let UPDATE        = String("update")
     static let SECTIONS      = String("sections")
     static let TOUCH_BEGAN   = String("touchBegan")
+    static let TOUCH_MOVED   = String("touchMoved")
     static let TOUCH_ENDED   = String("touchEnded")
     static let AVERAGING     = String("averaging")
     

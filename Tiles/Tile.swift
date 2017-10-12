@@ -27,6 +27,7 @@ class Tile: UIControl {
         case PLUS_MINUS
         case SPARKLINE
         case CHARACTER
+        case SLIDER
     }
     
     var skin         :Skin = TileSkin()
@@ -151,6 +152,10 @@ class Tile: UIControl {
             case SkinType.PLUS_MINUS       : skin = PlusMinusSkin(); break
             case SkinType.SPARKLINE        : skin = SparkLineSkin(); break
             case SkinType.CHARACTER        : skin = CharacterSkin(); break
+            case SkinType.SLIDER           :
+                barBackgroundColor = fgdColor
+                skin = SliderSkin()
+            break
         default                            : skin = TileSkin(); break
         }
         
@@ -196,6 +201,11 @@ class Tile: UIControl {
         super.touchesBegan(touches, with: event)
         let touchPoint = touches.first?.location(in: self)
         skin.update(prop: Helper.TOUCH_BEGAN, value: touchPoint)
+    }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        let touchPoint = touches.first?.location(in: self)
+        skin.update(prop: Helper.TOUCH_MOVED, value: touchPoint)
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
